@@ -2,10 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>NSHealthShareUsageDescription</key>
+    <string>このアプリでは、Apple Healthアプリと歩数データを同期させ、歩数データを取得します</string>
+    <key>NSHealthUpdateUsageDescription</key>
+    <string>このアプリでは、Apple Healthアプリと歩数データを同期させ、歩数データを取得します</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>To Walk App</string>
+	<string>アルク</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
