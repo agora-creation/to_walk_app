@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:to_walk_app/widgets/custom_nav_bar_widget.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,66 +9,61 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _controller = PersistentTabController(initialIndex: 0);
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PersistentTabView.custom(
-        context,
-        controller: _controller,
-        itemCount: 4,
-        screens: _buildScreens(),
-        confineInSafeArea: true,
-        handleAndroidBackButtonPress: false,
-        customWidget: CustomNavBarWidget(
-          items: _navBarsItems(),
-          selectedIndex: _controller.index,
-          onItemSelected: (index) {
-            setState(() {
-              _controller.index = index;
-            });
-          },
+      body: Container(),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 16,
+              color: Colors.black.withOpacity(0.1),
+            )
+          ],
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            child: GNav(
+              gap: 8,
+              activeColor: Colors.white,
+              iconSize: 24,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              duration: const Duration(milliseconds: 400),
+              tabBackgroundColor: Colors.cyan.shade600,
+              color: Colors.cyan.shade600,
+              tabs: const [
+                GButton(
+                  icon: Icons.home,
+                  text: '？？？',
+                ),
+                GButton(
+                  icon: Icons.area_chart,
+                  text: '記録',
+                ),
+                GButton(
+                  icon: Icons.games,
+                  text: '遊ぶ',
+                ),
+                GButton(
+                  icon: Icons.settings,
+                  text: '設定',
+                ),
+              ],
+              selectedIndex: _selectedIndex,
+              onTabChange: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
+            ),
+          ),
         ),
       ),
     );
   }
-}
-
-List<Widget> _buildScreens() {
-  return [
-    Container(),
-    Container(),
-    Container(),
-    Container(),
-  ];
-}
-
-List<PersistentBottomNavBarItem> _navBarsItems() {
-  return [
-    PersistentBottomNavBarItem(
-      icon: Icon(Icons.home),
-      title: ("？？？"),
-      activeColorPrimary: Colors.blue,
-      inactiveColorPrimary: Colors.grey,
-    ),
-    PersistentBottomNavBarItem(
-      icon: Icon(Icons.auto_graph),
-      title: ("記録"),
-      activeColorPrimary: Colors.blue,
-      inactiveColorPrimary: Colors.grey,
-    ),
-    PersistentBottomNavBarItem(
-      icon: Icon(Icons.games),
-      title: ("遊ぶ"),
-      activeColorPrimary: Colors.blue,
-      inactiveColorPrimary: Colors.grey,
-    ),
-    PersistentBottomNavBarItem(
-      icon: Icon(Icons.settings),
-      title: ("設定"),
-      activeColorPrimary: Colors.blue,
-      inactiveColorPrimary: Colors.grey,
-    ),
-  ];
 }
