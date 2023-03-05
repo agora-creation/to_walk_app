@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:to_walk_app/screens/game.dart';
+import 'package:to_walk_app/screens/history.dart';
+import 'package:to_walk_app/screens/room.dart';
+import 'package:to_walk_app/screens/setting.dart';
+import 'package:to_walk_app/widgets/custom_bottom_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,59 +15,40 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  final List<Widget> _items = [
+    const RoomScreen(),
+    const HistoryScreen(),
+    const GameScreen(),
+    const SettingScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 16,
-              color: Colors.black.withOpacity(0.1),
-            )
-          ],
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: GNav(
-              gap: 8,
-              activeColor: Colors.white,
-              iconSize: 24,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              duration: const Duration(milliseconds: 400),
-              tabBackgroundColor: Colors.cyan.shade600,
-              color: Colors.cyan.shade600,
-              tabs: const [
-                GButton(
-                  icon: Icons.home,
-                  text: '？？？',
-                ),
-                GButton(
-                  icon: Icons.area_chart,
-                  text: '記録',
-                ),
-                GButton(
-                  icon: Icons.games,
-                  text: '遊ぶ',
-                ),
-                GButton(
-                  icon: Icons.settings,
-                  text: '設定',
-                ),
-              ],
-              selectedIndex: _selectedIndex,
-              onTabChange: (index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
-            ),
+      body: _items[_selectedIndex],
+      bottomNavigationBar: CustomBottomBar(
+        tabs: const [
+          GButton(
+            icon: Icons.home_rounded,
+            text: '？？？',
           ),
-        ),
+          GButton(
+            icon: Icons.calendar_month_rounded,
+            text: '記録',
+          ),
+          GButton(
+            icon: Icons.interests_rounded,
+            text: '遊ぶ',
+          ),
+          GButton(
+            icon: Icons.settings_rounded,
+            text: '設定',
+          ),
+        ],
+        selectedIndex: _selectedIndex,
+        onTabChange: (index) {
+          setState(() => _selectedIndex = index);
+        },
       ),
     );
   }
