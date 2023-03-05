@@ -18,6 +18,7 @@ dependencies:
   flutter_launcher_icons: ^0.12.0
   intl: ^0.17.0
   shared_preferences: ^2.0.18
+  persistent_bottom_nav_bar: ^5.0.2
   health: ^4.4.0
   permission_handler: ^10.2.0
 
@@ -30,3 +31,8 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+
+  fonts:
+    - family: TsunagiGothic
+      fonts:
+        - asset: assets/fonts/TsunagiGothic.ttf
