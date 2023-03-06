@@ -17,12 +17,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
         child: Card(
           elevation: 8,
           child: Padding(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(16),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('今までの歩いた記録'),
+                const Divider(),
                 TableCalendar(
                   firstDay: DateTime.now().subtract(const Duration(days: 365)),
                   lastDay: DateTime.now(),
