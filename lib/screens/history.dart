@@ -28,6 +28,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   lastDay: DateTime.now(),
                   focusedDay: DateTime.now(),
                   locale: 'ja',
+                  calendarFormat: CalendarFormat.month,
+                  headerStyle: const HeaderStyle(
+                    formatButtonVisible: false,
+                    titleCentered: true,
+                  ),
                 ),
               ],
             ),
