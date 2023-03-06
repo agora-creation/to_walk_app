@@ -5,6 +5,7 @@ import 'package:to_walk_app/screens/history.dart';
 import 'package:to_walk_app/screens/room.dart';
 import 'package:to_walk_app/screens/setting.dart';
 import 'package:to_walk_app/widgets/custom_bottom_bar.dart';
+import 'package:to_walk_app/widgets/custom_footer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -50,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() => _selectedIndex = index);
         },
       ),
+      bottomSheet: const CustomFooter(),
     );
   }
 }
