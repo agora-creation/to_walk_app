@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/widgets/steps_text.dart';
 
 class RoomScreen extends StatefulWidget {
   const RoomScreen({Key? key}) : super(key: key);
@@ -10,8 +11,17 @@ class RoomScreen extends StatefulWidget {
 class _RoomScreenState extends State<RoomScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('アルクの部屋'),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        const StepsText(steps: 9999),
+        Container(),
+        const Text(
+          '歩くと何かが起こるかも？',
+          style: TextStyle(color: Colors.black38),
+        ),
+      ],
     );
   }
 }

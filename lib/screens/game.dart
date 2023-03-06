@@ -10,8 +10,22 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('ゲームで遊ぶ'),
+    return SafeArea(
+      child: ListView(
+        padding: const EdgeInsets.all(16),
+        children: const [
+          Card(
+            child: ListTile(
+              title: Text('とことこキャッチ'),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              title: Text('てくてくジャンプ'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
