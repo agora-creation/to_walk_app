@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void pushScreen(BuildContext context, Widget widget) {
@@ -48,4 +49,12 @@ Future setPrefsBool(String key, bool value) async {
 Future removePrefs(String key) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.remove(key);
+}
+
+String dateText(String format, DateTime? date) {
+  String ret = '';
+  if (date != null) {
+    ret = DateFormat(format, 'ja').format(date);
+  }
+  return ret;
 }
