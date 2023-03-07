@@ -4,8 +4,8 @@ class UserAlkModel {
   String _id = '';
   String _userId = '';
   int _level = 0;
-  double _speed = 0;
-  double _jump = 0;
+  double _speed = 0.0;
+  double _jump = 0.0;
   DateTime _updatedAt = DateTime.now();
   DateTime _createdAt = DateTime.now();
 
@@ -21,8 +21,8 @@ class UserAlkModel {
     _id = snapshot.data()!['id'] ?? '';
     _userId = snapshot.data()!['userId'] ?? '';
     _level = snapshot.data()!['level'] ?? 0;
-    _speed = snapshot.data()!['speed'] ?? 0;
-    _jump = snapshot.data()!['jump'] ?? 0;
+    _speed = double.parse('${snapshot.data()!['speed']}');
+    _jump = double.parse('${snapshot.data()!['jump']}');
     _updatedAt = snapshot.data()!['updatedAt'].toDate() ?? DateTime.now();
     _createdAt = snapshot.data()!['createdAt'].toDate() ?? DateTime.now();
   }

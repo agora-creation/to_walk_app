@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:provider/provider.dart';
+import 'package:to_walk_app/providers/steps.dart';
+import 'package:to_walk_app/providers/user.dart';
 import 'package:to_walk_app/screens/game.dart';
 import 'package:to_walk_app/screens/history.dart';
 import 'package:to_walk_app/screens/room.dart';
@@ -25,6 +28,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final stepsProvider = Provider.of<StepsProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       body: _items[_selectedIndex],
       bottomNavigationBar: CustomBottomBar(
@@ -51,7 +57,10 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() => _selectedIndex = index);
         },
       ),
-      bottomSheet: const CustomFooter(),
+      bottomSheet: CustomFooter(
+        stepsProvider: stepsProvider,
+        userProvider: userProvider,
+      ),
     );
   }
 }

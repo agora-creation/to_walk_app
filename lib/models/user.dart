@@ -7,8 +7,8 @@ class UserModel {
   String _gender = '';
   String _country = '';
   String _prefecture = '';
-  double _bodyHeight = 0;
-  double _bodyWeight = 0;
+  double _bodyHeight = 0.0;
+  double _bodyWeight = 0.0;
   DateTime _createdAt = DateTime.now();
 
   String get id => _id;
@@ -28,8 +28,8 @@ class UserModel {
     _gender = snapshot.data()!['gender'] ?? '';
     _country = snapshot.data()!['country'] ?? '';
     _prefecture = snapshot.data()!['prefecture'] ?? '';
-    _bodyHeight = snapshot.data()!['bodyHeight'] ?? 0;
-    _bodyWeight = snapshot.data()!['bodyWeight'] ?? 0;
+    _bodyHeight = double.parse('${snapshot.data()!['bodyHeight']}');
+    _bodyWeight = double.parse('${snapshot.data()!['bodyWeight']}');
     _createdAt = snapshot.data()!['createdAt'].toDate() ?? DateTime.now();
   }
 }

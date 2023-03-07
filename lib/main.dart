@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:to_walk_app/helpers/style.dart';
+import 'package:to_walk_app/providers/steps.dart';
 import 'package:to_walk_app/providers/user.dart';
 import 'package:to_walk_app/screens/home.dart';
 import 'package:to_walk_app/screens/splash.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider.value(value: StepsProvider()),
         ChangeNotifierProvider.value(value: UserProvider.initialize()),
       ],
       child: MaterialApp(

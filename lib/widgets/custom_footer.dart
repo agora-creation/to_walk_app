@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:health/health.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:to_walk_app/helpers/functions.dart';
+import 'package:to_walk_app/providers/steps.dart';
+import 'package:to_walk_app/providers/user.dart';
 
 enum AppState {
   DATA_NOT_FETCHED,
@@ -13,7 +15,14 @@ enum AppState {
 }
 
 class CustomFooter extends StatefulWidget {
-  const CustomFooter({Key? key}) : super(key: key);
+  final StepsProvider stepsProvider;
+  final UserProvider userProvider;
+
+  const CustomFooter({
+    required this.stepsProvider,
+    required this.userProvider,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<CustomFooter> createState() => _CustomFooterState();
@@ -96,9 +105,10 @@ class _CustomFooterState extends State<CustomFooter>
               ),
             ),
           );
-          int befSteps = await getPrefsInt('steps') ?? 0;
-          int steps = befSteps + getSteps;
-          await setPrefsInt('steps', steps);
+          widget.stepsProvider.create(
+            user: widget.userProvider.user!,
+            stepsNum: getSteps,
+          );
         }
         break;
       case AppLifecycleState.detached:
@@ -132,9 +142,10 @@ class _CustomFooterState extends State<CustomFooter>
           ),
         ),
       );
-      int befSteps = await getPrefsInt('steps') ?? 0;
-      int steps = befSteps + getSteps;
-      await setPrefsInt('steps', steps);
+      widget.stepsProvider.create(
+        user: widget.userProvider.user!,
+        stepsNum: getSteps,
+      );
     }
   }
 
