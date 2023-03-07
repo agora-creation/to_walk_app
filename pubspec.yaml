@@ -37,7 +37,15 @@ flutter:
 
   uses-material-design: true
 
+  assets:
+    - assets/images/
+
   fonts:
     - family: TsunagiGothic
       fonts:
         - asset: assets/fonts/TsunagiGothic.ttf
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/icon.png"
