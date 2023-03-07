@@ -1,35 +1,36 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:to_walk_app/helpers/functions.dart';
+import 'package:provider/provider.dart';
+import 'package:to_walk_app/models/steps.dart';
+import 'package:to_walk_app/providers/steps.dart';
+import 'package:to_walk_app/providers/user.dart';
 import 'package:to_walk_app/widgets/steps_text.dart';
 
-class RoomScreen extends StatefulWidget {
+class RoomScreen extends StatelessWidget {
   const RoomScreen({Key? key}) : super(key: key);
 
   @override
-  State<RoomScreen> createState() => _RoomScreenState();
-}
-
-class _RoomScreenState extends State<RoomScreen> {
-  int steps = 0;
-
-  void _init() async {
-    int prefSteps = await getPrefsInt('steps') ?? 0;
-    setState(() => steps = prefSteps);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _init();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final stepsProvider = Provider.of<StepsProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        StepsText(steps: steps),
+        StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: stepsProvider.nowList(userId: userProvider.user?.id),
+          builder: (context, snapshot) {
+            int nowSteps = 0;
+            if (snapshot.hasData) {
+              for (DocumentSnapshot<Map<String, dynamic>> doc
+                  in snapshot.data!.docs) {
+                nowSteps += StepsModel.fromSnapshot(doc).stepsNum;
+              }
+            }
+            return StepsText(steps: nowSteps);
+          },
+        ),
         Container(),
         const Text(
           '歩くと何かが起こるかも？',

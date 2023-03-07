@@ -93,7 +93,7 @@ class _CustomFooterState extends State<CustomFooter>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '$getSteps 歩の運動を計測しました。本アプリに加算します。',
+                    '$getSteps 歩の運動を計測しました。',
                     style: const TextStyle(
                       color: Color(0xFF212121),
                       fontSize: 18,
@@ -130,7 +130,7 @@ class _CustomFooterState extends State<CustomFooter>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '$getSteps 歩の運動を計測しました。本アプリに加算します。',
+                '$getSteps 歩の運動を計測しました。',
                 style: const TextStyle(
                   color: Color(0xFF212121),
                   fontSize: 18,

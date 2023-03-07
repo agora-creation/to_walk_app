@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/helpers/functions.dart';
 import 'package:to_walk_app/models/user.dart';
 import 'package:to_walk_app/services/steps.dart';
 
@@ -23,5 +25,20 @@ class StepsProvider with ChangeNotifier {
       errorText = '歩数の登録に失敗しました';
     }
     return errorText;
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>>? nowList({
+    required String? userId,
+  }) {
+    Stream<QuerySnapshot<Map<String, dynamic>>>? ret;
+    DateTime now = DateTime.now();
+    Timestamp startAt = convertTimestamp(now, false);
+    Timestamp endAt = convertTimestamp(now, true);
+    ret = FirebaseFirestore.instance
+        .collection('steps')
+        .where('userId', isEqualTo: userId ?? 'error')
+        .orderBy('createdAt', descending: false)
+        .startAt([startAt]).endAt([endAt]).snapshots();
+    return ret;
   }
 }
