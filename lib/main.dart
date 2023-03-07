@@ -1,11 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:to_walk_app/helpers/style.dart';
+import 'package:to_walk_app/providers/user.dart';
+import 'package:to_walk_app/screens/home.dart';
 import 'package:to_walk_app/screens/splash.dart';
+import 'package:to_walk_app/screens/start.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
@@ -17,20 +23,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: UserProvider.initialize()),
       ],
-      supportedLocales: const [
-        Locale('ja'),
-      ],
-      locale: const Locale('ja'),
-      title: 'アルク',
-      theme: themeData(),
-      home: const SplashScreen(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('ja'),
+        ],
+        locale: const Locale('ja'),
+        title: 'アルク',
+        theme: themeData(),
+        home: const SplashController(),
+      ),
     );
   }
 }
@@ -40,6 +51,17 @@ class SplashController extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final userProvider = Provider.of<UserProvider>(context);
+    switch (userProvider.status) {
+      case AuthStatus.uninitialized:
+        return const SplashScreen();
+      case AuthStatus.unauthenticated:
+      case AuthStatus.authenticating:
+        return const StartScreen();
+      case AuthStatus.authenticated:
+        return const HomeScreen();
+      default:
+        return const StartScreen();
+    }
   }
 }

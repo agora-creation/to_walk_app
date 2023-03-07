@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:to_walk_app/helpers/functions.dart';
+import 'package:to_walk_app/providers/user.dart';
+import 'package:to_walk_app/screens/home.dart';
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+class StartScreen extends StatefulWidget {
+  const StartScreen({Key? key}) : super(key: key);
 
   @override
+  State<StartScreen> createState() => _StartScreenState();
+}
+
+class _StartScreenState extends State<StartScreen> {
+  @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.dark,
@@ -38,7 +49,17 @@ class SplashScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Text('Loading...'),
+                    TextButton(
+                      onPressed: () async {
+                        String? error = await userProvider.signIn();
+                        if (error != null) {
+                          return;
+                        }
+                        if (!mounted) return;
+                        pushReplacementScreen(context, const HomeScreen());
+                      },
+                      child: const Text('はじめる'),
+                    ),
                   ],
                 ),
               ),
