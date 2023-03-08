@@ -30,15 +30,15 @@ class CustomFooter extends StatefulWidget {
 
 class _CustomFooterState extends State<CustomFooter>
     with WidgetsBindingObserver {
-  Future<int> openApp() async {
+  Future<int> _open() async {
     int steps = 0;
-    List<HealthDataPoint> healthDataList = [];
-    await Permission.activityRecognition.request().isGranted;
     DateTime startTime = DateTime.now();
     DateTime endTime = DateTime.now();
-    int? lastTime = await getPrefsInt('lastTime');
-    if (lastTime != null) {
-      startTime = DateTime.fromMillisecondsSinceEpoch(lastTime);
+    List<HealthDataPoint> healthDataList = [];
+    await Permission.activityRecognition.request().isGranted;
+    int? timestamp = await getPrefsInt('lastTime');
+    if (timestamp != null) {
+      startTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
     }
     HealthFactory health = HealthFactory();
     List<HealthDataType> types = [
@@ -67,21 +67,21 @@ class _CustomFooterState extends State<CustomFooter>
     return steps;
   }
 
-  Future closeApp() async {
-    int nowTimestamp = DateTime.now().millisecondsSinceEpoch;
-    await setPrefsInt('lastTime', nowTimestamp);
+  Future _close() async {
+    int timestamp = DateTime.now().millisecondsSinceEpoch;
+    await setPrefsInt('lastTime', timestamp);
   }
 
-  void changeApp(AppLifecycleState state) async {
+  void _change(AppLifecycleState state) async {
     switch (state) {
       case AppLifecycleState.inactive:
-        await closeApp();
+        await _close();
         break;
       case AppLifecycleState.paused:
-        await closeApp();
+        await _close();
         break;
       case AppLifecycleState.resumed:
-        int getSteps = await openApp();
+        int getSteps = await _open();
         if (getSteps != 0) {
           if (!mounted) return;
           showDialog(
@@ -112,13 +112,13 @@ class _CustomFooterState extends State<CustomFooter>
         }
         break;
       case AppLifecycleState.detached:
-        await closeApp();
+        await _close();
         break;
     }
   }
 
   void _init() async {
-    int getSteps = await openApp();
+    int getSteps = await _open();
     if (getSteps != 0) {
       if (!mounted) return;
       showDialog(
@@ -165,7 +165,7 @@ class _CustomFooterState extends State<CustomFooter>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    changeApp(state);
+    _change(state);
   }
 
   @override
