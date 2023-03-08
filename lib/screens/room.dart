@@ -19,7 +19,7 @@ class RoomScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          stream: stepsProvider.nowList(userId: userProvider.user?.id),
+          stream: stepsProvider.streamListNow(userId: userProvider.user?.id),
           builder: (context, snapshot) {
             int nowSteps = 0;
             if (snapshot.hasData) {

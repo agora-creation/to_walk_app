@@ -28,7 +28,19 @@ class StepsProvider with ChangeNotifier {
     return errorText;
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>>? nowList({
+  Stream<QuerySnapshot<Map<String, dynamic>>>? streamList({
+    required String? userId,
+  }) {
+    Stream<QuerySnapshot<Map<String, dynamic>>>? ret;
+    ret = FirebaseFirestore.instance
+        .collection('steps')
+        .where('userId', isEqualTo: userId ?? 'error')
+        .orderBy('createdAt', descending: false)
+        .snapshots();
+    return ret;
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>>? streamListNow({
     required String? userId,
   }) {
     Stream<QuerySnapshot<Map<String, dynamic>>>? ret;
