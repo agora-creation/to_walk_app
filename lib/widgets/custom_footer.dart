@@ -30,21 +30,22 @@ class CustomFooter extends StatefulWidget {
 
 class _CustomFooterState extends State<CustomFooter>
     with WidgetsBindingObserver {
-  Future<int> _open() async {
-    int steps = 0;
+  Future _open() async {
     DateTime startTime = DateTime.now();
     DateTime endTime = DateTime.now();
-    List<HealthDataPoint> healthDataList = [];
-    await Permission.activityRecognition.request().isGranted;
     int? timestamp = await getPrefsInt('lastTime');
     if (timestamp != null) {
       startTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
     }
+    await removePrefs('lastTime');
+    if (startTime == endTime) return;
+    await Permission.activityRecognition.request().isGranted;
     HealthFactory health = HealthFactory();
     List<HealthDataType> types = [
       HealthDataType.STEPS,
     ];
     bool accessWasGranted = await health.requestAuthorization(types);
+    List<HealthDataPoint> healthDataList = [];
     if (accessWasGranted) {
       try {
         List<HealthDataPoint> healthData = await health.getHealthDataFromTypes(
@@ -59,12 +60,41 @@ class _CustomFooterState extends State<CustomFooter>
         }
       }
       healthDataList = HealthFactory.removeDuplicates(healthDataList);
+      int steps = 0;
       for (var e in healthDataList) {
         steps += e.value.hashCode;
       }
+      if (steps != 0) {
+        if (!mounted) return;
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Center(child: Text('お疲れ様！')),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '$steps 歩の運動を計測しました。',
+                  style: const TextStyle(
+                    color: Color(0xFF212121),
+                    fontSize: 18,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(dateText('yyyy/MM/dd HH:mm', startTime)),
+                Text(dateText('yyyy/MM/dd HH:mm', endTime)),
+              ],
+            ),
+          ),
+        ).then((value) async {
+          await widget.stepsProvider.create(
+            user: widget.userProvider.user,
+            stepsNum: steps,
+          );
+        });
+      }
     }
-    await removePrefs('lastTime');
-    return steps;
   }
 
   Future _close() async {
@@ -81,35 +111,7 @@ class _CustomFooterState extends State<CustomFooter>
         await _close();
         break;
       case AppLifecycleState.resumed:
-        int getSteps = await _open();
-        if (getSteps != 0) {
-          if (!mounted) return;
-          showDialog(
-            context: context,
-            builder: (_) => AlertDialog(
-              title: const Center(child: Text('お疲れ様！')),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '$getSteps 歩の運動を計測しました。',
-                    style: const TextStyle(
-                      color: Color(0xFF212121),
-                      fontSize: 18,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Container(),
-                ],
-              ),
-            ),
-          );
-          widget.stepsProvider.create(
-            user: widget.userProvider.user!,
-            stepsNum: getSteps,
-          );
-        }
+        await _open();
         break;
       case AppLifecycleState.detached:
         await _close();
@@ -118,35 +120,7 @@ class _CustomFooterState extends State<CustomFooter>
   }
 
   void _init() async {
-    int getSteps = await _open();
-    if (getSteps != 0) {
-      if (!mounted) return;
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: const Center(child: Text('お疲れ様！')),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '$getSteps 歩の運動を計測しました。',
-                style: const TextStyle(
-                  color: Color(0xFF212121),
-                  fontSize: 18,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Container(),
-            ],
-          ),
-        ),
-      );
-      widget.stepsProvider.create(
-        user: widget.userProvider.user!,
-        stepsNum: getSteps,
-      );
-    }
+    await _open();
   }
 
   @override

@@ -8,10 +8,11 @@ class StepsProvider with ChangeNotifier {
   StepsService stepsService = StepsService();
 
   Future<String?> create({
-    required UserModel user,
+    required UserModel? user,
     required int stepsNum,
   }) async {
     String? errorText;
+    if (user == null) return '歩数の登録に失敗しました';
     try {
       String id = stepsService.id();
       stepsService.create({
