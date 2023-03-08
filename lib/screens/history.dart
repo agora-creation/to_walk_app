@@ -38,6 +38,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     formatButtonVisible: false,
                     titleCentered: true,
                   ),
+                  calendarStyle: const CalendarStyle(
+                    isTodayHighlighted: false,
+                  ),
                   calendarBuilders: CalendarBuilders(
                     defaultBuilder: (context, day, focusedDay) {
                       return AnimatedContainer(
