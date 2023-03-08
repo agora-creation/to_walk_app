@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:to_walk_app/models/steps.dart';
+import 'package:to_walk_app/providers/steps.dart';
 import 'package:to_walk_app/providers/user.dart';
+import 'package:to_walk_app/widgets/custom_calendar.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -13,61 +16,29 @@ class HistoryScreen extends StatefulWidget {
 class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
+    final stepsProvider = Provider.of<StepsProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
 
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Card(
-          elevation: 8,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('今までの歩いた記録'),
-                const Divider(),
-                TableCalendar(
-                  firstDay: userProvider.user?.createdAt ?? DateTime.now(),
-                  lastDay: DateTime.now(),
-                  focusedDay: DateTime.now(),
-                  locale: 'ja',
-                  calendarFormat: CalendarFormat.month,
-                  headerStyle: const HeaderStyle(
-                    formatButtonVisible: false,
-                    titleCentered: true,
-                  ),
-                  calendarStyle: const CalendarStyle(
-                    isTodayHighlighted: false,
-                  ),
-                  calendarBuilders: CalendarBuilders(
-                    defaultBuilder: (context, day, focusedDay) {
-                      return AnimatedContainer(
-                        duration: const Duration(milliseconds: 250),
-                        margin: EdgeInsets.zero,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: const Color(0xFF333333),
-                            width: 0.5,
-                          ),
-                        ),
-                        alignment: Alignment.topCenter,
-                        child: Text(
-                          day.day.toString(),
-                          style: const TextStyle(
-                            color: Color(0xFF333333),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
+    return ListView(
+      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 8),
+      children: [
+        StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: stepsProvider.streamList(userId: userProvider.user?.id),
+          builder: (context, snapshot) {
+            List<StepsModel> stepsList = [];
+            if (snapshot.hasData) {
+              for (DocumentSnapshot<Map<String, dynamic>> doc
+                  in snapshot.data!.docs) {
+                stepsList.add(StepsModel.fromSnapshot(doc));
+              }
+            }
+            return CustomCalendar(
+              firstDay: userProvider.user?.createdAt ?? DateTime.now(),
+              stepsList: stepsList,
+            );
+          },
         ),
-      ),
+      ],
     );
   }
 }
