@@ -62,7 +62,9 @@ class _CustomFooterState extends State<CustomFooter>
       healthDataList = HealthFactory.removeDuplicates(healthDataList);
       int steps = 0;
       for (var e in healthDataList) {
-        steps = int.parse(e.value.toString());
+        String valueStr = e.value.toString();
+        double valueDouble = double.parse(valueStr);
+        steps = valueDouble.round();
       }
       if (steps != 0) {
         if (!mounted) return;
