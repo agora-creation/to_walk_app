@@ -4,11 +4,11 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:to_walk_app/helpers/functions.dart';
 import 'package:to_walk_app/models/steps.dart';
 
-class CustomCalendar extends StatelessWidget {
+class CalendarCard extends StatelessWidget {
   final DateTime firstDay;
   final List<StepsModel> stepsList;
 
-  const CustomCalendar({
+  const CalendarCard({
     required this.firstDay,
     required this.stepsList,
     Key? key,

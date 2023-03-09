@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:to_walk_app/models/steps.dart';
 import 'package:to_walk_app/providers/steps.dart';
 import 'package:to_walk_app/providers/user.dart';
-import 'package:to_walk_app/widgets/custom_calendar.dart';
+import 'package:to_walk_app/widgets/calendar_card.dart';
+import 'package:to_walk_app/widgets/ranking_card.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -19,26 +20,38 @@ class _HistoryScreenState extends State<HistoryScreen> {
     final stepsProvider = Provider.of<StepsProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
 
-    return ListView(
-      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 8),
-      children: [
-        StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          stream: stepsProvider.streamList(userId: userProvider.user?.id),
-          builder: (context, snapshot) {
-            List<StepsModel> stepsList = [];
-            if (snapshot.hasData) {
-              for (DocumentSnapshot<Map<String, dynamic>> doc
-                  in snapshot.data!.docs) {
-                stepsList.add(StepsModel.fromSnapshot(doc));
+    return SafeArea(
+      child: ListView(
+        padding: const EdgeInsets.all(8),
+        children: [
+          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            stream: stepsProvider.streamList(userId: userProvider.user?.id),
+            builder: (context, snapshot) {
+              List<StepsModel> stepsList = [];
+              if (snapshot.hasData) {
+                for (DocumentSnapshot<Map<String, dynamic>> doc
+                    in snapshot.data!.docs) {
+                  stepsList.add(StepsModel.fromSnapshot(doc));
+                }
               }
-            }
-            return CustomCalendar(
-              firstDay: userProvider.user?.createdAt ?? DateTime.now(),
-              stepsList: stepsList,
-            );
-          },
-        ),
-      ],
+              return CalendarCard(
+                firstDay: userProvider.user?.createdAt ?? DateTime.now(),
+                stepsList: stepsList,
+              );
+            },
+          ),
+          const SizedBox(height: 8),
+          const RankingCard(
+            labelText: '今日の歩数ランキング',
+            ranking: 100,
+          ),
+          const SizedBox(height: 8),
+          const RankingCard(
+            labelText: '今月の歩数ランキング',
+            ranking: 100,
+          ),
+        ],
+      ),
     );
   }
 }
