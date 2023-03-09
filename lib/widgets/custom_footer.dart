@@ -80,12 +80,10 @@ class _CustomFooterState extends State<CustomFooter>
                   '$steps 歩の運動を計測しました。',
                   style: const TextStyle(
                     color: Color(0xFF212121),
-                    fontSize: 18,
+                    fontSize: 16,
                   ),
                 ),
                 const SizedBox(height: 16),
-                Text(dateText('yyyy/MM/dd HH:mm', startTime)),
-                Text(dateText('yyyy/MM/dd HH:mm', endTime)),
               ],
             ),
           ),

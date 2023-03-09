@@ -25,7 +25,10 @@ class SettingCard extends StatelessWidget {
               child: Text(labelText),
             ),
             const Divider(),
-            Column(children: children),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(children: children),
+            ),
           ],
         ),
       ),

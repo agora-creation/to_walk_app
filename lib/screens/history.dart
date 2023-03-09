@@ -43,12 +43,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
           const SizedBox(height: 8),
           const RankingCard(
             labelText: '今日の歩数ランキング',
-            ranking: 100,
+            ranking: 9999,
           ),
           const SizedBox(height: 8),
           const RankingCard(
             labelText: '今月の歩数ランキング',
-            ranking: 100,
+            ranking: 9999,
           ),
         ],
       ),

@@ -16,6 +16,14 @@ class CalendarCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Map stepsNum = {};
+    for (StepsModel steps in stepsList) {
+      String stepsKey = dateText('yyyy-MM-dd', steps.createdAt);
+      if (stepsNum[stepsKey] == null) {
+        stepsNum[stepsKey] = 0;
+      }
+      stepsNum[stepsKey] += steps.stepsNum;
+    }
     return Card(
       elevation: 8,
       child: Padding(
@@ -44,12 +52,9 @@ class CalendarCard extends StatelessWidget {
               ),
               calendarBuilders: CalendarBuilders(
                 defaultBuilder: (context, day, focusedDay) {
-                  Map stepsNum = {};
                   String dayKey = dateText('yyyy-MM-dd', day);
-                  stepsNum[dayKey] = 0;
-                  for (StepsModel steps in stepsList) {
-                    String stepsKey = dateText('yyyy-MM-dd', steps.createdAt);
-                    stepsNum[stepsKey] += steps.stepsNum;
+                  if (stepsNum[dayKey] == null) {
+                    stepsNum[dayKey] = 0;
                   }
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
