@@ -36,7 +36,7 @@ class CalendarCard extends StatelessWidget {
               padding: EdgeInsets.all(8),
               child: Text('今までの歩いた記録'),
             ),
-            const Divider(),
+            const Divider(color: Colors.black45, height: 8),
             TableCalendar(
               firstDay: firstDay,
               lastDay: DateTime.now(),

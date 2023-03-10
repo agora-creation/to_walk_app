@@ -25,7 +25,7 @@ class RankingCard extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               child: Text(labelText),
             ),
-            const Divider(),
+            const Divider(color: Colors.black45, height: 8),
             Padding(
               padding: const EdgeInsets.all(16),
               child: Center(

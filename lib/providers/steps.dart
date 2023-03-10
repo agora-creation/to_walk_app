@@ -1,27 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:to_walk_app/helpers/functions.dart';
-import 'package:to_walk_app/models/user.dart';
+import 'package:to_walk_app/models/steps.dart';
 import 'package:to_walk_app/services/steps.dart';
 
 class StepsProvider with ChangeNotifier {
   StepsService stepsService = StepsService();
 
-  Future<String?> create({
-    required UserModel? user,
-    required int stepsNum,
-  }) async {
+  Future<String?> create({required List<StepsModel> stepsList}) async {
     String? errorText;
-    if (user == null) return '歩数の登録に失敗しました';
     try {
-      String id = stepsService.id();
-      stepsService.create({
-        'id': id,
-        'userId': user.id,
-        'stepsNum': stepsNum,
-        'updatedAt': DateTime.now(),
-        'createdAt': DateTime.now(),
-      });
+      for (StepsModel steps in stepsList) {
+        stepsService.create({
+          'id': steps.id,
+          'userId': steps.userId,
+          'stepsNum': steps.stepsNum,
+          'updatedAt': steps.updatedAt,
+          'createdAt': steps.createdAt,
+        });
+      }
     } catch (e) {
       errorText = '歩数の登録に失敗しました';
     }

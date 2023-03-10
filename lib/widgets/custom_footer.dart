@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:health/health.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:to_walk_app/helpers/functions.dart';
+import 'package:to_walk_app/models/steps.dart';
 import 'package:to_walk_app/providers/steps.dart';
 import 'package:to_walk_app/providers/user.dart';
 
@@ -60,13 +61,22 @@ class _CustomFooterState extends State<CustomFooter>
         }
       }
       healthDataList = HealthFactory.removeDuplicates(healthDataList);
-      int steps = 0;
+      int stepsSum = 0;
+      List<StepsModel> stepsList = [];
       for (var e in healthDataList) {
         String valueStr = e.value.toString();
         double valueDouble = double.parse(valueStr);
-        steps = valueDouble.round();
+        stepsSum += valueDouble.round();
+        StepsModel steps = StepsModel.fromMap({
+          'id': randomString(24),
+          'userId': widget.userProvider.user?.id ?? '',
+          'stepsNum': valueDouble.round(),
+          'updatedAt': e.dateTo,
+          'createdAt': e.dateTo
+        });
+        stepsList.add(steps);
       }
-      if (steps != 0) {
+      if (stepsList.isNotEmpty) {
         if (!mounted) return;
         showDialog(
           context: context,
@@ -77,9 +87,9 @@ class _CustomFooterState extends State<CustomFooter>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '$steps 歩の運動を計測しました。',
+                  '$stepsSum 歩の運動を計測しました。',
                   style: const TextStyle(
-                    color: Color(0xFF212121),
+                    color: Color(0xFF333333),
                     fontSize: 16,
                   ),
                 ),
@@ -88,10 +98,7 @@ class _CustomFooterState extends State<CustomFooter>
             ),
           ),
         ).then((value) async {
-          await widget.stepsProvider.create(
-            user: widget.userProvider.user,
-            stepsNum: steps,
-          );
+          await widget.stepsProvider.create(stepsList: stepsList);
         });
       }
     }

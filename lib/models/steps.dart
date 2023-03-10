@@ -13,6 +13,14 @@ class StepsModel {
   DateTime get updatedAt => _updatedAt;
   DateTime get createdAt => _createdAt;
 
+  StepsModel.fromMap(Map date) {
+    _id = date['id'] ?? '';
+    _userId = date['userId'] ?? '';
+    _stepsNum = date['stepsNum'] ?? 0;
+    _updatedAt = date['updatedAt'] ?? DateTime.now();
+    _createdAt = date['createdAt'] ?? DateTime.now();
+  }
+
   StepsModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
     _id = snapshot.data()!['id'] ?? '';
     _userId = snapshot.data()!['userId'] ?? '';

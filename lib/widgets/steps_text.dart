@@ -25,8 +25,8 @@ class StepsText extends StatelessWidget {
           const TextSpan(
             text: ' 歩/日',
             style: TextStyle(
-              color: Colors.black38,
-              fontSize: 16,
+              color: Colors.black45,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
               fontFamily: 'TsunagiGothic',
             ),
