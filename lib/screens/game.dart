@@ -16,7 +16,7 @@ class _GameScreenState extends State<GameScreen> {
           'まだ遊ぶことができません',
           style: TextStyle(
             color: Colors.black45,
-            fontSize: 24,
+            fontSize: 20,
           ),
         ),
       ),

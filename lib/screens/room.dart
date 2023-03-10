@@ -36,7 +36,7 @@ class RoomScreen extends StatelessWidget {
           '歩くと何かが起こるかも？',
           style: TextStyle(
             color: Colors.black38,
-            fontSize: 24,
+            fontSize: 20,
           ),
         ),
       ],

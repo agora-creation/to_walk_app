@@ -33,7 +33,9 @@ class RankingCard extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: NumberFormat('#,##0').format(ranking),
+                      text: ranking == 0
+                          ? '-'
+                          : NumberFormat('#,##0').format(ranking),
                       style: const TextStyle(
                         color: Color(0xFF333333),
                         fontSize: 40,

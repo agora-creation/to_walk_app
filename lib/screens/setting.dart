@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/helpers/functions.dart';
+import 'package:to_walk_app/screens/user_birth.dart';
+import 'package:to_walk_app/screens/user_name.dart';
 import 'package:to_walk_app/widgets/setting_card.dart';
+import 'package:to_walk_app/widgets/setting_list_tile.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -18,35 +22,62 @@ class _SettingScreenState extends State<SettingScreen> {
           SettingCard(
             labelText: '個人情報の登録',
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Color(0xFFCCCCCC)),
-                  ),
-                ),
-                child: ListTile(
-                  title: Text('あなたの名前'),
-                  trailing: Icon(
-                    Icons.edit_rounded,
-                    color: Color(0xFF333333),
-                  ),
-                ),
+              SettingListTile(
+                labelText: 'あなたの名前',
+                iconData: Icons.edit_rounded,
+                onTap: () => pushScreen(context, const UserNameScreen()),
               ),
-              ListTile(title: Text('あなたの生年月日')),
-              ListTile(title: Text('あなたの性別')),
-              ListTile(title: Text('あなたの居住都道府県')),
-              ListTile(title: Text('あなたの身長')),
-              ListTile(title: Text('あなたの体重')),
+              SettingListTile(
+                labelText: 'あなたの生年月日',
+                iconData: Icons.edit_rounded,
+                onTap: () => pushScreen(context, const UserBirthScreen()),
+              ),
+              SettingListTile(
+                labelText: 'あなたの性別',
+                iconData: Icons.edit_rounded,
+                onTap: () {},
+              ),
+              SettingListTile(
+                labelText: 'あなたの居住都道府県',
+                iconData: Icons.edit_rounded,
+                onTap: () {},
+              ),
+              SettingListTile(
+                labelText: 'あなたの身長',
+                iconData: Icons.edit_rounded,
+                onTap: () {},
+              ),
+              SettingListTile(
+                labelText: 'あなたの体重',
+                iconData: Icons.edit_rounded,
+                onTap: () {},
+              ),
             ],
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           SettingCard(
             labelText: 'このアプリについて',
             children: [
-              ListTile(title: Text('使い方・遊び方')),
-              ListTile(title: Text('利用規約')),
-              ListTile(title: Text('プライバシーポリシー')),
-              ListTile(title: Text('お問い合わせ')),
+              SettingListTile(
+                labelText: '使い方・遊び方',
+                iconData: Icons.chevron_right,
+                onTap: () {},
+              ),
+              SettingListTile(
+                labelText: '利用規約',
+                iconData: Icons.chevron_right,
+                onTap: () {},
+              ),
+              SettingListTile(
+                labelText: 'プライバシーポリシー',
+                iconData: Icons.chevron_right,
+                onTap: () {},
+              ),
+              SettingListTile(
+                labelText: 'お問い合わせ',
+                iconData: Icons.chevron_right,
+                onTap: () {},
+              ),
             ],
           ),
         ],
