@@ -63,6 +63,19 @@ class UserProvider with ChangeNotifier {
     return errorText;
   }
 
+  Future<String?> updateName(String name) async {
+    String? errorText;
+    try {
+      userService.update({
+        'id': user?.id,
+        'name': name,
+      });
+    } catch (e) {
+      errorText = '名前の登録に失敗しました';
+    }
+    return errorText;
+  }
+
   Future signOut() async {
     await auth?.signOut();
     _status = AuthStatus.unauthenticated;

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class SettingListTile extends StatelessWidget {
   final String labelText;
-  final IconData iconData;
+  final String? value;
   final Function()? onTap;
 
   const SettingListTile({
     required this.labelText,
-    required this.iconData,
+    this.value,
     this.onTap,
     Key? key,
   }) : super(key: key);
@@ -22,10 +22,9 @@ class SettingListTile extends StatelessWidget {
       ),
       child: ListTile(
         title: Text(labelText),
-        trailing: Icon(
-          iconData,
-          color: Colors.cyan,
-        ),
+        trailing: value == null
+            ? const Icon(Icons.chevron_right, color: Colors.cyan)
+            : Text(value ?? ''),
         onTap: onTap,
       ),
     );
