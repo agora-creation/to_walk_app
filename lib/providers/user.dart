@@ -89,6 +89,32 @@ class UserProvider with ChangeNotifier {
     return errorText;
   }
 
+  Future<String?> updateBodyHeight(int bodyHeight) async {
+    String? errorText;
+    try {
+      userService.update({
+        'id': user?.id,
+        'bodyHeight': bodyHeight,
+      });
+    } catch (e) {
+      errorText = '身長の登録に失敗しました';
+    }
+    return errorText;
+  }
+
+  Future<String?> updateBodyWeight(int bodyWeight) async {
+    String? errorText;
+    try {
+      userService.update({
+        'id': user?.id,
+        'bodyWeight': bodyWeight,
+      });
+    } catch (e) {
+      errorText = '体重の登録に失敗しました';
+    }
+    return errorText;
+  }
+
   Future signOut() async {
     await auth?.signOut();
     _status = AuthStatus.unauthenticated;
