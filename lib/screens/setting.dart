@@ -1,9 +1,11 @@
+import 'package:age_calculator/age_calculator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:to_walk_app/helpers/functions.dart';
 import 'package:to_walk_app/models/user.dart';
 import 'package:to_walk_app/providers/user.dart';
-import 'package:to_walk_app/screens/user_birth.dart';
 import 'package:to_walk_app/widgets/custom_text_button.dart';
 import 'package:to_walk_app/widgets/custom_text_form_field.dart';
 import 'package:to_walk_app/widgets/setting_card.dart';
@@ -21,6 +23,14 @@ class _SettingScreenState extends State<SettingScreen> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
     UserModel? user = userProvider.user;
+    String birthDate = user?.birthDate ?? '';
+    String birthText = '----年--月--日';
+    String age = '--歳';
+    if (birthDate != '') {
+      DateTime dateTime = DateTime.parse(birthDate);
+      birthText = dateText('yyyy年MM月dd日', dateTime);
+      age = '${AgeCalculator.age(dateTime).years.toString()}歳';
+    }
 
     return SafeArea(
       child: ListView(
@@ -74,27 +84,84 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
               SettingListTile(
                 labelText: '生年月日',
-                value: 'test',
-                onTap: () => pushScreen(context, const UserBirthScreen()),
+                value: '$birthText ($age)',
+                onTap: () async {
+                  await DatePicker.showDatePicker(
+                    context,
+                    locale: LocaleType.jp,
+                    minTime: DateTime.now().subtract(
+                      const Duration(days: 365 * 100),
+                    ),
+                    maxTime: DateTime.now().subtract(
+                      const Duration(days: 365 * 10),
+                    ),
+                    onConfirm: (date) async {
+                      String? error = await userProvider
+                          .updateBirthDate(dateText('yyyy-MM-dd', date));
+                      if (error != null) return;
+                      await userProvider.reload();
+                    },
+                  );
+                },
               ),
               SettingListTile(
                 labelText: '性別',
-                value: 'test',
+                value: user?.gender ?? '',
                 onTap: () {},
               ),
               SettingListTile(
                 labelText: '居住都道府県',
-                value: 'test',
+                value: user?.prefecture ?? '',
                 onTap: () {},
               ),
               SettingListTile(
                 labelText: '身長',
-                value: 'test',
-                onTap: () {},
+                value: '${user?.bodyHeight.toString()} cm',
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                      title: const Text('身長'),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border(
+                                top: BorderSide(color: Colors.black12),
+                                bottom: BorderSide(color: Colors.black12),
+                              ),
+                            ),
+                            child: NumberPicker(
+                              minValue: 0,
+                              maxValue: 200,
+                              value: 0,
+                              onChanged: (value) {},
+                              itemCount: 5,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CustomTextButton(
+                                labelText: '登録する',
+                                backgroundColor: Colors.blue,
+                                onPressed: () async {},
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
               SettingListTile(
                 labelText: '体重',
-                value: 'test',
+                value: '${user?.bodyWeight.toString()} kg',
                 onTap: () {},
               ),
             ],

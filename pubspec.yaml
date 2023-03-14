@@ -26,6 +26,9 @@ dependencies:
   firebase_core: ^2.7.0
   firebase_auth: ^4.2.9
   cloud_firestore: ^4.4.3
+  flutter_datetime_picker: ^1.5.1
+  age_calculator: ^1.0.0
+  numberpicker: ^2.1.1
 
 dev_dependencies:
   flutter_test:

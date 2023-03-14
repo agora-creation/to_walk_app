@@ -76,6 +76,19 @@ class UserProvider with ChangeNotifier {
     return errorText;
   }
 
+  Future<String?> updateBirthDate(String birthDate) async {
+    String? errorText;
+    try {
+      userService.update({
+        'id': user?.id,
+        'birthDate': birthDate,
+      });
+    } catch (e) {
+      errorText = '生年月日の登録に失敗しました';
+    }
+    return errorText;
+  }
+
   Future signOut() async {
     await auth?.signOut();
     _status = AuthStatus.unauthenticated;
