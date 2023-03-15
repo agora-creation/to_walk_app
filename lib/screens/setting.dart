@@ -1,11 +1,12 @@
 import 'package:age_calculator/age_calculator.dart';
+import 'package:bottom_picker/bottom_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:to_walk_app/helpers/functions.dart';
+import 'package:to_walk_app/helpers/style.dart';
 import 'package:to_walk_app/models/user.dart';
 import 'package:to_walk_app/providers/user.dart';
-import 'package:to_walk_app/widgets/custom_number_picker.dart';
 import 'package:to_walk_app/widgets/custom_text_button.dart';
 import 'package:to_walk_app/widgets/custom_text_form_field.dart';
 import 'package:to_walk_app/widgets/setting_card.dart';
@@ -108,18 +109,50 @@ class _SettingScreenState extends State<SettingScreen> {
               SettingListTile(
                 labelText: '性別',
                 value: user?.gender ?? '',
-                onTap: () {},
+                onTap: () {
+                  BottomPicker(
+                    items: genderList,
+                    title: '性別',
+                    onSubmit: (index) async {
+                      String gender = genderList[index].data ?? '';
+                      String? error = await userProvider.updateGender(gender);
+                      if (error != null) return;
+                      await userProvider.reload();
+                    },
+                    buttonText: '登録する',
+                    buttonTextStyle: const TextStyle(color: Colors.white),
+                    buttonSingleColor: Colors.blue,
+                    displayButtonIcon: false,
+                  ).show(context);
+                },
               ),
               SettingListTile(
                 labelText: '居住都道府県',
                 value: user?.prefecture ?? '',
-                onTap: () {},
+                onTap: () {
+                  BottomPicker(
+                    items: prefectureList,
+                    title: '居住都道府県',
+                    onSubmit: (index) async {
+                      String prefecture = prefectureList[index].data ?? '';
+                      String? error =
+                          await userProvider.updatePrefecture(prefecture);
+                      if (error != null) return;
+                      await userProvider.reload();
+                    },
+                    buttonText: '登録する',
+                    buttonTextStyle: const TextStyle(color: Colors.white),
+                    buttonSingleColor: Colors.blue,
+                    displayButtonIcon: false,
+                  ).show(context);
+                },
               ),
               SettingListTile(
                 labelText: '身長',
                 value: '${user?.bodyHeight.toString()} cm',
                 onTap: () {
-                  int bodyHeight = user?.bodyHeight.round() ?? 0;
+                  TextEditingController bodyHeight = TextEditingController();
+                  bodyHeight.text = user?.bodyHeight.toString() ?? '0';
                   showDialog(
                     context: context,
                     builder: (_) => AlertDialog(
@@ -128,13 +161,10 @@ class _SettingScreenState extends State<SettingScreen> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomNumberPicker(
-                            minValue: 0,
-                            maxValue: 200,
-                            value: bodyHeight,
-                            onChanged: (value) {
-                              setState(() => bodyHeight = value);
-                            },
+                          CustomTextFormField(
+                            controller: bodyHeight,
+                            obscureText: false,
+                            keyboardType: TextInputType.number,
                           ),
                           const SizedBox(height: 16),
                           Row(
@@ -144,8 +174,9 @@ class _SettingScreenState extends State<SettingScreen> {
                                 labelText: '登録する',
                                 backgroundColor: Colors.blue,
                                 onPressed: () async {
-                                  String? error = await userProvider
-                                      .updateBodyHeight(bodyHeight);
+                                  String? error =
+                                      await userProvider.updateBodyHeight(
+                                          int.parse(bodyHeight.text));
                                   if (error != null) return;
                                   await userProvider.reload();
                                   if (!mounted) return;
@@ -164,7 +195,8 @@ class _SettingScreenState extends State<SettingScreen> {
                 labelText: '体重',
                 value: '${user?.bodyWeight.toString()} kg',
                 onTap: () {
-                  int bodyWeight = user?.bodyWeight.round() ?? 0;
+                  TextEditingController bodyWeight = TextEditingController();
+                  bodyWeight.text = user?.bodyWeight.toString() ?? '0';
                   showDialog(
                     context: context,
                     builder: (_) => AlertDialog(
@@ -173,13 +205,10 @@ class _SettingScreenState extends State<SettingScreen> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomNumberPicker(
-                            minValue: 0,
-                            maxValue: 200,
-                            value: bodyWeight,
-                            onChanged: (value) {
-                              setState(() => bodyWeight = value);
-                            },
+                          CustomTextFormField(
+                            controller: bodyWeight,
+                            obscureText: false,
+                            keyboardType: TextInputType.number,
                           ),
                           const SizedBox(height: 16),
                           Row(
@@ -189,8 +218,9 @@ class _SettingScreenState extends State<SettingScreen> {
                                 labelText: '登録する',
                                 backgroundColor: Colors.blue,
                                 onPressed: () async {
-                                  String? error = await userProvider
-                                      .updateBodyWeight(bodyWeight);
+                                  String? error =
+                                      await userProvider.updateBodyWeight(
+                                          int.parse(bodyWeight.text));
                                   if (error != null) return;
                                   await userProvider.reload();
                                   if (!mounted) return;

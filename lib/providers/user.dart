@@ -89,6 +89,32 @@ class UserProvider with ChangeNotifier {
     return errorText;
   }
 
+  Future<String?> updateGender(String gender) async {
+    String? errorText;
+    try {
+      userService.update({
+        'id': user?.id,
+        'gender': gender,
+      });
+    } catch (e) {
+      errorText = '性別の登録に失敗しました';
+    }
+    return errorText;
+  }
+
+  Future<String?> updatePrefecture(String prefecture) async {
+    String? errorText;
+    try {
+      userService.update({
+        'id': user?.id,
+        'prefecture': prefecture,
+      });
+    } catch (e) {
+      errorText = '居住都道府県の登録に失敗しました';
+    }
+    return errorText;
+  }
+
   Future<String?> updateBodyHeight(int bodyHeight) async {
     String? errorText;
     try {
