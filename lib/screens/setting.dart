@@ -7,6 +7,9 @@ import 'package:to_walk_app/helpers/functions.dart';
 import 'package:to_walk_app/helpers/style.dart';
 import 'package:to_walk_app/models/user.dart';
 import 'package:to_walk_app/providers/user.dart';
+import 'package:to_walk_app/screens/how_to.dart';
+import 'package:to_walk_app/screens/privacy_policy.dart';
+import 'package:to_walk_app/screens/terms.dart';
 import 'package:to_walk_app/widgets/custom_text_button.dart';
 import 'package:to_walk_app/widgets/custom_text_form_field.dart';
 import 'package:to_walk_app/widgets/setting_card.dart';
@@ -32,13 +35,17 @@ class _SettingScreenState extends State<SettingScreen> {
       birthText = dateText('yyyy年MM月dd日', dateTime);
       age = '${AgeCalculator.age(dateTime).years.toString()}歳';
     }
+    String bmiText = calculationBMI(
+      user?.bodyHeight ?? 0.0,
+      user?.bodyWeight ?? 0.0,
+    );
 
     return SafeArea(
       child: ListView(
         padding: const EdgeInsets.all(8),
         children: [
           SettingCard(
-            labelText: 'あなたの情報を登録してください',
+            labelText: 'あなたの情報',
             children: [
               SettingListTile(
                 labelText: '名前',
@@ -235,6 +242,10 @@ class _SettingScreenState extends State<SettingScreen> {
                   );
                 },
               ),
+              SettingListTile(
+                labelText: 'BMI',
+                value: bmiText,
+              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -243,20 +254,27 @@ class _SettingScreenState extends State<SettingScreen> {
             children: [
               SettingListTile(
                 labelText: '使い方・遊び方',
-                onTap: () {},
+                onTap: () => pushScreen(context, const HowToScreen()),
               ),
               SettingListTile(
                 labelText: '利用規約',
-                onTap: () {},
+                onTap: () => pushScreen(context, const TermsScreen()),
               ),
               SettingListTile(
                 labelText: 'プライバシーポリシー',
-                onTap: () {},
+                onTap: () => pushScreen(context, const PrivacyPolicyScreen()),
               ),
-              SettingListTile(
-                labelText: 'お問い合わせ',
-                onTap: () {},
+              const SettingListTile(
+                labelText: 'バージョン',
+                value: '1.0.0',
               ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          const SettingCard(
+            labelText: 'データを引き継ぐ',
+            children: [
+              SettingListTile(labelText: '引き継ぎ用のコードを発行'),
             ],
           ),
         ],

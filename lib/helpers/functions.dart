@@ -86,3 +86,27 @@ Timestamp convertTimestamp(DateTime date, bool end) {
     DateTime.parse(dateTime).millisecondsSinceEpoch,
   );
 }
+
+String calculationBMI(double height, double weight) {
+  String ret = '測定不能';
+  double m = height * 0.01;
+  double bmi = weight / (m * m);
+  if (bmi < 16) {
+    ret = 'やせすぎ';
+  } else if (bmi < 17) {
+    ret = 'やせている';
+  } else if (bmi < 18.5) {
+    ret = 'やせぎみ';
+  } else if (bmi < 25) {
+    ret = '標準';
+  } else if (bmi < 30) {
+    ret = 'ぽっちゃり気味';
+  } else if (bmi < 35) {
+    ret = 'ぽっちゃり';
+  } else if (bmi < 40) {
+    ret = 'ふとっている';
+  } else if (bmi > 40) {
+    ret = 'ふとりすぎ';
+  }
+  return ret;
+}

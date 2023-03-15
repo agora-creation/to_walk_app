@@ -24,7 +24,10 @@ class SettingListTile extends StatelessWidget {
         title: Text(labelText),
         trailing: value == null
             ? const Icon(Icons.chevron_right, color: Colors.cyan)
-            : Text(value ?? ''),
+            : Text(
+                value ?? '',
+                style: const TextStyle(color: Colors.black54),
+              ),
         onTap: onTap,
       ),
     );
