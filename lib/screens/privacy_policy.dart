@@ -17,7 +17,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0xFFB2EBF2))
-      ..loadRequest(Uri.parse('https://flutter.dev'));
+      ..loadRequest(Uri.parse('https://www.agora-c.com/alk/privacy_policy/'));
   }
 
   @override
