@@ -2,6 +2,7 @@ import 'package:age_calculator/age_calculator.dart';
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:to_walk_app/helpers/functions.dart';
 import 'package:to_walk_app/helpers/style.dart';
@@ -23,6 +24,21 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
+  String version = '';
+
+  void _init() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      version = packageInfo.version;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
+
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
@@ -264,9 +280,9 @@ class _SettingScreenState extends State<SettingScreen> {
                 labelText: 'プライバシーポリシー',
                 onTap: () => pushScreen(context, const PrivacyPolicyScreen()),
               ),
-              const SettingListTile(
+              SettingListTile(
                 labelText: 'バージョン',
-                value: '1.0.0',
+                value: version,
               ),
             ],
           ),
