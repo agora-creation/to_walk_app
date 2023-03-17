@@ -51,4 +51,14 @@ class StepsProvider with ChangeNotifier {
         .startAt([startAt]).endAt([endAt]).snapshots();
     return ret;
   }
+
+  Future<int> getDayRanking({required String? userId}) async {
+    int ret = 0;
+    return ret;
+  }
+
+  Future<int> getMonthRanking({required String? userId}) async {
+    int ret = 0;
+    return ret;
+  }
 }
