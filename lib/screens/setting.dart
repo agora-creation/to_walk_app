@@ -9,6 +9,7 @@ import 'package:to_walk_app/helpers/style.dart';
 import 'package:to_walk_app/models/user.dart';
 import 'package:to_walk_app/providers/user.dart';
 import 'package:to_walk_app/screens/how_to.dart';
+import 'package:to_walk_app/screens/migration.dart';
 import 'package:to_walk_app/screens/privacy_policy.dart';
 import 'package:to_walk_app/screens/terms.dart';
 import 'package:to_walk_app/widgets/custom_text_button.dart';
@@ -126,6 +127,11 @@ class _SettingScreenState extends State<SettingScreen> {
                       if (error != null) return;
                       await userProvider.reload();
                     },
+                    theme: const DatePickerTheme(
+                      cancelStyle: TextStyle(fontFamily: 'TsunagiGothic'),
+                      doneStyle: TextStyle(fontFamily: 'TsunagiGothic'),
+                      itemStyle: TextStyle(fontFamily: 'TsunagiGothic'),
+                    ),
                   );
                 },
               ),
@@ -146,6 +152,12 @@ class _SettingScreenState extends State<SettingScreen> {
                     buttonTextStyle: const TextStyle(color: Colors.white),
                     buttonSingleColor: Colors.blue,
                     displayButtonIcon: false,
+                    dismissable: true,
+                    pickerTextStyle: const TextStyle(
+                      color: Color(0xFF333333),
+                      fontSize: 16,
+                      fontFamily: 'TsunagiGothic',
+                    ),
                   ).show(context);
                 },
               ),
@@ -167,6 +179,12 @@ class _SettingScreenState extends State<SettingScreen> {
                     buttonTextStyle: const TextStyle(color: Colors.white),
                     buttonSingleColor: Colors.blue,
                     displayButtonIcon: false,
+                    dismissable: true,
+                    pickerTextStyle: const TextStyle(
+                      color: Color(0xFF333333),
+                      fontSize: 16,
+                      fontFamily: 'TsunagiGothic',
+                    ),
                   ).show(context);
                 },
               ),
@@ -287,10 +305,13 @@ class _SettingScreenState extends State<SettingScreen> {
             ],
           ),
           const SizedBox(height: 8),
-          const SettingCard(
+          SettingCard(
             labelText: 'データを引き継ぐ',
             children: [
-              SettingListTile(labelText: '引き継ぎ用のコードを発行'),
+              SettingListTile(
+                labelText: '引き継ぎ用のコードを発行',
+                onTap: () => pushScreen(context, const MigrationScreen()),
+              ),
             ],
           ),
         ],

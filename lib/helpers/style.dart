@@ -14,6 +14,7 @@ ThemeData themeData() {
         color: Color(0xFF333333),
         fontSize: 18,
         fontWeight: FontWeight.bold,
+        fontFamily: 'TsunagiGothic',
       ),
       iconTheme: IconThemeData(color: Color(0xFF333333)),
     ),
