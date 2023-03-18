@@ -25,7 +25,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
         padding: const EdgeInsets.all(8),
         children: [
           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream: stepsProvider.streamList(userId: userProvider.user?.id),
+            stream: stepsProvider.streamList(
+              userId: userProvider.user?.id,
+            ),
             builder: (context, snapshot) {
               List<StepsModel> stepsList = [];
               if (snapshot.hasData) {
@@ -41,14 +43,28 @@ class _HistoryScreenState extends State<HistoryScreen> {
             },
           ),
           const SizedBox(height: 8),
-          const RankingCard(
-            labelText: '今日の歩数ランキング',
-            ranking: 0,
+          FutureBuilder<int>(
+            future: stepsProvider.getDayRanking(
+              userId: userProvider.user?.id,
+            ),
+            builder: (context, snapshot) {
+              return RankingCard(
+                labelText: '今日の総歩数ランキング',
+                ranking: snapshot.data ?? 0,
+              );
+            },
           ),
           const SizedBox(height: 8),
-          const RankingCard(
-            labelText: '今月の歩数ランキング',
-            ranking: 0,
+          FutureBuilder<int>(
+            future: stepsProvider.getMonthRanking(
+              userId: userProvider.user?.id,
+            ),
+            builder: (context, snapshot) {
+              return RankingCard(
+                labelText: '今月の総歩数ランキング',
+                ranking: snapshot.data ?? 0,
+              );
+            },
           ),
         ],
       ),

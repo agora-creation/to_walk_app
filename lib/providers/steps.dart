@@ -54,11 +54,31 @@ class StepsProvider with ChangeNotifier {
 
   Future<int> getDayRanking({required String? userId}) async {
     int ret = 0;
+    DateTime now = DateTime.now();
+    await stepsService
+        .getRanking(
+      userId: userId ?? 'error',
+      start: now,
+      end: now,
+    )
+        .then((value) {
+      ret = value;
+    });
     return ret;
   }
 
   Future<int> getMonthRanking({required String? userId}) async {
     int ret = 0;
+    DateTime now = DateTime.now();
+    await stepsService
+        .getRanking(
+      userId: userId ?? 'error',
+      start: DateTime(now.year, now.month, 1),
+      end: DateTime(now.year, now.month + 1, 1).add(const Duration(days: -1)),
+    )
+        .then((value) {
+      ret = value;
+    });
     return ret;
   }
 }
