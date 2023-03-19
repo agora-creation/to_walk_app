@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_walk_app/models/steps.dart';
+import 'package:to_walk_app/models/user_alk.dart';
 import 'package:to_walk_app/providers/steps.dart';
 import 'package:to_walk_app/providers/user.dart';
 import 'package:to_walk_app/widgets/steps_text.dart';
@@ -13,6 +14,7 @@ class RoomScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final stepsProvider = Provider.of<StepsProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
+    UserAlkModel? alk = userProvider.alk;
 
     return Stack(
       children: [
@@ -45,12 +47,7 @@ class RoomScreen extends StatelessWidget {
             ),
           ],
         ),
-        Center(
-          child: Image.asset(
-            'assets/images/alk_0.png',
-            fit: BoxFit.fitWidth,
-          ),
-        ),
+        alk?.getImage() ?? Container(),
       ],
     );
   }

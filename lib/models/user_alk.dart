@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class UserAlkModel {
   String _id = '';
@@ -25,5 +26,12 @@ class UserAlkModel {
     _jump = double.parse('${snapshot.data()!['jump']}');
     _updatedAt = snapshot.data()!['updatedAt'].toDate() ?? DateTime.now();
     _createdAt = snapshot.data()!['createdAt'].toDate() ?? DateTime.now();
+  }
+
+  Widget getImage() {
+    return Image.asset(
+      'assets/images/alk_0.png',
+      fit: BoxFit.fitWidth,
+    );
   }
 }
