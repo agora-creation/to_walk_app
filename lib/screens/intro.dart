@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:to_walk_app/helpers/functions.dart';
 import 'package:to_walk_app/providers/user.dart';
+import 'package:to_walk_app/screens/home.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({Key? key}) : super(key: key);
@@ -31,17 +33,30 @@ class _IntroScreenState extends State<IntroScreen> {
               image: Image.asset('assets/images/loading.png'),
             ),
             PageViewModel(
-              title: '紹介ページを設けることで\n簡単にアプリをリッチにできるよ!',
+              title: 'あなたはこのアプリを使ったことがありますか？\n引き継ぎできるよ!',
               body: '3ページ目だよ!',
               image: Image.asset('assets/images/loading.png'),
             ),
+            PageViewModel(
+              title: 'あなたの情報を教えてください',
+              body: '4ページ目だよ!',
+            ),
+            PageViewModel(
+              title: '最後に利用規約に同意してください',
+              body: '5ページ目だよ!',
+            ),
           ],
-          onDone: () async => Navigator.pop(context),
+          onDone: () async {
+            String? error = await userProvider.signIn();
+            if (error != null) return;
+            if (!mounted) return;
+            pushReplacementScreen(context, const HomeScreen());
+          },
           showBackButton: true,
-          next: const Icon(Icons.arrow_forward_ios),
-          back: const Icon(Icons.arrow_back_ios),
+          next: const Icon(Icons.chevron_right),
+          back: const Icon(Icons.chevron_left),
           done: const Text(
-            'OK!',
+            '同意する',
             style: TextStyle(fontWeight: FontWeight.w600),
           ),
           dotsDecorator: DotsDecorator(
