@@ -29,9 +29,11 @@ class UserAlkModel {
   }
 
   Widget getImage() {
-    return Image.asset(
-      'assets/images/alk_0.png',
-      fit: BoxFit.fitWidth,
+    return Center(
+      child: Image.asset(
+        'assets/images/alk_0.png',
+        fit: BoxFit.fitWidth,
+      ),
     );
   }
 }
