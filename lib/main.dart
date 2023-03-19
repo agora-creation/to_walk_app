@@ -7,8 +7,8 @@ import 'package:to_walk_app/helpers/style.dart';
 import 'package:to_walk_app/providers/steps.dart';
 import 'package:to_walk_app/providers/user.dart';
 import 'package:to_walk_app/screens/home.dart';
+import 'package:to_walk_app/screens/intro.dart';
 import 'package:to_walk_app/screens/splash.dart';
-import 'package:to_walk_app/screens/start.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,11 +59,11 @@ class SplashController extends StatelessWidget {
         return const SplashScreen();
       case AuthStatus.unauthenticated:
       case AuthStatus.authenticating:
-        return const StartScreen();
+        return const IntroScreen();
       case AuthStatus.authenticated:
         return const HomeScreen();
       default:
-        return const StartScreen();
+        return const IntroScreen();
     }
   }
 }

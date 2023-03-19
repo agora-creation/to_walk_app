@@ -29,9 +29,30 @@ class UserAlkModel {
   }
 
   Widget getImage() {
+    String imagePath = 'assets/images/alk_0.png';
+    switch (_level) {
+      case 0:
+        imagePath = 'assets/images/alk_0.png';
+        break;
+      case 1:
+        imagePath = 'assets/images/alk_0.png';
+        break;
+      case 2:
+        imagePath = 'assets/images/alk_0.png';
+        break;
+      case 3:
+        imagePath = 'assets/images/alk_0.png';
+        break;
+      case 4:
+        imagePath = 'assets/images/alk_0.png';
+        break;
+      case 5:
+        imagePath = 'assets/images/alk_0.png';
+        break;
+    }
     return Center(
       child: Image.asset(
-        'assets/images/alk_0.png',
+        imagePath,
         fit: BoxFit.fitWidth,
       ),
     );
