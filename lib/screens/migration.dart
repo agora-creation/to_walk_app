@@ -52,7 +52,7 @@ class _MigrationScreenState extends State<MigrationScreen> {
                   const SizedBox(height: 32),
                   Text(
                     user?.id ?? '',
-                    style: const TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 24),
                   ),
                   const SizedBox(height: 32),
                   const Text(
