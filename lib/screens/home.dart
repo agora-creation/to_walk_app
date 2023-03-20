@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:to_walk_app/models/user_alk.dart';
 import 'package:to_walk_app/providers/steps.dart';
 import 'package:to_walk_app/providers/user.dart';
 import 'package:to_walk_app/screens/game.dart';
@@ -30,24 +31,25 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final stepsProvider = Provider.of<StepsProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
+    UserAlkModel? alk = userProvider.alk;
 
     return Scaffold(
       body: _items[_selectedIndex],
       bottomNavigationBar: CustomBottomBar(
-        tabs: const [
+        tabs: [
           GButton(
             icon: Icons.home_rounded,
-            text: '？？？',
+            text: alk?.getRoomName() ?? '',
           ),
-          GButton(
+          const GButton(
             icon: Icons.calendar_month_rounded,
             text: '記録',
           ),
-          GButton(
+          const GButton(
             icon: Icons.interests_rounded,
             text: '遊ぶ',
           ),
-          GButton(
+          const GButton(
             icon: Icons.settings_rounded,
             text: '設定',
           ),

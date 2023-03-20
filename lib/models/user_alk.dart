@@ -28,8 +28,16 @@ class UserAlkModel {
     _createdAt = snapshot.data()!['createdAt'].toDate() ?? DateTime.now();
   }
 
+  String getRoomName() {
+    if (level >= 10) {
+      return 'アルクの部屋';
+    } else {
+      return '？？？';
+    }
+  }
+
   Widget getImage() {
-    String imagePath = 'assets/images/alk_0.png';
+    String imagePath = '';
     switch (_level) {
       case 0:
         imagePath = 'assets/images/alk_0.png';
