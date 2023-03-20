@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:to_walk_app/helpers/functions.dart';
 import 'package:to_walk_app/providers/user.dart';
 import 'package:to_walk_app/screens/home.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({Key? key}) : super(key: key);
@@ -13,6 +14,17 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
+  late final WebViewController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0xFFB2EBF2))
+      ..loadRequest(Uri.parse('https://www.agora-c.com/alk/terms/'));
+  }
+
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
@@ -23,9 +35,30 @@ class _IntroScreenState extends State<IntroScreen> {
           scrollPhysics: const BouncingScrollPhysics(),
           pages: [
             PageViewModel(
-              title: 'アプリ紹介のページへ\nようこそ!',
-              body: '１ページ目だよ！',
               image: Image.asset('assets/images/loading.png'),
+              titleWidget: Column(
+                children: const [
+                  Text(
+                    'アルク',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    '- ウォーキング連動育成ゲーム -',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              bodyWidget: TextButton(
+                onPressed: () {},
+                child: const Text('引き継ぐ'),
+              ),
             ),
             PageViewModel(
               title: 'アプリの使い方を説明すると\nユーザーにとって親切だよ!',
@@ -33,17 +66,12 @@ class _IntroScreenState extends State<IntroScreen> {
               image: Image.asset('assets/images/loading.png'),
             ),
             PageViewModel(
-              title: 'あなたはこのアプリを使ったことがありますか？\n引き継ぎできるよ!',
-              body: '3ページ目だよ!',
-              image: Image.asset('assets/images/loading.png'),
-            ),
-            PageViewModel(
               title: 'あなたの情報を教えてください',
-              body: '4ページ目だよ!',
+              body: '3ページ目だよ!',
             ),
             PageViewModel(
               title: '最後に利用規約に同意してください',
-              body: '5ページ目だよ!',
+              bodyWidget: WebViewWidget(controller: controller),
             ),
           ],
           onDone: () async {
