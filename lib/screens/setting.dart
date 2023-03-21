@@ -45,6 +45,7 @@ class _SettingScreenState extends State<SettingScreen> {
     final userProvider = Provider.of<UserProvider>(context);
     UserModel? user = userProvider.user;
     String birthDate = user?.birthDate ?? '';
+
     String birthText = '----年--月--日';
     String age = '--歳';
     if (birthDate != '') {
@@ -78,10 +79,14 @@ class _SettingScreenState extends State<SettingScreen> {
                 labelText: '生年月日',
                 value: '$birthText ($age)',
                 onTap: () async {
+                  DateTime? currentTime;
+                  if (birthDate != '') {
+                    currentTime = DateTime.parse(birthDate);
+                  }
                   await DatePicker.showDatePicker(
                     context,
                     locale: LocaleType.jp,
-                    currentTime: DateTime.parse(birthDate),
+                    currentTime: currentTime,
                     minTime: DateTime.now().subtract(
                       const Duration(days: 365 * 100),
                     ),
@@ -95,7 +100,11 @@ class _SettingScreenState extends State<SettingScreen> {
                       if (error != null) return;
                       await userProvider.reload();
                     },
-                    theme: kDatePickerTheme,
+                    theme: const DatePickerTheme(
+                      cancelStyle: TextStyle(fontFamily: 'TsunagiGothic'),
+                      doneStyle: TextStyle(fontFamily: 'TsunagiGothic'),
+                      itemStyle: TextStyle(fontFamily: 'TsunagiGothic'),
+                    ),
                   );
                 },
               ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 ThemeData themeData() {
   return ThemeData(
@@ -36,12 +35,6 @@ const kTitleStyle = TextStyle(
 const kSubTitleStyle = TextStyle(
   fontSize: 18,
   fontWeight: FontWeight.bold,
-);
-
-const kDatePickerTheme = DatePickerTheme(
-  cancelStyle: TextStyle(fontFamily: 'TsunagiGothic'),
-  doneStyle: TextStyle(fontFamily: 'TsunagiGothic'),
-  itemStyle: TextStyle(fontFamily: 'TsunagiGothic'),
 );
 
 const healthAPI =
