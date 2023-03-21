@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/models/steps.dart';
 import 'package:to_walk_app/models/user.dart';
 import 'package:to_walk_app/models/user_alk.dart';
+import 'package:to_walk_app/services/steps.dart';
 import 'package:to_walk_app/services/user.dart';
 import 'package:to_walk_app/services/user_alk.dart';
 
@@ -17,6 +19,7 @@ class UserProvider with ChangeNotifier {
   AuthStatus get status => _status;
   FirebaseAuth? auth;
   User? _fUser;
+  StepsService stepsService = StepsService();
   UserService userService = UserService();
   UserAlkService userAlkService = UserAlkService();
   UserModel? _user;
@@ -28,7 +31,11 @@ class UserProvider with ChangeNotifier {
     auth?.authStateChanges().listen(_onStateChanged);
   }
 
-  Future<String?> signIn() async {
+  Future<String?> signIn({
+    required String name,
+    required int bodyHeight,
+    required int bodyWeight,
+  }) async {
     String? errorText;
     try {
       _status = AuthStatus.authenticating;
@@ -36,13 +43,13 @@ class UserProvider with ChangeNotifier {
       await auth?.signInAnonymously().then((value) {
         userService.create({
           'id': value.user?.uid,
-          'name': '',
+          'name': name,
           'birthDate': '',
           'gender': '',
           'country': '',
           'prefecture': '',
-          'bodyHeight': 0,
-          'bodyWeight': 0,
+          'bodyHeight': bodyHeight,
+          'bodyWeight': bodyWeight,
           'createdAt': DateTime.now(),
         });
         userAlkService.create({
@@ -54,6 +61,58 @@ class UserProvider with ChangeNotifier {
           'updatedAt': DateTime.now(),
           'createdAt': DateTime.now(),
         });
+      });
+    } catch (e) {
+      _status = AuthStatus.unauthenticated;
+      notifyListeners();
+      errorText = 'アプリの起動に失敗しました';
+    }
+    return errorText;
+  }
+
+  Future<String?> signInMigration({required String code}) async {
+    String? errorText;
+    if (code == '') return 'コードを入力してください';
+    UserModel? befUser = await userService.select(id: code);
+    if (befUser == null) return 'コードが間違っています';
+    UserAlkModel? befAlk = await userAlkService.select(
+      id: befUser.id,
+      userId: befUser.id,
+    );
+    if (befAlk == null) return 'コードが間違っています';
+    List<StepsModel> befStepsList = await stepsService.selectList(
+      userId: befUser.id,
+    );
+    try {
+      _status = AuthStatus.authenticating;
+      notifyListeners();
+      await auth?.signInAnonymously().then((value) {
+        userService.create({
+          'id': value.user?.uid,
+          'name': befUser.name,
+          'birthDate': befUser.birthDate,
+          'gender': befUser.gender,
+          'country': befUser.country,
+          'prefecture': befUser.prefecture,
+          'bodyHeight': befUser.bodyHeight,
+          'bodyWeight': befUser.bodyWeight,
+          'createdAt': DateTime.now(),
+        });
+        userAlkService.create({
+          'id': value.user?.uid,
+          'userId': value.user?.uid,
+          'level': befAlk.level,
+          'speed': befAlk.speed,
+          'jump': befAlk.jump,
+          'updatedAt': DateTime.now(),
+          'createdAt': DateTime.now(),
+        });
+        for (StepsModel steps in befStepsList) {
+          stepsService.update({
+            'id': steps.id,
+            'userId': value.user?.uid,
+          });
+        }
       });
     } catch (e) {
       _status = AuthStatus.unauthenticated;

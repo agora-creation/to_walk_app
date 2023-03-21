@@ -68,42 +68,9 @@ class _SettingScreenState extends State<SettingScreen> {
                 labelText: '名前',
                 value: user?.name ?? '',
                 onTap: () {
-                  TextEditingController name = TextEditingController();
-                  name.text = user?.name ?? '';
                   showDialog(
                     context: context,
-                    builder: (_) => AlertDialog(
-                      title: const Text('名前'),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomTextFormField(
-                            controller: name,
-                            obscureText: false,
-                            keyboardType: TextInputType.name,
-                          ),
-                          const SizedBox(height: 16),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CustomTextButton(
-                                labelText: '登録する',
-                                backgroundColor: Colors.blue,
-                                onPressed: () async {
-                                  String? error =
-                                      await userProvider.updateName(name.text);
-                                  if (error != null) return;
-                                  await userProvider.reload();
-                                  if (!mounted) return;
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
+                    builder: (_) => NameDialog(userProvider: userProvider),
                   );
                 },
               ),
@@ -122,16 +89,13 @@ class _SettingScreenState extends State<SettingScreen> {
                       const Duration(days: 365 * 10),
                     ),
                     onConfirm: (date) async {
-                      String? error = await userProvider
-                          .updateBirthDate(dateText('yyyy-MM-dd', date));
+                      String? error = await userProvider.updateBirthDate(
+                        dateText('yyyy-MM-dd', date),
+                      );
                       if (error != null) return;
                       await userProvider.reload();
                     },
-                    theme: const DatePickerTheme(
-                      cancelStyle: TextStyle(fontFamily: 'TsunagiGothic'),
-                      doneStyle: TextStyle(fontFamily: 'TsunagiGothic'),
-                      itemStyle: TextStyle(fontFamily: 'TsunagiGothic'),
-                    ),
+                    theme: kDatePickerTheme,
                   );
                 },
               ),
@@ -170,8 +134,9 @@ class _SettingScreenState extends State<SettingScreen> {
                     title: '居住都道府県',
                     onSubmit: (index) async {
                       String prefecture = prefectureList[index].data ?? '';
-                      String? error =
-                          await userProvider.updatePrefecture(prefecture);
+                      String? error = await userProvider.updatePrefecture(
+                        prefecture,
+                      );
                       if (error != null) return;
                       await userProvider.reload();
                     },
@@ -192,42 +157,10 @@ class _SettingScreenState extends State<SettingScreen> {
                 labelText: '身長',
                 value: '${user?.bodyHeight.toString()} cm',
                 onTap: () {
-                  TextEditingController bodyHeight = TextEditingController();
-                  bodyHeight.text = user?.bodyHeight.toString() ?? '0';
                   showDialog(
                     context: context,
-                    builder: (_) => AlertDialog(
-                      title: const Text('身長'),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomTextFormField(
-                            controller: bodyHeight,
-                            obscureText: false,
-                            keyboardType: TextInputType.number,
-                          ),
-                          const SizedBox(height: 16),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CustomTextButton(
-                                labelText: '登録する',
-                                backgroundColor: Colors.blue,
-                                onPressed: () async {
-                                  String? error =
-                                      await userProvider.updateBodyHeight(
-                                          int.parse(bodyHeight.text));
-                                  if (error != null) return;
-                                  await userProvider.reload();
-                                  if (!mounted) return;
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                    builder: (_) => BodyHeightDialog(
+                      userProvider: userProvider,
                     ),
                   );
                 },
@@ -236,42 +169,10 @@ class _SettingScreenState extends State<SettingScreen> {
                 labelText: '体重',
                 value: '${user?.bodyWeight.toString()} kg',
                 onTap: () {
-                  TextEditingController bodyWeight = TextEditingController();
-                  bodyWeight.text = user?.bodyWeight.toString() ?? '0';
                   showDialog(
                     context: context,
-                    builder: (_) => AlertDialog(
-                      title: const Text('体重'),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomTextFormField(
-                            controller: bodyWeight,
-                            obscureText: false,
-                            keyboardType: TextInputType.number,
-                          ),
-                          const SizedBox(height: 16),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CustomTextButton(
-                                labelText: '登録する',
-                                backgroundColor: Colors.blue,
-                                onPressed: () async {
-                                  String? error =
-                                      await userProvider.updateBodyWeight(
-                                          int.parse(bodyWeight.text));
-                                  if (error != null) return;
-                                  await userProvider.reload();
-                                  if (!mounted) return;
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                    builder: (_) => BodyWeightDialog(
+                      userProvider: userProvider,
                     ),
                   );
                 },
@@ -311,6 +212,183 @@ class _SettingScreenState extends State<SettingScreen> {
               SettingListTile(
                 labelText: '引き継ぎ用のコードを発行',
                 onTap: () => pushScreen(context, const MigrationScreen()),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class NameDialog extends StatefulWidget {
+  final UserProvider userProvider;
+
+  const NameDialog({
+    required this.userProvider,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<NameDialog> createState() => _NameDialogState();
+}
+
+class _NameDialogState extends State<NameDialog> {
+  TextEditingController name = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    name.text = widget.userProvider.user?.name ?? '';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('名前'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomTextFormField(
+            controller: name,
+            obscureText: false,
+            keyboardType: TextInputType.name,
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomTextButton(
+                labelText: '登録する',
+                backgroundColor: Colors.blue,
+                onPressed: () async {
+                  String? error = await widget.userProvider.updateName(
+                    name.text,
+                  );
+                  if (error != null) return;
+                  await widget.userProvider.reload();
+                  if (!mounted) return;
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BodyHeightDialog extends StatefulWidget {
+  final UserProvider userProvider;
+
+  const BodyHeightDialog({
+    required this.userProvider,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<BodyHeightDialog> createState() => _BodyHeightDialogState();
+}
+
+class _BodyHeightDialogState extends State<BodyHeightDialog> {
+  TextEditingController bodyHeight = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    bodyHeight.text = widget.userProvider.user?.bodyHeight.toString() ?? '0';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('身長'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomTextFormField(
+            controller: bodyHeight,
+            obscureText: false,
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomTextButton(
+                labelText: '登録する',
+                backgroundColor: Colors.blue,
+                onPressed: () async {
+                  String? error = await widget.userProvider.updateBodyHeight(
+                    int.parse(bodyHeight.text),
+                  );
+                  if (error != null) return;
+                  await widget.userProvider.reload();
+                  if (!mounted) return;
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BodyWeightDialog extends StatefulWidget {
+  final UserProvider userProvider;
+
+  const BodyWeightDialog({
+    required this.userProvider,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<BodyWeightDialog> createState() => _BodyWeightDialogState();
+}
+
+class _BodyWeightDialogState extends State<BodyWeightDialog> {
+  TextEditingController bodyWeight = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    bodyWeight.text = widget.userProvider.user?.bodyWeight.toString() ?? '0';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('体重'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomTextFormField(
+            controller: bodyWeight,
+            obscureText: false,
+            keyboardType: TextInputType.number,
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomTextButton(
+                labelText: '登録する',
+                backgroundColor: Colors.blue,
+                onPressed: () async {
+                  String? error = await widget.userProvider.updateBodyWeight(
+                    int.parse(bodyWeight.text),
+                  );
+                  if (error != null) return;
+                  await widget.userProvider.reload();
+                  if (!mounted) return;
+                  Navigator.pop(context);
+                },
               ),
             ],
           ),

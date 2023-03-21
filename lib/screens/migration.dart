@@ -39,34 +39,36 @@ class _MigrationScreenState extends State<MigrationScreen> {
                     'スマートフォンの機種変や本体の交換などを行った際、今までのアプリのデータを引き継ぐための機能です。',
                     style: TextStyle(
                       color: Colors.black54,
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
+                  const SizedBox(height: 8),
                   const Text(
                     '新しいスマートフォンで本アプリを始めた際、引き継ぎ用のコードを聞かれますので、以下のコードを入力してください。',
                     style: TextStyle(
                       color: Colors.black54,
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 24),
                   Text(
                     user?.id ?? '',
                     style: const TextStyle(fontSize: 24),
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 24),
                   const Text(
                     '引き継ぎが完了次第、本アプリをアンインストールしてください。',
                     style: TextStyle(
                       color: Colors.black54,
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
+                  const SizedBox(height: 8),
                   const Text(
                     '引き続き本アプリをお楽しみください！',
                     style: TextStyle(
                       color: Colors.black54,
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
                 ],

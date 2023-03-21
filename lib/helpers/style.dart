@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 ThemeData themeData() {
   return ThemeData(
@@ -26,6 +27,22 @@ ThemeData themeData() {
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
 }
+
+const kTitleStyle = TextStyle(
+  fontSize: 32,
+  fontWeight: FontWeight.bold,
+);
+
+const kSubTitleStyle = TextStyle(
+  fontSize: 18,
+  fontWeight: FontWeight.bold,
+);
+
+const kDatePickerTheme = DatePickerTheme(
+  cancelStyle: TextStyle(fontFamily: 'TsunagiGothic'),
+  doneStyle: TextStyle(fontFamily: 'TsunagiGothic'),
+  itemStyle: TextStyle(fontFamily: 'TsunagiGothic'),
+);
 
 const healthAPI =
     '1087419833278-vv607sfh4g3am6sp77gvlot7jllju3li.apps.googleusercontent.com';

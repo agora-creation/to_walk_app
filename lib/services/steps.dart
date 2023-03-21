@@ -24,6 +24,20 @@ class StepsService {
     firestore.collection(collection).doc(values['id']).delete();
   }
 
+  Future<List<StepsModel>> selectList({required String? userId}) async {
+    List<StepsModel> stepsList = [];
+    await firestore
+        .collection(collection)
+        .where('userId', isEqualTo: userId ?? 'error')
+        .get()
+        .then((value) {
+      for (DocumentSnapshot<Map<String, dynamic>> data in value.docs) {
+        stepsList.add(StepsModel.fromSnapshot(data));
+      }
+    });
+    return stepsList;
+  }
+
   Future<int> getRanking({
     required String userId,
     required DateTime start,
