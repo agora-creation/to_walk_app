@@ -67,8 +67,8 @@ class _IntroScreenState extends State<IntroScreen> {
             ),
             PageViewModel(
               image: Image.asset('assets/images/loading.png'),
-              title: 'アプリの使い方を説明すると\nユーザーにとって親切だよ!',
-              body: '2ページ目だよ!',
+              title: 'アプリを開かなくても\n持ち歩くだけで歩数が計測できる！',
+              body: '毎日の計測した歩数はカレンダー形式で見ることができます。',
             ),
             PageViewModel(
               title: 'あなたの情報を教えてください',
