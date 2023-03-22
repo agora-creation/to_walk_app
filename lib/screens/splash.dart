@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:to_walk_app/helpers/style.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -21,21 +22,9 @@ class SplashScreen extends StatelessWidget {
                   children: [
                     Column(
                       children: const [
-                        Text(
-                          'アルク',
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        Text('アルク', style: kTitleStyle),
                         SizedBox(height: 8),
-                        Text(
-                          '- 共に成長する歩数計 -',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        Text('- ウォーキング連動育成ゲーム -', style: kSubTitleStyle),
                       ],
                     ),
                     SizedBox(
