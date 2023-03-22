@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class UserAlkModel {
   String _id = '';
   String _userId = '';
+  int _exp = 0;
   int _level = 0;
   double _speed = 0.0;
   double _jump = 0.0;
@@ -12,6 +13,7 @@ class UserAlkModel {
 
   String get id => _id;
   String get userId => _userId;
+  int get exp => _exp;
   int get level => _level;
   double get speed => _speed;
   double get jump => _jump;
@@ -21,6 +23,7 @@ class UserAlkModel {
   UserAlkModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
     _id = snapshot.data()!['id'] ?? '';
     _userId = snapshot.data()!['userId'] ?? '';
+    _exp = snapshot.data()!['exp'] ?? 0;
     _level = snapshot.data()!['level'] ?? 0;
     _speed = double.parse('${snapshot.data()!['speed']}');
     _jump = double.parse('${snapshot.data()!['jump']}');

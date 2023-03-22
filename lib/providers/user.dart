@@ -55,6 +55,7 @@ class UserProvider with ChangeNotifier {
         userAlkService.create({
           'id': value.user?.uid,
           'userId': value.user?.uid,
+          'exp': 0,
           'level': 0,
           'speed': 0,
           'jump': 0,
@@ -101,6 +102,7 @@ class UserProvider with ChangeNotifier {
         userAlkService.create({
           'id': value.user?.uid,
           'userId': value.user?.uid,
+          'exp': befAlk.exp,
           'level': befAlk.level,
           'speed': befAlk.speed,
           'jump': befAlk.jump,
