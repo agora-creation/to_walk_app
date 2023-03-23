@@ -10,6 +10,7 @@ exports.levelUpFunction = functions
     .onRun(async (context) => {
         const today = new Date()
         const prevDay = today.setDate(today.getDate() - 1)
+        console.log(prevDay)
         const userSnapshot = await admin.firestore().collection('user').get()
         userSnapshot.docs.forEach(async (userDoc) => {
             var userId:string = userDoc.data()['id']
