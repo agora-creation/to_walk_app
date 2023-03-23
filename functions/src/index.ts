@@ -8,17 +8,17 @@ exports.levelUpFunction = functions
     .pubsub.schedule('0 0 * * *')
     .timeZone('Asia/Tokyo')
     .onRun(async (context) => {
-        const today = new Date()
-        const prevDay = today.setDate(today.getDate() - 1)
-        console.log(prevDay)
+        var today = new Date()
+        var prevDay = new Date()
+        prevDay.setDate(today.getDate() - 1)
+        today = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0)
+        prevDay = new Date(prevDay.getFullYear(), prevDay.getMonth(), prevDay.getDate(), 0, 0, 0)
         const userSnapshot = await admin.firestore().collection('user').get()
         userSnapshot.docs.forEach(async (userDoc) => {
             var userId:string = userDoc.data()['id']
             var stepsNum:number = 0
-            console.log(userId)
             const stepsSnapshot = await admin.firestore().collection('steps').where('userId', '==', userId).where('createdAt', '<', today).where('createdAt', '>=', prevDay).get()
             stepsSnapshot.docs.forEach(async (stepsDoc) => {
-                console.log(stepsDoc)
                 stepsNum += stepsDoc.data()['stepsNum']
             })
             const alkSnapshot = await admin.firestore().collection('user').doc(userId).collection('alk').get()
