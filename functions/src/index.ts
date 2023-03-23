@@ -12,25 +12,18 @@ exports.levelUpFunction = functions
         const prevDay = today.setDate(today.getDate() - 1)
         const userSnapshot = await admin.firestore().collection('user').get()
         userSnapshot.docs.forEach(async (userDoc) => {
-            var userId = userDoc.data()['id']
-            var exp = 0
-            var level = 0
-            var speed = 0
-            var jump = 0
-            var stepsNum = 0
-            const stepsSnapshot await admin.firestore().collection('steps')
-                .where('userId', '==', userId)
-                .where('createdAt', '<', today)
-                .where('createdAt', '>=', prevDay).get()
-            stepsSnapshot.docs.forEach(stepsDoc) => {
+            var userId:string = userDoc.data()['id']
+            var stepsNum:number = 0
+            const stepsSnapshot = await admin.firestore().collection('steps').where('userId', '==', userId).where('createdAt', '<', today).where('createdAt', '>=', prevDay).get()
+            stepsSnapshot.docs.forEach(async (stepsDoc) => {
                 stepsNum += stepsDoc.data()['stepsNum']
             })
             console.log(stepsNum)
             const alkSnapshot = await admin.firestore().collection('user').doc(userId).collection('alk').get()
             alkSnapshot.docs.forEach(async (alkDoc) => {
-                exp = alkDoc.data()['exp']
+                var exp:number = alkDoc.data()['exp']
                 alkDoc.ref.update({
-                    'exp': stepsNum,
+                    'exp': exp + stepsNum,
                 })
             })
         })
