@@ -24,8 +24,9 @@ exports.levelUpFunction = functions
             const alkSnapshot = await admin.firestore().collection('user').doc(userId).collection('alk').get()
             alkSnapshot.docs.forEach(async (alkDoc) => {
                 var exp:number = alkDoc.data()['exp']
+                var stepsExp:number = Math.floor(stepsNum * 0.01)
                 alkDoc.ref.update({
-                    'exp': exp + stepsNum,
+                    'exp': exp + stepsExp,
                 })
             })
         })
