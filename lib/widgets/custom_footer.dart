@@ -102,6 +102,7 @@ class _CustomFooterState extends State<CustomFooter>
         });
       }
     }
+    await widget.userProvider.updateAlkLevelUp();
   }
 
   Future _close() async {

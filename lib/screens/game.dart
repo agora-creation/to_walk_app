@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/helpers/functions.dart';
+import 'package:to_walk_app/screens/game_first.dart';
 
 class GameScreen extends StatefulWidget {
   const GameScreen({Key? key}) : super(key: key);
@@ -10,15 +12,23 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
-      child: Center(
-        child: Text(
-          'まだ遊ぶことができません',
-          style: TextStyle(
-            color: Colors.black45,
-            fontSize: 20,
+    return SafeArea(
+      child: ListView(
+        padding: const EdgeInsets.all(8),
+        children: [
+          GestureDetector(
+            onTap: () => pushScreen(context, const GameFirstScreen()),
+            child: const Card(
+              elevation: 8,
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: ListTile(
+                  title: Text('とことこキャッチ'),
+                ),
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

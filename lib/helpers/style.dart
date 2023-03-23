@@ -40,6 +40,19 @@ const kSubTitleStyle = TextStyle(
 const healthAPI =
     '1087419833278-vv607sfh4g3am6sp77gvlot7jllju3li.apps.googleusercontent.com';
 
+const nextExpList = {
+  '0': 500,
+  '1': 1000,
+  '2': 1500,
+  '3': 2000,
+  '4': 2500,
+  '5': 3000,
+  '6': 3500,
+  '7': 4000,
+  '8': 4500,
+  '9': 5000,
+};
+
 const genderList = [
   Text('男性'),
   Text('女性'),

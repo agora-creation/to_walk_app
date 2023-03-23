@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/helpers/style.dart';
 import 'package:to_walk_app/models/steps.dart';
 import 'package:to_walk_app/models/user.dart';
 import 'package:to_walk_app/models/user_alk.dart';
@@ -198,6 +199,27 @@ class UserProvider with ChangeNotifier {
       });
     } catch (e) {
       errorText = '体重の登録に失敗しました';
+    }
+    return errorText;
+  }
+
+  Future<String?> updateAlkLevelUp() async {
+    String? errorText;
+    int? nextExp = nextExpList['${alk?.level ?? 0}'];
+    if (nextExp == null) return 'レベルアップに失敗しました';
+    int? exp = alk?.exp;
+    if (exp == null) return 'レベルアップに失敗しました';
+    if (nextExp <= exp) {
+      try {
+        userAlkService.update({
+          'id': alk?.id,
+          'userId': alk?.userId,
+          'level': alk?.level ?? 0 + 1,
+          'updatedAt': DateTime.now(),
+        });
+      } catch (e) {
+        errorText = 'レベルアップに失敗しました';
+      }
     }
     return errorText;
   }
