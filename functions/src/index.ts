@@ -11,13 +11,13 @@ exports.levelUpFunction = functions
         var today = new Date()
         var prevDay = new Date()
         prevDay.setDate(today.getDate() - 1)
-        today = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0)
-        prevDay = new Date(prevDay.getFullYear(), prevDay.getMonth(), prevDay.getDate(), 0, 0, 0)
+        var prevDayS = new Date(prevDay.getFullYear(), prevDay.getMonth(), prevDay.getDate(), 0, 0, 0)
+        var prevDayE = new Date(prevDay.getFullYear(), prevDay.getMonth(), prevDay.getDate(), 23, 59, 59)
         const userSnapshot = await admin.firestore().collection('user').get()
         userSnapshot.docs.forEach(async (userDoc) => {
             var userId:string = userDoc.data()['id']
             var stepsNum:number = 0
-            const stepsSnapshot = await admin.firestore().collection('steps').where('userId', '==', userId).where('createdAt', '<', today).where('createdAt', '>=', prevDay).get()
+            const stepsSnapshot = await admin.firestore().collection('steps').where('userId', '==', userId).where('createdAt', '>=', prevDayS).where('createdAt', '<=', prevDayE).get()
             stepsSnapshot.docs.forEach(async (stepsDoc) => {
                 stepsNum += stepsDoc.data()['stepsNum']
             })
