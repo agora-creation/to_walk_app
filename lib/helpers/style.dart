@@ -37,9 +37,6 @@ const kSubTitleStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
-const healthAPI =
-    '1087419833278-vv607sfh4g3am6sp77gvlot7jllju3li.apps.googleusercontent.com';
-
 const nextExpList = {
   '0': 100,
   '1': 200,
