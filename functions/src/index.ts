@@ -17,7 +17,7 @@ exports.levelUpFunction = functions
         userSnapshot.docs.forEach(async (userDoc) => {
             var userId:string = userDoc.data()['id']
             var stepsNum:number = 0
-            const stepsSnapshot = await admin.firestore().collection('steps').where('userId', '==', userId).where('createdAt', '>=', prevDayS).where('createdAt', '<=', prevDayE).get()
+            const stepsSnapshot = await admin.firestore().collection('steps').where('userId', '==', userId).orderBy('createdAt', 'asc').startAt(prevDayS).endAt(prevDayE).get()
             stepsSnapshot.docs.forEach(async (stepsDoc) => {
                 stepsNum += stepsDoc.data()['stepsNum']
             })

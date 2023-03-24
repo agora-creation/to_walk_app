@@ -209,12 +209,16 @@ class UserProvider with ChangeNotifier {
     if (nextExp == null) return 'レベルアップに失敗しました';
     int? exp = alk?.exp;
     if (exp == null) return 'レベルアップに失敗しました';
+    int? level = alk?.level;
+    if (level == null) return 'レベルアップに失敗しました';
+    if (level == 50) return 'レベルが上限に達しました';
     if (nextExp <= exp) {
       try {
         userAlkService.update({
           'id': alk?.id,
           'userId': alk?.userId,
-          'level': alk?.level ?? 0 + 1,
+          'exp': 0,
+          'level': level + 1,
           'updatedAt': DateTime.now(),
         });
       } catch (e) {
