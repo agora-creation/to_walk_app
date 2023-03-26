@@ -221,6 +221,7 @@ class UserProvider with ChangeNotifier {
           'level': level + 1,
           'updatedAt': DateTime.now(),
         });
+        notifyListeners();
       } catch (e) {
         errorText = 'レベルアップに失敗しました';
       }
