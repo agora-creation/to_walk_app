@@ -38,7 +38,7 @@ class SecondGame extends FlameGame with HasDraggables, HasTappables {
   void onTapUp(int pointerId, TapUpInfo info) {
     var velocity = Vector2(0, -1);
     velocity.rotate(player.angle);
-    add(Bullet(player.position, velocity));
+    add(Bullet(player.position, velocity, size));
     super.onTapUp(pointerId, info);
   }
 

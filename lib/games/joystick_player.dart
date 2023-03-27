@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:to_walk_app/games/utils.dart';
 
 class JoystickPlayer extends SpriteComponent with HasGameRef {
   double maxSpeed = 300;
@@ -23,7 +24,10 @@ class JoystickPlayer extends SpriteComponent with HasGameRef {
   void update(double dt) {
     if (!joystick.delta.isZero()) {
       position.add(joystick.relativeDelta * maxSpeed * dt);
-      angle = joystick.delta.screenAngle();
+      angle = (joystick.delta.screenAngle());
+      if (Utils.isPositionOutOfBounds(gameRef.size, position)) {
+        position = Utils.wrapPosition(gameRef.size, position);
+      }
     }
   }
 }
