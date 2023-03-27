@@ -1,12 +1,15 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:flame/input.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/games/bullet.dart';
 import 'package:to_walk_app/games/joystick_player.dart';
 
-class SecondGame extends FlameGame with HasDraggables {
+class SecondGame extends FlameGame with HasDraggables, HasTappables {
   late final JoystickPlayer player;
   late final JoystickComponent joystick;
+  final TextPaint shipAngleTextPaint = TextPaint();
 
   @override
   Future onLoad() async {
@@ -29,5 +32,23 @@ class SecondGame extends FlameGame with HasDraggables {
   @override
   void update(double dt) {
     super.update(dt);
+  }
+
+  @override
+  void onTapUp(int pointerId, TapUpInfo info) {
+    var velocity = Vector2(0, -1);
+    velocity.rotate(player.angle);
+    add(Bullet(player.position, velocity));
+    super.onTapUp(pointerId, info);
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+    shipAngleTextPaint.render(
+      canvas,
+      '${player.angle.toStringAsFixed(5)} radians',
+      Vector2(20, size.y - 24),
+    );
   }
 }
