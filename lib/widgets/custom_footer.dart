@@ -40,8 +40,7 @@ class _CustomFooterState extends State<CustomFooter>
     }
     await removePrefs('lastTime');
     if (startTime == endTime) return;
-    bool isGranted = await Permission.activityRecognition.request().isGranted;
-    if (isGranted == false) return;
+    await Permission.activityRecognition.request().isGranted;
     HealthFactory health = HealthFactory();
     List<HealthDataType> types = [
       HealthDataType.STEPS,
