@@ -2,6 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame/palette.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:to_walk_app/games/bullet.dart';
 import 'package:to_walk_app/games/joystick_player.dart';
@@ -14,6 +15,9 @@ class SecondGame extends FlameGame with HasDraggables, HasTappables {
   @override
   Future onLoad() async {
     await super.onLoad();
+
+    startBGM();
+
     final knobPaint = BasicPalette.green.withAlpha(200).paint();
     final backgroundPaint = BasicPalette.green.withAlpha(100).paint();
 
@@ -27,11 +31,6 @@ class SecondGame extends FlameGame with HasDraggables, HasTappables {
 
     add(player);
     add(joystick);
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
   }
 
   @override
@@ -50,5 +49,10 @@ class SecondGame extends FlameGame with HasDraggables, HasTappables {
       '${player.angle.toStringAsFixed(5)} radians',
       Vector2(20, size.y - 24),
     );
+  }
+
+  void startBGM() {
+    FlameAudio.bgm.initialize();
+    FlameAudio.bgm.play('race_to_mars.mp3');
   }
 }

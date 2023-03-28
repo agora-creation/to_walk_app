@@ -1,8 +1,9 @@
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:to_walk_app/games/utils.dart';
 
-class Bullet extends PositionComponent {
+class Bullet extends PositionComponent with HasGameRef {
   static final _paint = Paint()..color = Colors.white;
   final double _speed = 150;
   late Vector2 _velocity;
@@ -21,6 +22,8 @@ class Bullet extends PositionComponent {
   Future onLoad() async {
     await super.onLoad();
     _velocity = (_velocity)..scaleTo(_speed);
+    FlameAudio.play('missile_shot.wav');
+    FlameAudio.play('missile_flyby.wav');
   }
 
   @override
@@ -34,6 +37,8 @@ class Bullet extends PositionComponent {
     position.add(_velocity * dt);
     if (Utils.isPositionOutOfBounds(_bounds, position)) {
       removeFromParent();
+      FlameAudio.play('missile_hit.wav');
+      gameRef.camera.shake(duration: 0.25, intensity: 5);
     }
   }
 }
