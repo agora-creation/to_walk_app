@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:to_walk_app/helpers/functions.dart';
 import 'package:to_walk_app/screens/game_first.dart';
 import 'package:to_walk_app/screens/game_second.dart';
+import 'package:to_walk_app/screens/game_third.dart';
 import 'package:to_walk_app/widgets/game_list_tile.dart';
 
 class GameScreen extends StatefulWidget {
@@ -28,7 +29,7 @@ class _GameScreenState extends State<GameScreen> {
           ),
           GameListTile(
             labelText: 'ゲーム3',
-            onTap: () => pushScreen(context, const GameFirstScreen()),
+            onTap: () => pushScreen(context, const GameThirdScreen()),
           ),
           GameListTile(
             labelText: 'ゲーム4',
