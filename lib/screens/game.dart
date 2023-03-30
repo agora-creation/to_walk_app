@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:to_walk_app/helpers/functions.dart';
 import 'package:to_walk_app/screens/game_first.dart';
+import 'package:to_walk_app/screens/game_fourth.dart';
 import 'package:to_walk_app/screens/game_second.dart';
 import 'package:to_walk_app/screens/game_third.dart';
 import 'package:to_walk_app/widgets/game_list_tile.dart';
@@ -33,7 +34,7 @@ class _GameScreenState extends State<GameScreen> {
           ),
           GameListTile(
             labelText: 'ゲーム4',
-            onTap: () => pushScreen(context, const GameFirstScreen()),
+            onTap: () => pushScreen(context, const GameFourthScreen()),
           ),
         ],
       ),

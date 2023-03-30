@@ -1,51 +1,51 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
-import 'package:flame/input.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart' hide Image, Draggable;
+import 'package:to_walk_app/games/fourth.dart';
+import 'package:to_walk_app/games/lifebar_text.dart';
 
-class ThirdGame extends FlameGame with HasCollisionDetection, TapDetector {
-  int thresholdOutOfBounds = 20;
-
-  @override
-  Future onLoad() async {
-    await super.onLoad();
-    add(ScreenHitbox());
-  }
-
-  @override
-  void onTapDown(TapDownInfo info) {
-    add(MyCollidable(info.eventPosition.game));
-  }
-}
-
-class MyCollidable extends CircleComponent
-    with HasGameRef<ThirdGame>, CollisionCallbacks {
+class TimeBall extends CircleComponent
+    with HasGameRef<FourthGame>, CollisionCallbacks {
   final _collisionColor = Colors.amber;
   final _defaultColor = Colors.cyan;
   Color _currentColor = Colors.cyan;
   bool _isWallHit = false;
   bool _isCollision = false;
-  final double _speed = 200;
+  late double _speed;
+  late LifeBarText _healthText;
 
   int xDirection = 1;
   int yDirection = 1;
 
-  Map<String, MyCollidable> collisions = {};
+  int _life = 100;
 
-  MyCollidable(Vector2 position)
-      : super(
+  Map<String, TimeBall> collisions = {};
+
+  TimeBall(
+    Vector2 position,
+    Vector2 velocity,
+    double speed,
+    int ordinalNumber,
+  ) : super(
           position: position,
-          radius: 5,
+          radius: 20,
           anchor: Anchor.center,
         ) {
+    xDirection = velocity.x.toInt();
+    yDirection = velocity.y.toInt();
+    _speed = speed;
     add(CircleHitbox());
+    _healthText = LifeBarText(ordinalNumber)
+      ..x = 0
+      ..y = -size.y / 2;
   }
 
   @override
   Future onLoad() async {
-    await super.onLoad();
-    final center = gameRef.size / 2;
+    await FlameAudio.audioCache.load('ball_bounce_off_ball.ogg');
+    add(_healthText);
+    return super.onLoad();
   }
 
   @override
@@ -53,29 +53,41 @@ class MyCollidable extends CircleComponent
     super.update(dt);
     List keys = [];
     for (var other in collisions.entries) {
-      MyCollidable otherObject = other.value;
+      TimeBall otherObject = other.value;
       if (distance(otherObject) > size.x) {
         keys.add(other.key);
       }
     }
     collisions.removeWhere((key, value) => keys.contains(key));
+
     x += xDirection * _speed * dt;
     y += yDirection * _speed * dt;
+
     final rect = toRect();
+
     if ((rect.left <= 0 && xDirection == -1) ||
         (rect.right >= gameRef.size.x && xDirection == 1)) {
       xDirection = xDirection * -1;
+      _isWallHit = true;
     }
     if ((rect.top <= 0 && yDirection == -1) ||
         (rect.bottom >= gameRef.size.y && yDirection == 1)) {
       yDirection = yDirection * -1;
+      _isWallHit = true;
     }
+
     _currentColor = _isCollision ? _collisionColor : _defaultColor;
-    if (_isCollision && !_isWallHit) {
+    if (_isCollision) {
+      _life -= 10;
       _isCollision = false;
     }
     if (_isWallHit) {
+      _life -= 10;
       _isWallHit = false;
+    }
+    _healthText.healthData = _life;
+    if (_life <= 0) {
+      parent?.remove(this);
     }
   }
 
@@ -88,14 +100,29 @@ class MyCollidable extends CircleComponent
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
-    if (other is MyCollidable) {
+    if (other is TimeBall) {
       if (collisions.containsKey(other.hashCode.toString())) {
       } else {
         collisions[other.hashCode.toString()] = other;
+
+        xDirection = xDirection * -1;
+        yDirection = yDirection * -1;
+
+        String collisionKey;
+        if (hashCode > other.hashCode) {
+          collisionKey = other.hashCode.toString() + hashCode.toString();
+        } else {
+          collisionKey = hashCode.toString() + other.hashCode.toString();
+        }
+        if (gameRef.observedCollisions.contains(collisionKey)) {
+          gameRef.observedCollisions.remove(collisionKey);
+        } else {
+          gameRef.observedCollisions.add(collisionKey);
+          FlameAudio.play('ball_bounce_off_ball.ogg');
+        }
+
+        _isCollision = true;
       }
-      xDirection = xDirection * -1;
-      yDirection = yDirection * -1;
     }
-    _isCollision = true;
   }
 }

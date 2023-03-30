@@ -32,6 +32,25 @@ class Utils {
     return result * velocity;
   }
 
+  static Vector2 generateRandomDirection() {
+    var result = Vector2.zero();
+    var randomGenerator = Random();
+    while (result == Vector2.zero()) {
+      result = Vector2(
+        (randomGenerator.nextInt(3) - 1),
+        (randomGenerator.nextInt(3) - 1),
+      );
+    }
+    return result;
+  }
+
+  static double generateRandomSpeed(int min, int max) {
+    var randomGenerator = Random();
+    double speed;
+    speed = (randomGenerator.nextInt(max - min) + min).toDouble();
+    return speed;
+  }
+
   static bool isPositionOutOfBounds(Vector2 bounds, Vector2 position) {
     bool result = false;
     if (position.x > bounds.x ||
