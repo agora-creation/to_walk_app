@@ -163,8 +163,8 @@ class SlowBullet extends Bullet {
 
   @override
   void update(double dt) {
-    super.update(dt);
     position.add(_velocity * dt);
+    super.update(dt);
   }
 
   @override

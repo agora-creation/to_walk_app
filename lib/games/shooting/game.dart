@@ -3,17 +3,18 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
-import 'package:to_walk_app/games/shooting/bullet.dart';
-import 'package:to_walk_app/games/shooting/joystick_player.dart';
+import 'package:to_walk_app/games/shooting/command.dart';
+import 'package:to_walk_app/games/shooting/controller.dart';
+import 'package:to_walk_app/games/shooting/spaceship.dart';
 
-class ShootingMainGame extends StatefulWidget {
-  const ShootingMainGame({Key? key}) : super(key: key);
+class ShootingGameScreen extends StatefulWidget {
+  const ShootingGameScreen({Key? key}) : super(key: key);
 
   @override
-  State<ShootingMainGame> createState() => _ShootingMainGameState();
+  State<ShootingGameScreen> createState() => _ShootingGameScreenState();
 }
 
-class _ShootingMainGameState extends State<ShootingMainGame> {
+class _ShootingGameScreenState extends State<ShootingGameScreen> {
   final game = ShootingGame();
 
   @override
@@ -25,7 +26,9 @@ class _ShootingMainGameState extends State<ShootingMainGame> {
 }
 
 class ShootingGame extends FlameGame with HasDraggables, HasTappables {
-  late final JoystickPlayer player;
+  late final Controller controller;
+
+  late final Spaceship player;
 
   late final JoystickComponent joystick;
 
@@ -34,6 +37,9 @@ class ShootingGame extends FlameGame with HasDraggables, HasTappables {
   @override
   Future onLoad() async {
     await super.onLoad();
+    controller = Controller();
+    add(controller);
+
     final knobPaint = BasicPalette.green.withAlpha(200).paint();
     final backgroundPaint = BasicPalette.green.withAlpha(100).paint();
 
@@ -43,23 +49,21 @@ class ShootingGame extends FlameGame with HasDraggables, HasTappables {
       margin: const EdgeInsets.only(left: 20, bottom: 20),
     );
 
-    player = JoystickPlayer(joystick);
+    player = Spaceship(joystick);
 
     add(player);
     add(joystick);
   }
 
   @override
+  void update(double dt) {
+    // TODO: implement update
+    super.update(dt);
+  }
+
+  @override
   void onTapUp(int pointerId, TapUpInfo info) {
-    var velocity = Vector2(0, -1);
-    velocity.rotate(player.angle);
-    BulletBuildContext context = BulletBuildContext()
-      ..speed = 50
-      ..position = player.muzzleComponent.absolutePosition
-      ..velocity = velocity
-      ..size = Vector2(4, 4);
-    Bullet myBullet = BulletFactory.create(BulletEnum.slowBullet, context);
-    add(myBullet);
+    UserTapUpCommand(player).addToController(controller);
     super.onTapUp(pointerId, info);
   }
 

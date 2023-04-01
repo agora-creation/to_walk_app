@@ -1,8 +1,12 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/games/shooting/bullet.dart';
+import 'package:to_walk_app/games/shooting/game.dart';
 
-class JoystickPlayer extends SpriteComponent with HasGameRef {
+class Spaceship extends SpriteComponent with HasGameRef<ShootingGame> {
   double maxSpeed = 300;
+
+  final BulletEnum _currentBulletType = BulletEnum.fastBullet;
 
   static final _paint = Paint()..color = Colors.transparent;
 
@@ -13,9 +17,11 @@ class JoystickPlayer extends SpriteComponent with HasGameRef {
 
   final JoystickComponent joystick;
 
-  JoystickPlayer(this.joystick) : super(size: Vector2.all(35)) {
+  Spaceship(this.joystick) : super(size: Vector2.all(35)) {
     anchor = Anchor.center;
   }
+
+  BulletEnum get getBulletType => _currentBulletType;
 
   @override
   Future onLoad() async {
@@ -31,10 +37,10 @@ class JoystickPlayer extends SpriteComponent with HasGameRef {
 
   @override
   void update(double dt) {
-    super.update(dt);
     if (!joystick.delta.isZero()) {
       position.add(joystick.relativeDelta * maxSpeed * dt);
       angle = joystick.delta.screenAngle();
     }
+    super.update(dt);
   }
 }

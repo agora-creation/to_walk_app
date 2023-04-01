@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:to_walk_app/games/shooting/main.dart';
+import 'package:to_walk_app/games/shooting/game.dart';
 import 'package:to_walk_app/helpers/functions.dart';
 import 'package:to_walk_app/screens/game_fifth.dart';
 import 'package:to_walk_app/screens/game_first.dart';
@@ -25,7 +25,7 @@ class _GameScreenState extends State<GameScreen> {
         children: [
           GameListTile(
             labelText: 'シューティングゲーム',
-            onTap: () => pushScreen(context, const ShootingMainGame()),
+            onTap: () => pushScreen(context, const ShootingGameScreen()),
           ),
           GameListTile(
             labelText: 'ゲーム1',
