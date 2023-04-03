@@ -60,4 +60,46 @@ class Utils {
     }
     return result;
   }
+
+  //Componentに対してランダムな速度を生成する
+  //minとmaxはスピートの範囲
+  static double generateRandomSpeed(int min, int max) {
+    double speed;
+    final Random rnd = Random();
+    speed = (rnd.nextInt(max - min) + min).toDouble();
+    return speed;
+  }
+
+  //positionがboundsの範囲外であるかどうかをチェック
+  static bool isPositionOutOfBounds(Vector2 bounds, Vector2 position) {
+    bool result = false;
+    if (position.x > bounds.x ||
+        position.x < 0 ||
+        position.y < 0 ||
+        position.y > bounds.y) {
+      result = true;
+    }
+    return result;
+  }
+
+  //画面外から外れると、反対側から出てくるようにする
+  static Vector2 wrapPosition(Vector2 bounds, Vector2 position) {
+    Vector2 result = position;
+    if (position.x >= bounds.x) {
+      result.x = 0;
+    } else if (position.x <= 0) {
+      result.x = bounds.x;
+    }
+    if (position.y >= bounds.y) {
+      result.y = 0;
+    } else if (position.y <= 0) {
+      result.y = bounds.y;
+    }
+    return result;
+  }
+
+  static Vector2 vector2Multiply(Vector2 v1, Vector2 v2) {
+    v1.multiply(v2);
+    return v1;
+  }
 }

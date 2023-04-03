@@ -35,6 +35,6 @@ class JSONUtils {
     return result;
   }
 
-  //JSONレベルのデータを、隕石に割り当てる
+  //JSONレベルのデータを、小惑星に割り当てる
   //JSONレベルのデータを、ゲームボーナスに割り当てる
 }
