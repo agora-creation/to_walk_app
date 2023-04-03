@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:to_walk_app/games/shooting/game.dart';
 import 'package:to_walk_app/helpers/functions.dart';
-import 'package:to_walk_app/screens/game_fifth.dart';
-import 'package:to_walk_app/screens/game_first.dart';
-import 'package:to_walk_app/screens/game_fourth.dart';
-import 'package:to_walk_app/screens/game_second.dart';
-import 'package:to_walk_app/screens/game_sixth.dart';
-import 'package:to_walk_app/screens/game_third.dart';
 import 'package:to_walk_app/widgets/game_list_tile.dart';
 
 class GameScreen extends StatefulWidget {
@@ -26,30 +20,6 @@ class _GameScreenState extends State<GameScreen> {
           GameListTile(
             labelText: 'シューティングゲーム',
             onTap: () => pushScreen(context, const ShootingGameScreen()),
-          ),
-          GameListTile(
-            labelText: 'ゲーム1',
-            onTap: () => pushScreen(context, const GameFirstScreen()),
-          ),
-          GameListTile(
-            labelText: 'ゲーム2',
-            onTap: () => pushScreen(context, const GameSecondScreen()),
-          ),
-          GameListTile(
-            labelText: 'ゲーム3',
-            onTap: () => pushScreen(context, const GameThirdScreen()),
-          ),
-          GameListTile(
-            labelText: 'ゲーム4',
-            onTap: () => pushScreen(context, const GameFourthScreen()),
-          ),
-          GameListTile(
-            labelText: 'ゲーム5',
-            onTap: () => pushScreen(context, const GameFifthScreen()),
-          ),
-          GameListTile(
-            labelText: 'ゲーム6',
-            onTap: () => pushScreen(context, const GameSixthScreen()),
           ),
         ],
       ),
