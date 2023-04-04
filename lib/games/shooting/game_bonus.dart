@@ -1,0 +1,1 @@
+enum GameBonusEnum { ufoBonus }

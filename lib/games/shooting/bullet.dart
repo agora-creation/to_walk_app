@@ -1,11 +1,17 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/games/shooting/game.dart';
+import 'package:to_walk_app/games/shooting/utils.dart';
 
-abstract class Bullet extends PositionComponent {
+enum BulletEnum { slowBullet, fastBullet }
+
+abstract class Bullet extends PositionComponent
+    with HasGameRef<ShootingGame>, GestureHitboxes, CollisionCallbacks {
   static const double defaultSpeed = 100;
   static const int defaultDamage = 1;
   static const int defaultHealth = 1;
+  static final Vector2 defaultSize = Vector2.all(1);
 
   late Vector2 _velocity;
   late double _speed;
@@ -15,21 +21,20 @@ abstract class Bullet extends PositionComponent {
   Bullet(
     Vector2 position,
     Vector2 velocity,
-    Vector2 size,
   )   : _velocity = velocity.normalized(),
         _speed = defaultSpeed,
         _health = defaultHealth,
         _damage = defaultDamage,
         super(
-          size: size,
+          size: defaultSize,
           position: position,
           anchor: Anchor.center,
         );
 
   Bullet.fullInit(
     Vector2 position,
-    Vector2 velocity,
-    Vector2 size, {
+    Vector2 velocity, {
+    Vector2? size,
     double? speed,
     int? health,
     int? damage,
@@ -48,37 +53,52 @@ abstract class Bullet extends PositionComponent {
   int? get getDamage => _damage;
   int? get getHealth => _health;
 
-  void onCreate();
+  @override
+  void update(double dt) {
+    if (Utils.isPositionOutOfBounds(gameRef.size, position)) {}
+    super.update(dt);
+  }
+
+  void onCreate() {
+    add(RectangleHitbox(size: Vector2.all(2)));
+  }
 
   void onDestroy();
 
   void onHit(CollisionCallbacks other);
 }
 
+//高速な弾
+//シンプルな緑の四角形
+//速度はデフォルトで150、ダメージ数は1、体力は1
 class FastBullet extends Bullet {
+  static const double defaultSpeed = 175;
+  static final Vector2 defaultSize = Vector2.all(2);
   static final _paint = Paint()..color = Colors.green;
 
   FastBullet(
     Vector2 position,
     Vector2 velocity,
-    Vector2 size,
-  ) : super(
+  ) : super.fullInit(
           position,
           velocity,
-          size,
+          size: defaultSize,
+          speed: defaultSpeed,
+          health: Bullet.defaultHealth,
+          damage: Bullet.defaultDamage,
         );
 
   FastBullet.fullInit(
     Vector2 position,
     Vector2 velocity,
-    Vector2 size, {
+    Vector2? size,
     double? speed,
     int? health,
     int? damage,
-  }) : super.fullInit(
+  ) : super.fullInit(
           position,
           velocity,
-          size,
+          size: size,
           speed: speed,
           health: health,
           damage: damage,
@@ -94,12 +114,13 @@ class FastBullet extends Bullet {
   void render(Canvas canvas) {
     super.render(canvas);
     canvas.drawRect(size.toRect(), _paint);
+    renderDebugMode(canvas);
   }
 
   @override
   void update(double dt) {
-    super.update(dt);
     position.add(_velocity * dt);
+    super.update(dt);
   }
 
   @override
@@ -118,32 +139,34 @@ class FastBullet extends Bullet {
   }
 }
 
-enum BulletEnum { slowBullet, fastBullet }
-
 class SlowBullet extends Bullet {
+  static const double defaultSpeed = 50;
+  static final Vector2 defaultSize = Vector2.all(4);
   static final _paint = Paint()..color = Colors.red;
 
   SlowBullet(
     Vector2 position,
     Vector2 velocity,
-    Vector2 size,
-  ) : super(
+  ) : super.fullInit(
           position,
           velocity,
-          size,
+          size: defaultSize,
+          speed: defaultSpeed,
+          health: Bullet.defaultHealth,
+          damage: Bullet.defaultDamage,
         );
 
   SlowBullet.fullInit(
     Vector2 position,
     Vector2 velocity,
-    Vector2 size, {
+    Vector2? size,
     double? speed,
     int? health,
     int? damage,
-  }) : super.fullInit(
+  ) : super.fullInit(
           position,
           velocity,
-          size,
+          size: size,
           speed: speed,
           health: health,
           damage: damage,
@@ -159,6 +182,7 @@ class SlowBullet extends Bullet {
   void render(Canvas canvas) {
     super.render(canvas);
     canvas.drawCircle(Offset(size.x / 2, size.y / 1), size.x / 2, _paint);
+    renderDebugMode(canvas);
   }
 
   @override
@@ -183,6 +207,7 @@ class SlowBullet extends Bullet {
   }
 }
 
+//弾の工場
 class BulletFactory {
   BulletFactory._();
 
@@ -195,15 +220,14 @@ class BulletFactory {
             context.position,
             context.velocity,
             context.size,
-            speed: context.speed,
-            health: context.health,
-            damage: context.damage,
+            context.speed,
+            context.health,
+            context.damage,
           );
         } else {
-          result = SlowBullet.fullInit(
+          result = SlowBullet(
             context.position,
             context.velocity,
-            context.size,
           );
         }
         break;
@@ -213,15 +237,14 @@ class BulletFactory {
             context.position,
             context.velocity,
             context.size,
-            speed: context.speed,
-            health: context.health,
-            damage: context.damage,
+            context.speed,
+            context.health,
+            context.damage,
           );
         } else {
-          result = FastBullet.fullInit(
+          result = FastBullet(
             context.position,
             context.velocity,
-            context.size,
           );
         }
         break;
@@ -238,6 +261,7 @@ class BulletBuildContext {
   static final Vector2 defaultVelocity = Vector2.zero();
   static final Vector2 defaultPosition = Vector2(-1, -1);
   static final Vector2 defaultSize = Vector2.zero();
+  static final BulletEnum defaultBulletType = BulletEnum.values[0];
 
   double speed = defaultSpeed;
   Vector2 velocity = defaultVelocity;
@@ -245,6 +269,7 @@ class BulletBuildContext {
   Vector2 size = defaultSize;
   int health = defaultHealth;
   int damage = defaultDamage;
+  BulletEnum bulletType = defaultBulletType;
 
   BulletBuildContext();
 }
