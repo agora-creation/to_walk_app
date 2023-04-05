@@ -21,6 +21,18 @@ class _GameScreenState extends State<GameScreen> {
             labelText: 'シューティングゲーム',
             onTap: () => pushScreen(context, const ShootingGameScreen()),
           ),
+          GameListTile(
+            labelText: '上から落ちてくるものを避ける',
+            onTap: () {},
+          ),
+          GameListTile(
+            labelText: '走ってジャンプする',
+            onTap: () {},
+          ),
+          GameListTile(
+            labelText: '飛び続ける',
+            onTap: () {},
+          ),
         ],
       ),
     );
