@@ -62,7 +62,7 @@ abstract class Asteroid extends PositionComponent
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     if (other is Bullet) {}
-    if (other is Spaceship) {}
+    if (other is SpaceShip) {}
   }
 
   int? get getDamage => _damage;

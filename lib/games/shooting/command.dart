@@ -7,6 +7,8 @@ import 'package:to_walk_app/games/shooting/spaceship.dart';
 class Broker {
   final _commandList = List<Command>.empty(growable: true);
   final _pendingCommandList = List<Command>.empty(growable: true);
+  //一意であるべきメッセージの重複を追跡するための追加リスト
+  final _duplicatesWatcher = List<Command>.empty(growable: true);
 
   Broker();
 
@@ -24,6 +26,7 @@ class Broker {
   }
 }
 
+//コマンドパターンを抽象化したもの
 abstract class Command {
   Command();
 
@@ -39,17 +42,30 @@ abstract class Command {
   void execute();
 
   String getTitle();
+
+  //重複したコマンドを識別するためのコマンドID取得
+  String getId() => 'Command:0';
+
+  //コマンドが既存のキューでユニークでなければならないかどうかBrokerに知らせる
+  bool mustBeUnique() => false;
 }
 
+//ユーザーが画面をタップしたことを示す宇宙船クラス
+//弾丸を発射するためのコマンドを追加で作成
+//弾丸が発射されるとき音を発生させる
 class UserTapUpCommand extends Command {
-  Spaceship player;
+  //コマンドの受信者
+  SpaceShip player;
 
   UserTapUpCommand(this.player);
 
   @override
   void execute() {
-    BulletFiredCommand().addToController(_getController());
-    BulletFiredSoundCommand().addToController(_getController());
+    //プレイヤーの生存チェック
+    if (_getController().contains(player)) {
+      BulletFiredCommand().addToController(_getController());
+      BulletFiredSoundCommand().addToController(_getController());
+    }
   }
 
   @override
@@ -58,13 +74,17 @@ class UserTapUpCommand extends Command {
   }
 }
 
+//新しい弾を作成する
 class BulletFiredCommand extends Command {
   BulletFiredCommand();
 
   @override
   void execute() {
+    //真上を向いた速度Vector
     var velocity = Vector2(0, -1);
+    //Vectorをplayerと同じ角度に回転させる
     velocity.rotate(_getController().getSpaceship().angle);
+    //特定の角度の弾を作成し、ゲーム上に追加
     BulletBuildContext context = BulletBuildContext()
       ..position =
           _getController().getSpaceship().muzzleComponent.absolutePosition

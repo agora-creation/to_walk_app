@@ -79,7 +79,7 @@ abstract class GameBonus extends PositionComponent
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Bullet) {}
-    if (other is Spaceship) {}
+    if (other is SpaceShip) {}
     super.onCollision(intersectionPoints, other);
   }
 }
