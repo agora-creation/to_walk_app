@@ -1,6 +1,3 @@
-//主にコントローラーがゲームを初期化するために使用されます
-//要素、レベル、解像度倍率などのゲームデータ
-
 import 'dart:convert';
 
 import 'package:flame/components.dart';
@@ -9,6 +6,9 @@ import 'package:to_walk_app/games/shooting/asteroid.dart';
 import 'package:to_walk_app/games/shooting/controller.dart';
 import 'package:to_walk_app/games/shooting/game_bonus.dart';
 
+//JSONユーティリティ
+//主にコントローラーがゲームを初期化するために使用されます
+//要素、レベル、解像度倍率などのゲームデータ
 class JSONUtils {
   //JSONデータを読み込む
   static dynamic readJsonInitData() async {
@@ -59,9 +59,45 @@ class JSONUtils {
   //JSONレベルのデータを、小惑星に割り当てる
   static List<AsteroidBuildContext> _buildAsteroidData(Map data) {
     List<AsteroidBuildContext> result = List.empty(growable: true);
-    for (final e in data['asteroids']) {}
+    for (final e in data['asteroids']) {
+      AsteroidBuildContext asteroid = AsteroidBuildContext();
+      asteroid.asteroidType = AsteroidBuildContext.asteroidFromString(
+        e['name'],
+      );
+      asteroid.position = Vector2(
+        e['position.x'].toDouble(),
+        e['position.y'].toDouble(),
+      );
+      asteroid.velocity = Vector2(
+        e['velocity.x'].toDouble(),
+        e['velocity.y'].toDouble(),
+      );
+      result.add(asteroid);
+    }
     return result;
   }
 
   //JSONレベルのデータを、ゲームボーナスに割り当てる
+  static List<GameBonusBuildContext> _buildGameBonusData(Map data) {
+    List<GameBonusBuildContext> result = List.empty(growable: true);
+    if (data['gameBonus'] == null) return result;
+    for (final e in data['gameBonus']) {
+      GameBonusBuildContext gameBonus = GameBonusBuildContext();
+      gameBonus.gameBonusType = GameBonusBuildContext.gameBonusFromString(
+        e['name'],
+      );
+      gameBonus.position = Vector2(
+        e['position.x'].toDouble(),
+        e['position.y'].toDouble(),
+      );
+      gameBonus.velocity = Vector2(
+        e['velocity.x'].toDouble(),
+        e['velocity.y'].toDouble(),
+      );
+      gameBonus.timeTriggerSeconds = e['trigger.time.seconds'].toInt();
+      result.add(gameBonus);
+    }
+
+    return result;
+  }
 }
