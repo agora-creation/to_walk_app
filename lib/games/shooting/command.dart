@@ -7,6 +7,7 @@ import 'package:to_walk_app/games/shooting/bullet.dart';
 import 'package:to_walk_app/games/shooting/controller.dart';
 import 'package:to_walk_app/games/shooting/game_bonus.dart';
 import 'package:to_walk_app/games/shooting/particle_utils.dart';
+import 'package:to_walk_app/games/shooting/scoreboard.dart';
 import 'package:to_walk_app/games/shooting/spaceship.dart';
 
 //リストを処理するための単純な削除ゲート
@@ -134,6 +135,108 @@ class BulletFiredSoundCommand extends Command {
   @override
   String getTitle() {
     return 'BulletFiredSoundCommand';
+  }
+}
+
+class AsteroidCollisionCommand extends Command {
+  late Asteroid _targetAsteroid;
+  late CollisionCallbacks _collisionObject;
+  Vector2? _collisionPosition;
+
+  AsteroidCollisionCommand(Asteroid asteroid, CollisionCallbacks other) {
+    _targetAsteroid = asteroid;
+    _collisionObject = other;
+    _collisionPosition = _targetAsteroid.position.clone();
+  }
+
+  @override
+  void execute() {
+    if (_getController().currentLevelObjectStack.contains(_targetAsteroid)) {
+      _getController().currentLevelObjectStack.remove(_targetAsteroid);
+      bool canBeSplit = _targetAsteroid.canBeSplit();
+      if (canBeSplit) {
+        ExplosionOfSplitAsteroidRenderCommand(_targetAsteroid)
+            .addToController(_getController());
+      }
+    }
+  }
+
+  @override
+  String getTitle() {
+    return 'AsteroidCollisionCommand';
+  }
+}
+
+class UpdateScoreBoardShotFiredCommand extends Command {
+  late ScoreBoard _scoreBoard;
+
+  UpdateScoreBoardShotFiredCommand(scoreBoard) {
+    _scoreBoard = scoreBoard;
+  }
+
+  @override
+  void execute() {
+    _scoreBoard.addBulletFired();
+  }
+
+  @override
+  String getTitle() {
+    return 'UpdateScoreBoardShotFiredCommand';
+  }
+}
+
+class UpdateScoreBoardScoreCommand extends Command {
+  late ScoreBoard _scoreBoard;
+
+  UpdateScoreBoardScoreCommand(scoreBoard) {
+    _scoreBoard = scoreBoard;
+  }
+
+  @override
+  void execute() {
+    _scoreBoard.addScorePoints(1);
+  }
+
+  @override
+  String getTitle() {
+    return 'UpdateScoreBoardScoreCommand';
+  }
+}
+
+class UpdateScoreBoardLevelInfoCommand extends Command {
+  late ScoreBoard _scoreBoard;
+
+  UpdateScoreBoardLevelInfoCommand(scoreBoard) {
+    _scoreBoard = scoreBoard;
+  }
+
+  @override
+  void execute() {
+    _scoreBoard.progressLevel();
+    _scoreBoard.resetLevelTimer();
+  }
+
+  @override
+  String getTitle() {
+    return 'UpdateScoreBoardLevelInfoCommand';
+  }
+}
+
+class UpdateScoreBoardTimePassageInfoCommand extends Command {
+  late ScoreBoard _scoreBoard;
+
+  UpdateScoreBoardTimePassageInfoCommand(scoreBoard) {
+    _scoreBoard = scoreBoard;
+  }
+
+  @override
+  void execute() {
+    _scoreBoard.addTimeTick();
+  }
+
+  @override
+  String getTitle() {
+    return 'UpdateScoreBoardTimePassageInfoCommand';
   }
 }
 
