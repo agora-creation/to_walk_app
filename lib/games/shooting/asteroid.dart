@@ -2,11 +2,11 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:to_walk_app/games/shooting/bullet.dart';
+import 'package:to_walk_app/games/shooting/command.dart';
 import 'package:to_walk_app/games/shooting/game.dart';
 import 'package:to_walk_app/games/shooting/spaceship.dart';
 import 'package:to_walk_app/games/shooting/utils.dart';
 
-//小惑星の種類
 enum AsteroidEnum { largeAsteroid, mediumAsteroid, smallAsteroid }
 
 //小惑星の抽象クラス
@@ -23,7 +23,6 @@ abstract class Asteroid extends PositionComponent
   late int? _damage;
   late final Vector2 _resolutionMultiplier;
 
-  //デフォルトのコンストラクタ
   Asteroid(
     Vector2 position,
     Vector2 velocity,
@@ -38,7 +37,6 @@ abstract class Asteroid extends PositionComponent
           anchor: Anchor.center,
         );
 
-  //設定コンストラクタ
   Asteroid.fullInit(
     Vector2 position,
     Vector2 velocity,
@@ -61,29 +59,37 @@ abstract class Asteroid extends PositionComponent
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
-    if (other is Bullet) {}
-    if (other is SpaceShip) {}
+    if (other is Bullet) {
+      BulletCollisionCommand(other, this).addToController(gameRef.controller);
+      AsteroidCollisionCommand(this, other).addToController(gameRef.controller);
+      UpdateScoreBoardScoreCommand(gameRef.controller.getScoreBoard)
+          .addToController(gameRef.controller);
+    }
+    if (other is SpaceShip) {
+      PlayerCollisionCommand(other, this).addToController(gameRef.controller);
+    }
   }
 
   int? get getDamage => _damage;
   int? get getHealth => _health;
   Vector2 get getVelocity => _velocity;
 
-  //小惑星が作成された時
-  void onCreate() {}
+  void onCreate() {
+    //サイズと位置に乗数を適用する
+    size = Utils.vector2Multiply(size, _resolutionMultiplier);
+    size.y = size.x;
+    position = Utils.vector2Multiply(position, _resolutionMultiplier);
+    add(CircleHitbox(radius: 2));
+  }
 
-  //小惑星が破壊された時
-  void onDestroy() {}
+  void onDestroy();
 
-  //小惑星が衝突した時
-  void onHit(CollisionCallbacks other) {}
+  void onHit(CollisionCallbacks other);
 
-  //小惑星が分割可能かチェック
-  bool canBeSplit() => false;
+  //分割チェック
+  bool canBeSplit() => getSplitAsteroids().isNotEmpty;
 
-  //小惑星を分割したリスト
-  //無ければ空リスト
-  //小惑星が衝突して分割した後の値
+  //分割リスト
   List<AsteroidEnum> getSplitAsteroids() {
     return List.empty();
   }
@@ -93,15 +99,12 @@ abstract class Asteroid extends PositionComponent
   }
 }
 
-//小さい小惑星
-//シンプルな緑の円
-//速度は150、ダメージは1、体力は1
+//small小惑星
 class SmallAsteroid extends Asteroid {
   static const double defaultSpeed = 150;
   static final Vector2 defaultSize = Vector2.all(16);
   static final _paint = Paint()..color = Colors.green;
 
-  //デフォルトのコンストラクタ
   SmallAsteroid(
     Vector2 position,
     Vector2 velocity,
@@ -116,7 +119,6 @@ class SmallAsteroid extends Asteroid {
           size: defaultSize,
         );
 
-  //設定コンストラクタ
   SmallAsteroid.fullInit(
     Vector2 position,
     Vector2 velocity,
@@ -169,25 +171,20 @@ class SmallAsteroid extends Asteroid {
   @override
   void onDestroy() {
     // TODO: implement onDestroy
-    super.onDestroy();
   }
 
   @override
   void onHit(CollisionCallbacks other) {
     // TODO: implement onHit
-    super.onHit(other);
   }
 }
 
-//中くらいの小惑星
-//シンプルな青い円
-//速度は150、ダメージは1、体力は1
+//medium小惑星
 class MediumAsteroid extends Asteroid {
   static const double defaultSpeed = 100;
   static final Vector2 defaultSize = Vector2.all(32);
   static final _paint = Paint()..color = Colors.blue;
 
-  //デフォルトのコンストラクタ
   MediumAsteroid(
     Vector2 position,
     Vector2 velocity,
@@ -202,7 +199,6 @@ class MediumAsteroid extends Asteroid {
           size: defaultSize,
         );
 
-  //設定コンストラクタ
   MediumAsteroid.fullInit(
     Vector2 position,
     Vector2 velocity,
@@ -255,31 +251,26 @@ class MediumAsteroid extends Asteroid {
   @override
   void onDestroy() {
     // TODO: implement onDestroy
-    super.onDestroy();
   }
 
   @override
   void onHit(CollisionCallbacks other) {
     // TODO: implement onHit
-    super.onHit(other);
   }
 
-  //この小惑星を小さい小惑星に分割
+  //分割リスト
   @override
   List<AsteroidEnum> getSplitAsteroids() {
     return [AsteroidEnum.smallAsteroid, AsteroidEnum.smallAsteroid];
   }
 }
 
-//大きい小惑星
-//シンプルな赤い円
-//速度は150、ダメージは1、体力は1
+//large小惑星
 class LargeAsteroid extends Asteroid {
   static const double defaultSpeed = 50;
   static final Vector2 defaultSize = Vector2.all(64);
   static final _paint = Paint()..color = Colors.red;
 
-  //デフォルトのコンストラクタ
   LargeAsteroid(
     Vector2 position,
     Vector2 velocity,
@@ -294,7 +285,6 @@ class LargeAsteroid extends Asteroid {
           size: defaultSize,
         );
 
-  //設定コンストラクタ
   LargeAsteroid.fullInit(
     Vector2 position,
     Vector2 velocity,
@@ -342,16 +332,14 @@ class LargeAsteroid extends Asteroid {
   @override
   void onDestroy() {
     // TODO: implement onDestroy
-    super.onDestroy();
   }
 
   @override
   void onHit(CollisionCallbacks other) {
     // TODO: implement onHit
-    super.onHit(other);
   }
 
-  //この小惑星を中くらい小惑星に分割
+  //分割リスト
   @override
   List<AsteroidEnum> getSplitAsteroids() {
     return [AsteroidEnum.mediumAsteroid, AsteroidEnum.mediumAsteroid];
@@ -360,10 +348,8 @@ class LargeAsteroid extends Asteroid {
 
 //小惑星を作成する工場
 class AsteroidFactory {
-  //プライベートクラスにする
   AsteroidFactory._();
 
-  //作成メソッド
   static Asteroid create(AsteroidBuildContext context) {
     Asteroid result;
     switch (context.asteroidType) {

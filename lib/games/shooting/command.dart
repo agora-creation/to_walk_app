@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
@@ -103,15 +105,15 @@ class BulletFiredCommand extends Command {
     //真上を向いた速度Vector
     var velocity = Vector2(0, -1);
     //Vectorをplayerと同じ角度に回転させる
-    velocity.rotate(_getController().getSpaceship().angle);
+    velocity.rotate(_getController().getSpaceShip().angle);
     //特定の角度の弾を作成し、ゲーム上に追加
     BulletBuildContext context = BulletBuildContext()
       ..position =
-          _getController().getSpaceship().muzzleComponent.absolutePosition
+          _getController().getSpaceShip().getMuzzleComponent.absolutePosition
       ..velocity = velocity
       ..size = Vector2(4, 4);
     Bullet myBullet = BulletFactory.create(
-      _getController().getSpaceship().getBulletType,
+      _getController().getSpaceShip().getBulletType,
       context,
     );
     _getController().add(myBullet);
@@ -120,6 +122,27 @@ class BulletFiredCommand extends Command {
   @override
   String getTitle() {
     return 'BulletFiredCommand';
+  }
+}
+
+class BulletDestroyCommand extends Command {
+  late Bullet targetBullet;
+
+  BulletDestroyCommand(Bullet bullet) {
+    targetBullet = bullet;
+  }
+
+  @override
+  void execute() {
+    targetBullet.onDestroy();
+    if (_getController().children.any((element) => targetBullet == element)) {
+      _getController().remove(targetBullet);
+    }
+  }
+
+  @override
+  String getTitle() {
+    return 'BulletDestroyCommand';
   }
 }
 
@@ -135,6 +158,37 @@ class BulletFiredSoundCommand extends Command {
   @override
   String getTitle() {
     return 'BulletFiredSoundCommand';
+  }
+}
+
+class BulletCollisionCommand extends Command {
+  late Bullet targetBullet;
+  late CollisionCallbacks collisionObject;
+
+  BulletCollisionCommand(Bullet bullet, CollisionCallbacks other) {
+    targetBullet = bullet;
+    collisionObject = other;
+  }
+
+  @override
+  void execute() {
+    targetBullet.onDestroy();
+    _getController().remove(targetBullet);
+  }
+
+  @override
+  String getTitle() {
+    return 'BulletCollisionCommand';
+  }
+
+  @override
+  String getId() {
+    return '${getTitle()}:${targetBullet.hashCode.toString()}';
+  }
+
+  @override
+  bool mustBeUnique() {
+    return true;
   }
 }
 
@@ -157,7 +211,32 @@ class AsteroidCollisionCommand extends Command {
       if (canBeSplit) {
         ExplosionOfSplitAsteroidRenderCommand(_targetAsteroid)
             .addToController(_getController());
+        Vector2 asteroidAVelocity = _targetAsteroid.getVelocity.clone();
+        Vector2 asteroidBVelocity = _targetAsteroid.getVelocity.clone();
+        asteroidAVelocity.rotate(pi / 4);
+        asteroidBVelocity.rotate(-pi / 4);
+        AsteroidBuildContext contextA = AsteroidBuildContext()
+          ..asteroidType = _targetAsteroid.getSplitAsteroids()[0]
+          ..position = _collisionPosition!
+          ..velocity = asteroidAVelocity
+          ..multiplier = _getController().getResolutionMultiplier;
+        AsteroidBuildContext contextB = AsteroidBuildContext()
+          ..asteroidType = _targetAsteroid.getSplitAsteroids()[1]
+          ..position = _collisionPosition!
+          ..velocity = asteroidBVelocity
+          ..multiplier = _getController().getResolutionMultiplier;
+        Asteroid asteroidA = AsteroidFactory.create(contextA);
+        Asteroid asteroidB = AsteroidFactory.create(contextB);
+        _getController().currentLevelObjectStack.addAll([asteroidA, asteroidB]);
+        _getController().addAll([asteroidA, asteroidB]);
+      } else {
+        ExplosionOfDestroyedAsteroidRenderCommand(_targetAsteroid)
+            .addToController(_getController());
       }
+      _targetAsteroid.onDestroy();
+      _getController().remove(_targetAsteroid);
+    } else {
+      return;
     }
   }
 
