@@ -1,6 +1,7 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/games/shooting/command.dart';
 import 'package:to_walk_app/games/shooting/game.dart';
 import 'package:to_walk_app/games/shooting/utils.dart';
 
@@ -55,7 +56,9 @@ abstract class Bullet extends PositionComponent
 
   @override
   void update(double dt) {
-    if (Utils.isPositionOutOfBounds(gameRef.size, position)) {}
+    if (Utils.isPositionOutOfBounds(gameRef.size, position)) {
+      BulletDestroyCommand(this).addToController(gameRef.controller);
+    }
     super.update(dt);
   }
 
@@ -126,6 +129,7 @@ class FastBullet extends Bullet {
   @override
   void onCreate() {
     // TODO: implement onCreate
+    super.onCreate();
   }
 
   @override

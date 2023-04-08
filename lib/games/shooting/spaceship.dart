@@ -115,6 +115,16 @@ class SimpleSpaceShip extends SpaceShip {
   @override
   Future onLoad() async {
     await super.onLoad();
+    size = Utils.vector2Multiply(
+      size,
+      gameRef.controller.getResolutionMultiplier,
+    );
+    size.y = size.x;
+    sprite = await gameRef.loadSprite('asteroids_ship.png');
+    position = gameRef.size / 2;
+    _muzzleComponent.position.x = size.x / 2;
+    _muzzleComponent.position.y = size.y / 10;
+    add(_muzzleComponent);
   }
 
   @override

@@ -2,6 +2,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:to_walk_app/games/shooting/bullet.dart';
+import 'package:to_walk_app/games/shooting/command.dart';
 import 'package:to_walk_app/games/shooting/game.dart';
 import 'package:to_walk_app/games/shooting/spaceship.dart';
 import 'package:to_walk_app/games/shooting/utils.dart';
@@ -72,14 +73,22 @@ abstract class GameBonus extends PositionComponent
 
   @override
   void update(double dt) {
-    if (Utils.isPositionOutOfBounds(gameRef.size, position)) {}
+    if (Utils.isPositionOutOfBounds(gameRef.size, position)) {
+      GameBonusDestroyCommand(this).addToController(gameRef.controller);
+    }
     super.update(dt);
   }
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    if (other is Bullet) {}
-    if (other is SpaceShip) {}
+    if (other is Bullet) {
+      BulletCollisionCommand(other, this).addToController(gameRef.controller);
+      GameBonusCollisionCommand(this, other)
+          .addToController(gameRef.controller);
+    }
+    if (other is SpaceShip) {
+      PlayerCollisionCommand(other, this).addToController(gameRef.controller);
+    }
     super.onCollision(intersectionPoints, other);
   }
 }

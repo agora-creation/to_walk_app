@@ -81,6 +81,7 @@ class Controller extends Component with HasGameRef<ShootingGame> {
       margin: const EdgeInsets.only(left: 20, bottom: 20),
     );
     //コントローラーのコンポーネントツリーに、プレイヤーとジョイスティックを追加
+    spawnNewPlayer();
     add(_joystick);
   }
 
@@ -88,6 +89,7 @@ class Controller extends Component with HasGameRef<ShootingGame> {
   //ゲームの正確な時間経過を秒単位で監視する
   void timerNotification() {
     //スコアボードの時間経過を更新する
+    UpdateScoreBoardTimePassageInfoCommand(_scoreBoard).addToController(this);
 
     //ボーナスをチェック
     if (_scoreBoard.getCurrentLevel > 0) {
@@ -107,8 +109,14 @@ class Controller extends Component with HasGameRef<ShootingGame> {
     }
 
     //新レベル生成のためのテスト
+    if (isCurrentLevelFinished()) {
+      loadNextGameLevel();
+    }
 
     //プレイヤー生成のためのテスト
+    if (shouldRespawnPlayer()) {
+      spawnNewPlayer();
+    }
   }
 
   //コントローラーがブローカーに指示します

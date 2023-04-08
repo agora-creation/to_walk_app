@@ -28,18 +28,20 @@ class JSONUtils {
   static List<GameLevel> extractGameLevels(dynamic data) {
     List<GameLevel> result = List.empty(growable: true);
     List _jsonDataLevels = [];
-    _jsonDataLevels = data['game_data']['level'];
-    for (var level in _jsonDataLevels) {
-      GameLevel gameLevel = GameLevel();
-      List<AsteroidBuildContext> asteroidContextList =
-          _buildAsteroidData(level);
-      List<GameBonusBuildContext> gameBonusContextList =
-          _buildGameBonusData(level);
-      gameLevel
-        ..asteroidConfig = asteroidContextList
-        ..gameBonusConfig = gameBonusContextList;
-      gameLevel.init();
-      result.add(gameLevel);
+    _jsonDataLevels = data['game_data']['levels'];
+    if (_jsonDataLevels.isNotEmpty) {
+      for (var level in _jsonDataLevels) {
+        GameLevel gameLevel = GameLevel();
+        List<AsteroidBuildContext> asteroidContextList =
+            _buildAsteroidData(level);
+        List<GameBonusBuildContext> gameBonusContextList =
+            _buildGameBonusData(level);
+        gameLevel
+          ..asteroidConfig = asteroidContextList
+          ..gameBonusConfig = gameBonusContextList;
+        gameLevel.init();
+        result.add(gameLevel);
+      }
     }
     return result;
   }
@@ -97,7 +99,6 @@ class JSONUtils {
       gameBonus.timeTriggerSeconds = e['trigger.time.seconds'].toInt();
       result.add(gameBonus);
     }
-
     return result;
   }
 }
