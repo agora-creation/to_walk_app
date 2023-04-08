@@ -117,7 +117,7 @@ class SimpleSpaceShip extends SpaceShip {
     await super.onLoad();
     size = Utils.vector2Multiply(
       size,
-      gameRef.controller.getResolutionMultiplier,
+      gameRef.controller.getResoltionMultiplier,
     );
     size.y = size.x;
     sprite = await gameRef.loadSprite('asteroids_ship.png');

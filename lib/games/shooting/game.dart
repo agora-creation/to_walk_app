@@ -55,7 +55,7 @@ class ShootingGame extends FlameGame
   //ユーザーがタップして指を話す度に弾丸を発射するために、ユーザーによるタップアクションを処理
   @override
   void onTapUp(int pointerId, TapUpInfo info) {
-    UserTapUpCommand(controller.getSpaceShip()).addToController(controller);
+    UserTapUpCommand(controller.getSpaceship()).addToController(controller);
     super.onTapUp(pointerId, info);
   }
 
