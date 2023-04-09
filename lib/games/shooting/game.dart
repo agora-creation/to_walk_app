@@ -23,14 +23,18 @@ class _ShootingGameScreenState extends State<ShootingGameScreen> {
   }
 }
 
+//controller.init()でJSONデータを読み込んでいます
+//そのデータをControllerの状態データとしてコミットする
+//オブジェクトの相対的な大きさを計算するのは、解像度倍率を指定します
+//一秒間隔でControllerに通知を送るタイマーを作成する
 class ShootingGame extends FlameGame
     with HasDraggables, HasTappables, HasCollisionDetection {
   //全てのゲームアクションを調整するために使用されるコントローラー
-  late Controller controller;
+  late final Controller controller;
   //コントローラーに時間の経過を通知するために使用されるタイマー
   late TimerComponent controllerTimer;
   //キャンバスに表示されている船の角度
-  TextPaint shipAngleTextPaint = TextPaint();
+  final TextPaint shipAngleTextPaint = TextPaint();
 
   @override
   Future onLoad() async {

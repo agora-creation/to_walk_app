@@ -6,11 +6,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_walk_app/games/shooting/asteroid.dart';
 import 'package:to_walk_app/games/shooting/command.dart';
 import 'package:to_walk_app/games/shooting/game.dart';
+import 'package:to_walk_app/games/shooting/game_bonus.dart';
+import 'package:to_walk_app/games/shooting/json_utils.dart';
 import 'package:to_walk_app/games/shooting/scoreboard.dart';
-
-import 'game_bonus.dart';
-import 'json_utils.dart';
-import 'spaceship.dart';
+import 'package:to_walk_app/games/shooting/spaceship.dart';
 
 /// The controller is the center piece of the game management.
 /// It is responsible for dispatching commands to be executed as well as
@@ -98,7 +97,7 @@ class Controller extends Component with HasGameRef<ShootingGame> {
 
     /// read JSON data
     ///
-    jsonData = await JSONUtils.readJsonInitData();
+    jsonData = await JSONUtils.readJSONInitData();
 
     /// read in the resolution and calculate the resolution multiplier
     ///

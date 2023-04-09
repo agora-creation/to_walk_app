@@ -1,9 +1,11 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/games/shooting/command.dart';
 import 'package:to_walk_app/games/shooting/game.dart';
 
-//ゲームのスコアを表すシンプルなクラス
-//ハイスコア、ベストスコアを表示する
+/// Simple class representing the running scoreboard for the game.
+/// We also have the high-score here to shows the user their best score
+///
 class ScoreBoard extends PositionComponent with HasGameRef<ShootingGame> {
   int _highScore = 0;
   int _numOfShotsFired = 0;
@@ -12,70 +14,77 @@ class ScoreBoard extends PositionComponent with HasGameRef<ShootingGame> {
   int _currentLevel = 0;
   int _maxLevels = 0;
   int _timeSinceStartInSeconds = 0;
-  int _timeSinceStartOfLevelInSeconds = 0;
+  int _timeSinceStartofLevelInSeconds = 0;
 
-  //残りライフ数
+  //
+  // Number of lives left
   final TextPaint _livesLeftTextPaint = TextPaint(
     style: const TextStyle(
-      fontSize: 12,
-      fontFamily: 'TsunagiGothic',
+      fontSize: 12.0,
+      fontFamily: 'Awesome Font',
       color: Colors.red,
     ),
   );
 
-  //秒速
+  //
+  // passage of time in seconds
   final TextPaint _passageOfTimePaint = TextPaint(
     style: const TextStyle(
-      fontSize: 12,
-      fontFamily: 'TsunagiGothic',
+      fontSize: 12.0,
+      fontFamily: 'Awesome Font',
       color: Colors.grey,
     ),
   );
 
-  //スコア
+  //
+  // Score
   final TextPaint _scorePaint = TextPaint(
     style: const TextStyle(
-      fontSize: 12,
-      fontFamily: 'TsunagiGothic',
+      fontSize: 12.0,
+      fontFamily: 'Awesome Font',
       color: Colors.green,
     ),
   );
 
-  //ハイスコア
+  //
+  // High Score
   final TextPaint _highScorePaint = TextPaint(
     style: const TextStyle(
-      fontSize: 12,
-      fontFamily: 'TsunagiGothic',
+      fontSize: 12.0,
+      fontFamily: 'Awesome Font',
       color: Colors.red,
     ),
   );
 
-  //射撃スコア
+  //
+  // Score
   final TextPaint _shotsFiredPaint = TextPaint(
     style: const TextStyle(
-      fontSize: 12,
-      fontFamily: 'TsunagiGothic',
+      fontSize: 12.0,
+      fontFamily: 'Awesome Font',
       color: Colors.blue,
     ),
   );
 
-  //レベル
+  //
+  // Score
   final TextPaint _levelInfoPaint = TextPaint(
     style: const TextStyle(
-      fontSize: 12,
-      fontFamily: 'TsunagiGothic',
+      fontSize: 12.0,
+      fontFamily: 'Awesome Font',
       color: Colors.amber,
     ),
   );
 
-  ScoreBoard(
-    int livesLeft,
-    int currentLevel,
-    int maxLevels,
-  )   : _livesLeft = livesLeft,
+  ScoreBoard(int livesLeft, int currentLevel, int maxLevels)
+      : _livesLeft = livesLeft,
         _currentLevel = currentLevel,
         _maxLevels = maxLevels,
         super(priority: 100);
+
+  /// setters
+  ///
+  ///
 
   set highScore(int highScore) {
     if (highScore > 0) {
@@ -92,16 +101,39 @@ class ScoreBoard extends PositionComponent with HasGameRef<ShootingGame> {
   set level(int level) {
     if (level > 0) {
       _currentLevel = level;
-      _timeSinceStartOfLevelInSeconds = 0;
+      _timeSinceStartofLevelInSeconds = 0;
     }
   }
 
-  int get getLivesLeft => _livesLeft;
-  int get getCurrentLevel => _currentLevel;
-  int get getTimeSinceStart => _timeSinceStartInSeconds;
-  int get getTimeSinceStartOfLevel => _timeSinceStartOfLevelInSeconds;
-  int get getScore => _score;
-  int get getHighScore => _highScore;
+  /// getters
+  ///
+
+  int get getLivesLeft {
+    return _livesLeft;
+  }
+
+  int get getCurrentLevel {
+    return _currentLevel;
+  }
+
+  int get getTimeSinceStart {
+    return _timeSinceStartInSeconds;
+  }
+
+  int get getTimeSinceStartOfLevel {
+    return _timeSinceStartofLevelInSeconds;
+  }
+
+  int get getScore {
+    return _score;
+  }
+
+  int get getHighScore {
+    return _highScore;
+  }
+
+  /// bussiness methods
+  ///
 
   void addBulletFired() {
     _numOfShotsFired++;
@@ -123,7 +155,9 @@ class ScoreBoard extends PositionComponent with HasGameRef<ShootingGame> {
     if (_livesLeft > 0) {
       _livesLeft--;
     }
-    if (_livesLeft <= 0) {}
+    if (_livesLeft <= 0) {
+      GameOverCommand().addToController(gameRef.controller);
+    }
   }
 
   void addExtraLife() {
@@ -132,67 +166,102 @@ class ScoreBoard extends PositionComponent with HasGameRef<ShootingGame> {
 
   void addTimeTick() {
     _timeSinceStartInSeconds++;
-    _timeSinceStartOfLevelInSeconds++;
+    _timeSinceStartofLevelInSeconds++;
   }
 
   void resetLevelTimer() {
-    _timeSinceStartOfLevelInSeconds = 0;
+    _timeSinceStartofLevelInSeconds = 0;
   }
 
   void progressLevel() {
     _currentLevel++;
   }
 
+  /// Overrides
+  ///
+
   @override
   void render(Canvas canvas) {
+    //
+    // render the number of lives left or 'GAME OVER' if we are out
     _livesLeftTextPaint.render(
       canvas,
       formatNumberOfLives(),
       Vector2(20, 16),
     );
+
+    //
+    // render the angle in radians for reference
     _scorePaint.render(
       canvas,
-      'スコア: $_score',
+      'Score: ${_score.toString()}',
       Vector2(gameRef.size.x - 100, 16),
     );
+
+    //
+    // render the angle in radians for reference
     _highScorePaint.render(
       canvas,
-      'ハイスコア: $_highScore',
+      'High Score: ${_highScore.toString()}',
       Vector2(gameRef.size.x - 100, 32),
     );
+
+    //
+    // render the angle in radians for reference
     _shotsFiredPaint.render(
       canvas,
-      '射撃: $_numOfShotsFired',
+      'Shots Fired: ${_numOfShotsFired.toString()}',
       Vector2(20, 32),
     );
+
+    //
+    // render the angle in radians for reference
     _levelInfoPaint.render(
       canvas,
-      formatLevelData(),
+      '${formatLevelData()}',
       Vector2(gameRef.size.x - 100, 48),
     );
+
+    //
+    // render the passage of time
     _passageOfTimePaint.render(
       canvas,
       'time: $_timeSinceStartInSeconds',
       Vector2(gameRef.size.x - 100, 64),
     );
-    super.render(canvas);
   }
 
+  @override
+
+  /// We are defining our own stringify method so that we can see our
+  /// values when debugging.
+  ///
+  String toString() {
+    return 'highScore: $_highScore , numOfShotsFired: $_numOfShotsFired , '
+        'score: $_score , livesLeft: $_livesLeft, currentLevel: $_currentLevel, '
+        ' time since start: $_timeSinceStartInSeconds, timer for this level: $_timeSinceStartofLevelInSeconds  ';
+  }
+
+  /// Helper Methods
+  ///
   String formatNumberOfLives() {
     if (_livesLeft > 0) {
-      return 'ライフ: $_livesLeft';
+      return 'Lives Left: ' + _livesLeft.toString();
     } else {
-      return "ゲームオーバー";
+      return "GAME OVER";
     }
   }
 
   String formatLevelData() {
     String result = '';
+
     if (_currentLevel > 0) {
-      result = 'レベル: $_currentLevel';
+      result = 'Level: ' + _currentLevel.toString();
     } else {
-      result = 'レベル: -';
+      result = "Level: -";
     }
-    return '$result of $_maxLevels';
+
+    return result + ' of ' + _maxLevels.toString();
+    ;
   }
 }

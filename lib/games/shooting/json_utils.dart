@@ -1,104 +1,127 @@
 import 'dart:convert';
 
 import 'package:flame/components.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:to_walk_app/games/shooting/asteroid.dart';
 import 'package:to_walk_app/games/shooting/controller.dart';
 import 'package:to_walk_app/games/shooting/game_bonus.dart';
 
-//JSONユーティリティ
-//主にコントローラーがゲームを初期化するために使用されます
-//要素、レベル、解像度倍率などのゲームデータ
+///
+/// JSON Utilities for the Asteroids game
+///
+/// Will primarily be used by the Controller to initialize the game
+/// elements and game data such as levels, resolution multiplier etc...
+///
 class JSONUtils {
-  //JSONデータを読み込む
-  static dynamic readJsonInitData() async {
+  /// read the JSON data from a hardcoded location (for now)
+  ///
+  static dynamic readJSONInitData() async {
     List _levels = [];
-    Map<String, dynamic> _jsonDataResolution = {};
+    Map<String, dynamic> _jsonDataResolution = <String, dynamic>{};
     List _jsonDataLevels = [];
-    final String response = await rootBundle.loadString(
-      'assets/game_config.json',
-    );
+    final String response =
+        await rootBundle.loadString('assets/game_config.json');
     final data = await json.decode(response);
-    _jsonDataResolution = data['game_data']['resolution'];
-    _jsonDataLevels = data['game_data']['levels'];
+    _jsonDataResolution = data["game_data"]["resolution"];
+    _jsonDataLevels = data["game_data"]["levels"];
+    debugPrint('{readJSONInitData} <resolution> : $_jsonDataResolution');
+    debugPrint(
+        '{readJSONInitData} <levels>: $_jsonDataLevels #: ${_jsonDataLevels.length}');
+    //_levels = _jsonData["levels"];
     return data;
   }
 
-  //JSONデータからゲームレベルを取得する
+  /// extract the game levels from the dynamic JSON [data]
+  ///
   static List<GameLevel> extractGameLevels(dynamic data) {
     List<GameLevel> result = List.empty(growable: true);
+
     List _jsonDataLevels = [];
-    _jsonDataLevels = data['game_data']['levels'];
-    if (_jsonDataLevels.isNotEmpty) {
-      for (var level in _jsonDataLevels) {
-        GameLevel gameLevel = GameLevel();
-        List<AsteroidBuildContext> asteroidContextList =
-            _buildAsteroidData(level);
-        List<GameBonusBuildContext> gameBonusContextList =
-            _buildGameBonusData(level);
-        gameLevel
-          ..asteroidConfig = asteroidContextList
-          ..gameBonusConfig = gameBonusContextList;
-        gameLevel.init();
-        result.add(gameLevel);
-      }
+    _jsonDataLevels = data["game_data"]["levels"];
+
+    for (var level in _jsonDataLevels) {
+      GameLevel gameLevel = GameLevel();
+      List<AsteroidBuildContext> asteroidContextList =
+          _buildAsteroidData(level);
+      List<GameBonusBuildContext> gameBonusContextList =
+          _buildGameBonusData(level);
+      gameLevel
+        ..asteroidConfig = asteroidContextList
+        ..gameBonusConfig = gameBonusContextList;
+      gameLevel.init();
+      result.add(gameLevel);
     }
+
     return result;
   }
 
-  //JSONデータから解像度を取得する
+  /// exatract the game resolution from dynamic JSON [data]
+  ///
   static Vector2 extractBaseGameResolution(dynamic data) {
     Vector2 result = Vector2.zero();
     Map _jsonDataResolution = {};
-    _jsonDataResolution = data['game_data']['resolution'];
-    result = Vector2(
-      _jsonDataResolution['x'].toDouble(),
-      _jsonDataResolution['y'].toDouble(),
-    );
+
+    _jsonDataResolution = data["game_data"]["resolution"];
+    result = Vector2(_jsonDataResolution["x"].toDouble(),
+        _jsonDataResolution["y"].toDouble());
+
     return result;
   }
 
-  //JSONレベルのデータを、小惑星に割り当てる
+  /// Helper Methods
+  ///
+  ///
+
+  /// Map JSON level data to an [AsteroidBuildContext]
+  ///
   static List<AsteroidBuildContext> _buildAsteroidData(Map data) {
     List<AsteroidBuildContext> result = List.empty(growable: true);
-    for (final e in data['asteroids']) {
+    debugPrint('data: $data <length> ${data.length}');
+
+    for (final element in data['asteroids']) {
       AsteroidBuildContext asteroid = AsteroidBuildContext();
-      asteroid.asteroidType = AsteroidBuildContext.asteroidFromString(
-        e['name'],
-      );
+      asteroid.asteroidType =
+          AsteroidBuildContext.asteroidFromString(element['name']);
+      //AsteroidBuildContext.asteroidFromString(element['name']);
       asteroid.position = Vector2(
-        e['position.x'].toDouble(),
-        e['position.y'].toDouble(),
-      );
+          element['position.x'].toDouble(), element['position.y'].toDouble());
       asteroid.velocity = Vector2(
-        e['velocity.x'].toDouble(),
-        e['velocity.y'].toDouble(),
-      );
+          element['velocity.x'].toDouble(), element['velocity.y'].toDouble());
+
       result.add(asteroid);
     }
+
     return result;
   }
 
-  //JSONレベルのデータを、ゲームボーナスに割り当てる
+  /// Map JSON level data to an [AsteroidBuildContext]
+  ///
   static List<GameBonusBuildContext> _buildGameBonusData(Map data) {
     List<GameBonusBuildContext> result = List.empty(growable: true);
-    if (data['gameBonus'] == null) return result;
-    for (final e in data['gameBonus']) {
+    debugPrint('data: $data <length> ${data.length}');
+
+    ///
+    /// precondition
+    ///
+    /// check that the actual element exists in the JSON
+    if (data['gameBonus'] == null) {
+      return result;
+    }
+
+    for (final element in data['gameBonus']) {
       GameBonusBuildContext gameBonus = GameBonusBuildContext();
-      gameBonus.gameBonusType = GameBonusBuildContext.gameBonusFromString(
-        e['name'],
-      );
+      gameBonus.gameBonusType =
+          GameBonusBuildContext.gameBonusFromString(element['name']);
       gameBonus.position = Vector2(
-        e['position.x'].toDouble(),
-        e['position.y'].toDouble(),
-      );
+          element['position.x'].toDouble(), element['position.y'].toDouble());
       gameBonus.velocity = Vector2(
-        e['velocity.x'].toDouble(),
-        e['velocity.y'].toDouble(),
-      );
-      gameBonus.timeTriggerSeconds = e['trigger.time.seconds'].toInt();
+          element['velocity.x'].toDouble(), element['velocity.y'].toDouble());
+      gameBonus.timeTriggerSeconds = element['trigger.time.seconds'].toInt();
+
       result.add(gameBonus);
     }
+
     return result;
   }
 }

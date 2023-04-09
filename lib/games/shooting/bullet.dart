@@ -1,169 +1,132 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/games/shooting/command.dart';
 import 'package:to_walk_app/games/shooting/game.dart';
 import 'package:to_walk_app/games/shooting/utils.dart';
 
-import 'command.dart';
-
-/// Simple enum which will hold enumerated names for all our [Bullet]-derived
-/// child classes
-///
-/// As you add moreBullet implementation you will add a name hereso that we
-/// can then easly create bullets using the [BulletFactory]
-/// The steps are as follows:
-///  - extend the Bullet class with a new Bullet implementation
-///  - add a new enumeration entry
-///  - add a new switch case to the [BulletFactory] to create this new [Bullet]
-///    instance when the enumeration entry is provided.
+//Bullet由来の名前を列挙した単純な列挙型を保持します
+//Bulletの種類を追加するには、ここに追加する
+//BulletFactoryを使って、Bulletを簡単に作ることができます
+//以下手順
+//1.新しいBulletの実装では、Bulletクラスを拡張する
+//2.新しい列挙項目追加する
+//3.BulletFactoryに新しいswitch-caseを追加して、Bulletを作成する
+//4.列挙項目が提供された場合、新しいBulletインスタンスを作成する
 enum BulletEnum { slowBullet, fastBullet }
 
-/// Bullet class is a [PositionComponent] so we get the angle and position of the
-/// element.
-///
-/// This is an abstract class which needs to be extended to use Bullets.
-/// The most important game methods come from [PositionComponent] and are the
-/// update(), onLoad(), amd render() methods that need to be overridden to
-/// drive the behaviour of your Bullet on screen.
-///
-/// You should also overide the abstract methods such as onCreate(),
-/// onDestroy(), and onHit()
-///
+//BulletクラスはPositionComponentなので、角度・位置を取得します
+//これは抽象クラスで、Bulletを使うためには拡張する必要があります
 abstract class Bullet extends PositionComponent
     with HasGameRef<ShootingGame>, GestureHitboxes, CollisionCallbacks {
-  static const double defaultSpeed = 100.00;
-  static const int defaultDamage = 1;
-  static const int defaultHealth = 1;
-  static final Vector2 defaulSize = Vector2.all(1.0);
+  static const double defaultSpeed = 100;
+  static const int defaultAttack = 1;
+  static const int defaultHp = 1;
+  static final Vector2 defaultSize = Vector2.all(1);
 
-  // velocity vector for the bullet.
+  //Bulletの速度Vector
   late Vector2 _velocity;
-
-  // speed of the bullet
+  //Bulletの速度
   late double _speed;
+  //Bulletの体力
+  late int? _hp;
+  //Bulletの攻撃力
+  late int? _attack;
 
-  // health of the bullet
-  late int? _health;
-
-  // damage that the bullet does
-  late int? _damage;
-
-  //
-  // default constructor with default values
-  Bullet(Vector2 position, Vector2 velocity)
-      : _velocity = velocity.normalized(),
+  Bullet(
+    Vector2 position,
+    Vector2 velocity,
+  )   : _velocity = velocity.normalized(),
         _speed = defaultSpeed,
-        _health = defaultHealth,
-        _damage = defaultDamage,
+        _hp = defaultHp,
+        _attack = defaultAttack,
         super(
-          size: defaulSize,
+          size: defaultSize,
           position: position,
           anchor: Anchor.center,
         );
 
-  //
-  // named constructor
-  Bullet.fullInit(Vector2 position, Vector2 velocity,
-      {Vector2? size, double? speed, int? health, int? damage})
-      : _velocity = velocity.normalized(),
+  Bullet.fullInit(
+    Vector2 position,
+    Vector2 velocity, {
+    Vector2? size,
+    double? speed,
+    int? hp,
+    int? attack,
+  })  : _velocity = velocity.normalized(),
         _speed = speed ?? defaultSpeed,
-        _health = health ?? defaultHealth,
-        _damage = damage ?? defaultDamage,
+        _hp = hp ?? defaultHp,
+        _attack = attack ?? defaultAttack,
         super(
           size: size,
           position: position,
           anchor: Anchor.center,
         );
 
-  //
-  // empty class name constructor
   Bullet.classname();
 
-  ///////////////////////////////////////////////////////
-  // getters
-  //
-  int? get getDamage {
-    return _damage;
-  }
+  int? get getAttack => _attack;
 
-  int? get getHealth {
-    return _health;
-  }
+  int? get getHp => _hp;
 
-  ////////////////////////////////////////////////////////
-  // Overrides
-  //
   @override
   void update(double dt) {
     _onOutOfBounds(position);
   }
 
-  ////////////////////////////////////////////////////////
-  // business methods
-  //
-
-  //
-  // Called when the Bullet has been created.
   void onCreate() {
-    // to improve accurace of collision detection we make the hitbox
-    // about 4 times larger for the bullets.
-    add(RectangleHitbox(size: Vector2(2.0, 2.0)));
-    //addHitbox(HitboxRectangle());
+    //衝突検出の精度を上げるために、ヒットボックスを作る。
+    //弾丸の場合、約4倍の大きさになります。
+    add(RectangleHitbox(size: Vector2.all(2)));
   }
 
-  //
-  // Called when the bullet is being destroyed.
   void onDestroy();
 
-  //
-  // Called when the Bullet has been hit. The ‘other’ is what the bullet hit, or was hit by.
   void onHit(CollisionCallbacks other);
-
-  ////////////////////////////////////////////////////////////
-  // Helper methods
-  //
 
   void _onOutOfBounds(Vector2 position) {
     if (Utils.isPositionOutOfBounds(gameRef.size, position)) {
       BulletDestroyCommand(this).addToController(gameRef.controller);
-      //FlameAudio.audioCache.play('missile_hit.wav');
     }
   }
 }
 
-/// This class creates a fast bullet implementation of the [Bullet] contract and
-/// renders the bullet as a simple green square.
-/// Speed has been defaulted to 150 p/s but can be changed through the
-/// constructor. It is set with a damage of 1 which is the lowest damage and
-/// with health of 1 which means that it will be destroyed on impact since it
-/// is also the lowest health you can have.
-///
 class FastBullet extends Bullet {
-  static const double defaultSpeed = 175.00;
-  static final Vector2 defaultSize = Vector2.all(2.00);
-  // color of the bullet
+  static const double defaultSpeed = 175;
+  static final Vector2 defaultSize = Vector2.all(2);
   static final _paint = Paint()..color = Colors.green;
 
-  FastBullet(Vector2 position, Vector2 velocity)
-      : super.fullInit(position, velocity,
-            size: defaultSize,
-            speed: defaultSpeed,
-            health: Bullet.defaultHealth,
-            damage: Bullet.defaultDamage);
+  FastBullet(
+    Vector2 position,
+    Vector2 velocity,
+  ) : super.fullInit(
+          position,
+          velocity,
+          size: defaultSize,
+          speed: defaultSpeed,
+          hp: Bullet.defaultHp,
+          attack: Bullet.defaultAttack,
+        );
 
-  //
-  // named constructor
-  FastBullet.fullInit(Vector2 position, Vector2 velocity, Vector2? size,
-      double? speed, int? health, int? damage)
-      : super.fullInit(position, velocity,
-            size: size, speed: speed, health: health, damage: damage);
+  FastBullet.fullInit(
+    Vector2 position,
+    Vector2 velocity,
+    Vector2? size,
+    double? speed,
+    int? hp,
+    int? attack,
+  ) : super.fullInit(
+          position,
+          velocity,
+          size: size,
+          speed: speed,
+          hp: hp,
+          attack: attack,
+        );
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    // _velocity is a unit vector so we need to make it account for the actual
-    // speed.
-    print("FastBullet onLoad called: speed: $_speed");
     _velocity = (_velocity)..scaleTo(_speed);
   }
 
@@ -197,38 +160,42 @@ class FastBullet extends Bullet {
   }
 }
 
-/// This class creates a slow bullet implementation of the [Bullet] contract and
-/// renders the bullet as a simple red filled-in circle.
-/// Speed has been defaulted to 50 p/s but can be changed through the
-/// constructor. It is set with a damage of 1 which is the lowest damage and
-/// with health of 1 which means that it will be destroyed on impact since it
-/// is also the lowest health you can have.
-///
 class SlowBullet extends Bullet {
-  static const double defaultSpeed = 50.00;
-  static final Vector2 defaultSize = Vector2.all(4.0);
-  // color of the bullet
+  static const double defaultSpeed = 50;
+  static final Vector2 defaultSize = Vector2.all(4);
   static final _paint = Paint()..color = Colors.red;
 
-  SlowBullet(Vector2 position, Vector2 velocity)
-      : super.fullInit(position, velocity,
-            size: defaultSize,
-            speed: defaultSpeed,
-            health: Bullet.defaultHealth,
-            damage: Bullet.defaultDamage);
+  SlowBullet(
+    Vector2 position,
+    Vector2 velocity,
+  ) : super.fullInit(
+          position,
+          velocity,
+          size: defaultSize,
+          speed: defaultSpeed,
+          hp: Bullet.defaultHp,
+          attack: Bullet.defaultAttack,
+        );
 
-  //
-  // named constructor
-  SlowBullet.fullInit(Vector2 position, Vector2 velocity, Vector2? size,
-      double? speed, int? health, int? damage)
-      : super.fullInit(position, velocity,
-            size: size, speed: speed, health: health, damage: damage);
+  SlowBullet.fullInit(
+    Vector2 position,
+    Vector2 velocity,
+    Vector2? size,
+    double? speed,
+    int? hp,
+    int? attack,
+  ) : super.fullInit(
+          position,
+          velocity,
+          size: size,
+          speed: speed,
+          hp: hp,
+          attack: attack,
+        );
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    // _velocity is a unit vector so we need to make it account for the actual
-    // speed.
     _velocity = (_velocity)..scaleTo(_speed);
   }
 
@@ -237,7 +204,6 @@ class SlowBullet extends Bullet {
     super.render(canvas);
     canvas.drawCircle(Offset(size.x / 2, size.y / 2), size.x / 2, _paint);
     renderDebugMode(canvas);
-    //canvas.drawCircle(size.toRect(), _paint);
   }
 
   @override
@@ -263,73 +229,61 @@ class SlowBullet extends Bullet {
   }
 }
 
-/// This is a Factory Method Design pattern example implementation for Bullets
-/// in our game.
-///
-/// The class will return an instance of the specific bullet aksed for based on
-/// a valid bullet choice.
 class BulletFactory {
-  /// private constructor to prevent instantiation
   BulletFactory._();
 
-  /// main factory method to create instaces of Bullet children
   static Bullet create(BulletBuildContext context) {
     Bullet result;
-
-    /// collect all the Bullet definitions here
     switch (context.bulletType) {
       case BulletEnum.slowBullet:
-        {
-          if (context.speed != BulletBuildContext.defaultSpeed) {
-            result = SlowBullet.fullInit(context.position, context.velocity,
-                context.size, context.speed, context.health, context.damage);
-          } else {
-            result = SlowBullet(context.position, context.velocity);
-          }
+        if (context.speed != BulletBuildContext.defaultSpeed) {
+          result = SlowBullet.fullInit(
+            context.position,
+            context.velocity,
+            context.size,
+            context.speed,
+            context.hp,
+            context.attack,
+          );
+        } else {
+          result = SlowBullet(context.position, context.velocity);
         }
         break;
-
       case BulletEnum.fastBullet:
-        {
-          if (context.speed != BulletBuildContext.defaultSpeed) {
-            result = FastBullet.fullInit(context.position, context.velocity,
-                context.size, context.speed, context.health, context.damage);
-          } else {
-            result = FastBullet(context.position, context.velocity);
-          }
+        if (context.speed != BulletBuildContext.defaultSpeed) {
+          result = FastBullet.fullInit(
+            context.position,
+            context.velocity,
+            context.size,
+            context.speed,
+            context.hp,
+            context.attack,
+          );
+        } else {
+          result = FastBullet(context.position, context.velocity);
         }
         break;
     }
-
-    ///
-    /// trigger any necessary behavior *before* the instance is handed to the
-    /// caller.
     result.onCreate();
-
     return result;
   }
 }
 
-/// This is a simple data holder for the context data wehen we create a new
-/// Bullet instace through the Factory method using the [BulletFactory]
-///
-/// We have a number of default values here as well in case callers do not
-/// define all the entries.
 class BulletBuildContext {
-  static const double defaultSpeed = 0.0;
-  static const int defaultHealth = 1;
-  static const int defaultDamage = 1;
-  static final Vector2 deaultVelocity = Vector2.zero();
-  static final Vector2 deaultPosition = Vector2(-1, -1);
+  static const double defaultSpeed = 0;
+  static const int defaultHp = 1;
+  static const int defaultAttack = 1;
+  static final Vector2 defaultVelocity = Vector2.zero();
+  static final Vector2 defaultPosition = Vector2(-1, -1);
   static final Vector2 defaultSize = Vector2.zero();
   static final BulletEnum defaultBulletType = BulletEnum.values[0];
 
   double speed = defaultSpeed;
-  Vector2 velocity = deaultVelocity;
-  Vector2 position = deaultPosition;
+  Vector2 velocity = defaultVelocity;
+  Vector2 position = defaultPosition;
   Vector2 size = defaultSize;
-  int health = defaultHealth;
-  int damage = defaultDamage;
+  int hp = defaultHp;
+  int attack = defaultAttack;
   BulletEnum bulletType = defaultBulletType;
 
   BulletBuildContext();
