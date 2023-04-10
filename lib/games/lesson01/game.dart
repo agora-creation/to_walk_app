@@ -39,13 +39,13 @@ class Lesson01Game extends Forge2DGame with KeyboardEvents {
 
   @override
   Future<void> onLoad() async {
+    super.onLoad();
     camera.viewport = FixedResolutionViewport(screenSize);
     add(_Background(size: screenSize)..positionType = PositionType.viewport);
     add(fps);
     add(totalBodies);
 
     add(Ball());
-    return super.onLoad();
   }
 
   @override

@@ -4,6 +4,7 @@ import 'package:flame/palette.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:to_walk_app/games/lesson01/game.dart';
+import 'package:to_walk_app/games/lesson02/ball_dynamic.dart';
 import 'package:to_walk_app/games/lesson02/box_kinematic.dart';
 import 'package:to_walk_app/games/lesson02/floor_static.dart';
 
@@ -35,6 +36,7 @@ class Lesson02Game extends Forge2DGame {
 
   @override
   Future<void> onLoad() async {
+    super.onLoad();
     camera.viewport = FixedResolutionViewport(screenSize);
     add(_Background(size: screenSize)..positionType = PositionType.viewport);
     add(fps);
@@ -42,7 +44,7 @@ class Lesson02Game extends Forge2DGame {
 
     add(FloorStatic());
     add(BoxKinematic());
-    return super.onLoad();
+    add(BallDynamic());
   }
 
   @override
