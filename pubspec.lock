@@ -301,10 +301,10 @@ packages:
     dependency: "direct main"
     description:
       name: flame
-      sha256: "0c55f8d704f09536125c811a19d9aab7407dce245b2bfb507e84296c1c996202"
+      sha256: "3bd6699af5afbe0ff680d26a3b5f10ae59aeced3b50c020b03821501dfec5ea6"
       url: "https://pub.dev"
     source: hosted
-    version: "1.6.0"
+    version: "1.7.2"
   flame_audio:
     dependency: "direct main"
     description:
@@ -313,6 +313,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+  flame_forge2d:
+    dependency: "direct main"
+    description:
+      name: flame_forge2d
+      sha256: "75dcf7b65fde4eeb21981f43337dd4362d508a9b774b54c029e4bb99896063e8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.13.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -405,6 +413,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  forge2d:
+    dependency: transitive
+    description:
+      name: forge2d
+      sha256: "82e6e89bd1224d87066e9b164d534c4977f4895f554f931608a182534fac6e5e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.11.0"
   google_nav_bar:
     dependency: "direct main"
     description:
