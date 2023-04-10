@@ -23,7 +23,7 @@ class _Lesson01GameScreenState extends State<Lesson01GameScreen> {
   }
 }
 
-final screenSize = Vector2(1280, 720);
+final screenSize = Vector2(750, 1334);
 
 class Lesson01Game extends Forge2DGame with KeyboardEvents {
   final BuildContext context;
@@ -31,9 +31,11 @@ class Lesson01Game extends Forge2DGame with KeyboardEvents {
   Lesson01Game(this.context) : super(zoom: 100, gravity: Vector2(0, 15));
 
   final totalBodies = TextComponent(
-    position: Vector2(5, 690),
+    position: Vector2(screenSize.x, screenSize.y - 1),
   )..positionType = PositionType.viewport;
-  final fps = FpsTextComponent(position: Vector2(5, 665));
+  final fps = FpsTextComponent(
+    position: Vector2(screenSize.x, screenSize.y - 10),
+  );
 
   @override
   Future<void> onLoad() async {

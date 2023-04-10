@@ -5,7 +5,7 @@ class FloorStatic extends BodyComponent {
   @override
   Body createBody() {
     final bodyDef = BodyDef(
-      position: Vector2(0, screenSize.y - .75),
+      position: Vector2(0, screenSize.y - 1),
       type: BodyType.static,
     );
     final shape = EdgeShape()

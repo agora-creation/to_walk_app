@@ -3,10 +3,9 @@ import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/games/lesson01/game.dart';
 import 'package:to_walk_app/games/lesson02/box_kinematic.dart';
 import 'package:to_walk_app/games/lesson02/floor_static.dart';
-
-final screenSize = Vector2(1280, 720);
 
 class Lesson02GameScreen extends StatefulWidget {
   const Lesson02GameScreen({Key? key}) : super(key: key);
