@@ -138,15 +138,15 @@ class Assets {
     platformPinkLight = await _loadPlatform('HalfLandPiece_Right_Pink');
   }
 
-  static Future<Sprite> _loadPlatform(String name) {
-    return _loadSprite('platform/$name.png');
+  static Future<Sprite> _loadPlatform(String name) async {
+    return await _loadSprite('platform/$name.png');
   }
 
-  static Future<Sprite> _loadItem(String name) {
-    return _loadSprite('items/$name.png');
+  static Future<Sprite> _loadItem(String name) async {
+    return await _loadSprite('items/$name.png');
   }
 
-  static Future<Sprite> _loadSprite(String fileName) async {
-    return Sprite(await Flame.images.load(fileName));
+  static Future<Sprite> _loadSprite(String name) async {
+    return Sprite(await Flame.images.load(name));
   }
 }
