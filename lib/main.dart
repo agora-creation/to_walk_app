@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:to_walk_app/games/jumping/assets.dart';
+import 'package:to_walk_app/games/jumping/high_scores.dart';
 import 'package:to_walk_app/helpers/style.dart';
 import 'package:to_walk_app/providers/steps.dart';
 import 'package:to_walk_app/providers/user.dart';
@@ -16,6 +18,8 @@ Future main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+  await HighScores.load();
+  await Assets.load();
   runApp(const MyApp());
 }
 

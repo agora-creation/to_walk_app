@@ -21,24 +21,8 @@ import 'package:to_walk_app/games/jumping/ui/game_over_menu.dart';
 import 'package:to_walk_app/games/jumping/ui/game_ui.dart';
 import 'package:to_walk_app/games/jumping/ui/pause_menu.dart';
 
-class JumpingGameWidget extends StatefulWidget {
+class JumpingGameWidget extends StatelessWidget {
   const JumpingGameWidget({Key? key}) : super(key: key);
-
-  @override
-  State<JumpingGameWidget> createState() => _JumpingGameWidgetState();
-}
-
-class _JumpingGameWidgetState extends State<JumpingGameWidget> {
-  void _init() async {
-    await HighScores.load();
-    await Assets.load();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _init();
-  }
 
   @override
   Widget build(BuildContext context) {

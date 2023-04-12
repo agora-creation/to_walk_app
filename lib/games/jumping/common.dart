@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
 
-final screenSize = Vector2(428, 926);
-final worldSize = Vector2(4.28, 9.26);
+final screenSize = Vector2(750, 1334);
+final worldSize = Vector2(7.54, 13.34);
 
 enum GameState { running, gameOver }

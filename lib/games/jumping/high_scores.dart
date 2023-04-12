@@ -1,13 +1,11 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:to_walk_app/helpers/functions.dart';
 
 class HighScores {
-  static late final SharedPreferences prefs;
   static final highScores = List.filled(5, 0);
 
   static Future<void> load() async {
-    prefs = await SharedPreferences.getInstance();
     for (int i = 0; i < 5; i++) {
-      int score = prefs.getInt('score$i') ?? 0;
+      int score = await getPrefsInt('score$i') ?? 0;
       highScores[i] = score;
     }
   }
@@ -23,7 +21,7 @@ class HighScores {
       }
     }
     for (int i = 0; i < 5; i++) {
-      await prefs.setInt('score$i', highScores[i]);
+      await setPrefsInt('score$i', highScores[i]);
     }
   }
 }
