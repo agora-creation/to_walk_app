@@ -17,14 +17,42 @@ import 'package:to_walk_app/games/jumping/objects/hero.dart';
 import 'package:to_walk_app/games/jumping/objects/platform.dart';
 import 'package:to_walk_app/games/jumping/objects/platform_pieces.dart';
 import 'package:to_walk_app/games/jumping/objects/power_up.dart';
+import 'package:to_walk_app/games/jumping/ui/game_over_menu.dart';
 import 'package:to_walk_app/games/jumping/ui/game_ui.dart';
+import 'package:to_walk_app/games/jumping/ui/pause_menu.dart';
 
-class JumpingGameWidget extends StatelessWidget {
+class JumpingGameWidget extends StatefulWidget {
   const JumpingGameWidget({Key? key}) : super(key: key);
 
   @override
+  State<JumpingGameWidget> createState() => _JumpingGameWidgetState();
+}
+
+class _JumpingGameWidgetState extends State<JumpingGameWidget> {
+  void _init() async {
+    await HighScores.load();
+    await Assets.load();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GameWidget(game: FlameGame());
+    return GameWidget(
+      game: JumpingGame(),
+      overlayBuilderMap: {
+        'GameOverMenu': (context, JumpingGame game) {
+          return GameOverMenu(game: game);
+        },
+        'PauseMenu': (context, JumpingGame game) {
+          return PauseMenu(game: game);
+        },
+      },
+    );
   }
 }
 
