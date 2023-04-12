@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/games/jumping/game.dart';
 import 'package:to_walk_app/games/lesson01/game.dart';
 import 'package:to_walk_app/games/shooting/game.dart';
 import 'package:to_walk_app/helpers/functions.dart';
@@ -37,6 +38,10 @@ class _GameScreenState extends State<GameScreen> {
           GameListTile(
             labelText: 'Lesson 01',
             onTap: () => pushScreen(context, const Lesson01GameScreen()),
+          ),
+          GameListTile(
+            labelText: 'ジャンプ！ジャンプ！',
+            onTap: () => pushScreen(context, const JumpingGameWidget()),
           ),
         ],
       ),
