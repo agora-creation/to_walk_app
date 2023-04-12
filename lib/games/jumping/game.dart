@@ -105,7 +105,9 @@ class JumpingGame extends Forge2DGame
   @override
   void onTapUp(TapUpInfo info) {
     super.onTapUp(info);
-    hero.fireBullet();
+    //hero.fireBullet();
+    findGame()?.overlays.add('PauseMenu');
+    findGame()?.paused = true;
   }
 
   bool isOutOfScreen(Vector2 position) {

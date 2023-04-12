@@ -53,7 +53,7 @@ flutter:
     - assets/images/explosion/
     - assets/images/ui/
     - assets/images/items/
-    - assets/images/platforms/adads
+    - assets/images/platforms/
     - assets/audio/
     - assets/game_config.json
 

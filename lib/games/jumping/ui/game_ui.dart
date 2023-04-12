@@ -44,8 +44,8 @@ class GameUI extends PositionComponent with HasGameRef<JumpingGame> {
 
     final btPause = SpriteButtonComponent(
       button: Assets.buttonPause,
-      size: Vector2.all(35),
-      position: Vector2(390, 40),
+      size: Vector2.all(100),
+      position: Vector2(390, 60),
       onPressed: () {
         findGame()?.overlays.add('PauseMenu');
         findGame()?.paused = true;
