@@ -9,7 +9,7 @@ class PlayerObject extends BodyComponent<CatchGame> {
   Body createBody() {
     final bodyDef = BodyDef(
       userData: this,
-      position: Vector2(worldSize.x / 2, worldSize.y - 1),
+      position: Vector2(worldSize.x / 2, worldSize.y - 2),
       type: BodyType.dynamic,
     );
     final shape = PolygonShape()..setAsBoxXY(.5, .5);
@@ -28,27 +28,25 @@ class PlayerObject extends BodyComponent<CatchGame> {
     final velocity = body.linearVelocity;
     final position = body.position;
 
-    velocity.x = accelerationX * 5;
+    velocity.x = accelerationX * 2;
     body.linearVelocity = velocity;
 
     if (position.x > worldSize.x) {
-      position.x = 0;
+      position.x = worldSize.x;
       body.setTransform(position, 0);
     } else if (position.x < 0) {
-      position.x = worldSize.x;
+      position.x = 0;
       body.setTransform(position, 0);
     }
   }
 
-  void moveLeft() {
+  void moveLeft() async {
+    await Future.delayed(const Duration(seconds: 1));
     accelerationX = -1;
   }
 
-  void moveRight() {
+  void moveRight() async {
+    await Future.delayed(const Duration(seconds: 1));
     accelerationX = 1;
-  }
-
-  void moveStop() {
-    accelerationX = 0;
   }
 }

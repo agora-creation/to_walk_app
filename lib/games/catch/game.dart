@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/games/catch/objects/fall_item.dart';
 import 'package:to_walk_app/games/catch/objects/ground.dart';
 import 'package:to_walk_app/games/catch/objects/player.dart';
 import 'package:to_walk_app/helpers/common.dart';
@@ -31,6 +34,11 @@ class CatchGame extends Forge2DGame with TapDetector {
 
     player = PlayerObject();
     await add(player);
+
+    await add(FallItemObject(
+      x: worldSize.x * Random().nextDouble(),
+      y: -1,
+    ));
   }
 
   @override
@@ -41,8 +49,6 @@ class CatchGame extends Forge2DGame with TapDetector {
       player.moveLeft();
     } else if ((worldSize.x / 2) < tapX) {
       player.moveRight();
-    } else {
-      player.moveStop();
     }
   }
 }

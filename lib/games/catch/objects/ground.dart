@@ -7,7 +7,7 @@ class GroundObject extends BodyComponent<CatchGame> {
   Body createBody() {
     final bodyDef = BodyDef(
       userData: this,
-      position: Vector2(0, worldSize.y),
+      position: Vector2(0, worldSize.y - 2),
       type: BodyType.static,
     );
     final shape = EdgeShape()..set(Vector2.zero(), Vector2(worldSize.x, 0));
