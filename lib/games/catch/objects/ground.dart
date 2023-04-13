@@ -1,17 +1,8 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:to_walk_app/games/jumping/game.dart';
+import 'package:to_walk_app/games/catch/game.dart';
 import 'package:to_walk_app/helpers/common.dart';
 
-class Floor extends BodyComponent<JumpingGame> {
-  @override
-  void update(double dt) {
-    super.update(dt);
-    if (gameRef.isOutOfScreen(body.position)) {
-      world.destroyBody(body);
-      gameRef.remove(this);
-    }
-  }
-
+class GroundObject extends BodyComponent<CatchGame> {
   @override
   Body createBody() {
     final bodyDef = BodyDef(

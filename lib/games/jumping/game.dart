@@ -6,7 +6,6 @@ import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:to_walk_app/games/jumping/assets.dart';
-import 'package:to_walk_app/games/jumping/common.dart';
 import 'package:to_walk_app/games/jumping/high_scores.dart';
 import 'package:to_walk_app/games/jumping/objects/bullet.dart';
 import 'package:to_walk_app/games/jumping/objects/cloud_enemy.dart';
@@ -20,6 +19,7 @@ import 'package:to_walk_app/games/jumping/objects/power_up.dart';
 import 'package:to_walk_app/games/jumping/ui/game_over_menu.dart';
 import 'package:to_walk_app/games/jumping/ui/game_ui.dart';
 import 'package:to_walk_app/games/jumping/ui/pause_menu.dart';
+import 'package:to_walk_app/helpers/common.dart';
 
 class JumpingGameWidget extends StatelessWidget {
   const JumpingGameWidget({Key? key}) : super(key: key);

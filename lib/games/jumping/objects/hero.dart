@@ -4,7 +4,6 @@ import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/services.dart';
 import 'package:to_walk_app/games/jumping/assets.dart';
-import 'package:to_walk_app/games/jumping/common.dart';
 import 'package:to_walk_app/games/jumping/game.dart';
 import 'package:to_walk_app/games/jumping/objects/coin.dart';
 import 'package:to_walk_app/games/jumping/objects/floor.dart';
@@ -13,6 +12,7 @@ import 'package:to_walk_app/games/jumping/objects/jetpack_group.dart';
 import 'package:to_walk_app/games/jumping/objects/lightning.dart';
 import 'package:to_walk_app/games/jumping/objects/platform.dart';
 import 'package:to_walk_app/games/jumping/objects/power_up.dart';
+import 'package:to_walk_app/helpers/common.dart';
 
 enum HeroState { jump, fall, dead }
 

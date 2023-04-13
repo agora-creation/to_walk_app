@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:to_walk_app/games/jumping/assets.dart';
-import 'package:to_walk_app/games/jumping/common.dart';
 import 'package:to_walk_app/games/jumping/game.dart';
+import 'package:to_walk_app/helpers/common.dart';
 
 class HearthEnemy extends BodyComponent<JumpingGame> {
   static Vector2 size = Vector2(1.13, .68);

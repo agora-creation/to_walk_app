@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/games/catch/game.dart';
 import 'package:to_walk_app/games/jumping/game.dart';
 import 'package:to_walk_app/games/lesson01/game.dart';
 import 'package:to_walk_app/games/shooting/game.dart';
@@ -25,7 +26,7 @@ class _GameScreenState extends State<GameScreen> {
           ),
           GameListTile(
             labelText: '上から落ちてくるものを避ける',
-            onTap: () {},
+            onTap: () => pushScreen(context, const CatchGameWidget()),
           ),
           GameListTile(
             labelText: '走ってジャンプする',
