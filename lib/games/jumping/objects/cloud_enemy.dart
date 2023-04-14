@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:to_walk_app/games/common.dart';
 import 'package:to_walk_app/games/jumping/assets.dart';
 import 'package:to_walk_app/games/jumping/game.dart';
 import 'package:to_walk_app/games/jumping/objects/lightning.dart';
-import 'package:to_walk_app/helpers/common.dart';
 
 const double _timeForNextLightning = 5;
 

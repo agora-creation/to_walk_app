@@ -1,9 +1,18 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:to_walk_app/games/catch/game.dart';
-import 'package:to_walk_app/helpers/common.dart';
+import 'package:to_walk_app/games/catch/objects/fall_item.dart';
+import 'package:to_walk_app/games/common.dart';
 
-class PlayerObject extends BodyComponent<CatchGame> {
+class PlayerObject extends BodyComponent<CatchGame> with ContactCallbacks {
+  double tapX = 0;
   double accelerationX = 0;
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    double center = worldSize.x / 2;
+    tapX = double.parse(center.toStringAsFixed(1));
+  }
 
   @override
   Body createBody() {
@@ -26,27 +35,30 @@ class PlayerObject extends BodyComponent<CatchGame> {
   void update(double dt) {
     super.update(dt);
     final velocity = body.linearVelocity;
-    final position = body.position;
-
-    velocity.x = accelerationX * 2;
-    body.linearVelocity = velocity;
-
-    if (position.x > worldSize.x) {
-      position.x = worldSize.x;
-      body.setTransform(position, 0);
-    } else if (position.x < 0) {
-      position.x = 0;
-      body.setTransform(position, 0);
+    final positionX = double.parse(body.position.x.toStringAsFixed(1));
+    print('tapX : $tapX');
+    print('positionX: $positionX');
+    if (positionX > tapX) {
+      accelerationX = -1;
+    } else if (positionX < tapX) {
+      accelerationX = 1;
+    } else {
+      accelerationX = 0;
     }
+    velocity.x = accelerationX * 1;
+    body.linearVelocity = velocity;
   }
 
-  void moveLeft() async {
+  void move(double value) async {
     await Future.delayed(const Duration(seconds: 1));
-    accelerationX = -1;
+    tapX = double.parse(value.toStringAsFixed(1));
   }
 
-  void moveRight() async {
-    await Future.delayed(const Duration(seconds: 1));
-    accelerationX = 1;
+  @override
+  void beginContact(Object other, Contact contact) {
+    super.beginContact(other, contact);
+    if (other is FallItemObject) {
+      other.collision();
+    }
   }
 }

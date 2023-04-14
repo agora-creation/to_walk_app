@@ -21,12 +21,12 @@ class _GameScreenState extends State<GameScreen> {
         padding: const EdgeInsets.all(8),
         children: [
           GameListTile(
-            labelText: 'シューティングゲーム',
-            onTap: () => pushScreen(context, const ShootingGameScreen()),
+            labelText: 'てくてくキャッチ',
+            onTap: () => pushScreen(context, const CatchGameWidget()),
           ),
           GameListTile(
-            labelText: '上から落ちてくるものを避ける',
-            onTap: () => pushScreen(context, const CatchGameWidget()),
+            labelText: 'シューティングゲーム',
+            onTap: () => pushScreen(context, const ShootingGameScreen()),
           ),
           GameListTile(
             labelText: '走ってジャンプする',

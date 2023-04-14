@@ -48,12 +48,7 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/images/coin/
-    - assets/images/robot/
-    - assets/images/explosion/
-    - assets/images/ui/
-    - assets/images/items/
-    - assets/images/platforms/
+    - assets/images/games/
     - assets/audio/
     - assets/game_config.json
 

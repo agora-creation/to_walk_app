@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
@@ -7,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:to_walk_app/games/catch/objects/fall_item.dart';
 import 'package:to_walk_app/games/catch/objects/ground.dart';
 import 'package:to_walk_app/games/catch/objects/player.dart';
-import 'package:to_walk_app/helpers/common.dart';
+import 'package:to_walk_app/games/common.dart';
+import 'package:to_walk_app/games/resources.dart';
 
 class CatchGameWidget extends StatelessWidget {
   const CatchGameWidget({Key? key}) : super(key: key);
@@ -28,7 +30,11 @@ class CatchGame extends Forge2DGame with TapDetector {
     await super.onLoad();
     camera.viewport = FixedResolutionViewport(screenSize);
 
-    //背景
+    final bg = SpriteComponent(
+      sprite: Resources.bg,
+      size: screenSize,
+    )..positionType = PositionType.viewport;
+    add(bg);
 
     await add(GroundObject());
 
@@ -45,10 +51,6 @@ class CatchGame extends Forge2DGame with TapDetector {
   void onTapUp(TapUpInfo info) {
     super.onTapUp(info);
     double tapX = info.eventPosition.game.x;
-    if ((worldSize.x / 2) > tapX) {
-      player.moveLeft();
-    } else if ((worldSize.x / 2) < tapX) {
-      player.moveRight();
-    }
+    player.move(tapX);
   }
 }

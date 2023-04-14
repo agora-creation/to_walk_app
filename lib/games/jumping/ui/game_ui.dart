@@ -1,9 +1,9 @@
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/games/common.dart';
 import 'package:to_walk_app/games/jumping/assets.dart';
 import 'package:to_walk_app/games/jumping/game.dart';
-import 'package:to_walk_app/helpers/common.dart';
 
 final textPaint = TextPaint(
   style: const TextStyle(

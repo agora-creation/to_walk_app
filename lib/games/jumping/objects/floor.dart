@@ -1,6 +1,6 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:to_walk_app/games/common.dart';
 import 'package:to_walk_app/games/jumping/game.dart';
-import 'package:to_walk_app/helpers/common.dart';
 
 class Floor extends BodyComponent<JumpingGame> {
   @override
