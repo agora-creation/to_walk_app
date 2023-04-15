@@ -22,7 +22,10 @@ class _GameScreenState extends State<GameScreen> {
         children: [
           GameListTile(
             labelText: 'てくてくキャッチ',
-            onTap: () => pushScreen(context, const CatchGameWidget()),
+            onTap: () => pushReplacementScreen(
+              context,
+              const CatchGameWidget(),
+            ),
           ),
           GameListTile(
             labelText: 'シューティングゲーム',
@@ -42,7 +45,10 @@ class _GameScreenState extends State<GameScreen> {
           ),
           GameListTile(
             labelText: 'ジャンプ！ジャンプ！',
-            onTap: () => pushScreen(context, const JumpingGameWidget()),
+            onTap: () => pushReplacementScreen(
+              context,
+              const JumpingGameWidget(),
+            ),
           ),
         ],
       ),

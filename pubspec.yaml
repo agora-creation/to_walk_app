@@ -49,6 +49,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/games/
+    - assets/images/ui/
     - assets/audio/
     - assets/game_config.json
 

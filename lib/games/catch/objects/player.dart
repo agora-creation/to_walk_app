@@ -36,8 +36,6 @@ class PlayerObject extends BodyComponent<CatchGame> with ContactCallbacks {
     super.update(dt);
     final velocity = body.linearVelocity;
     final positionX = double.parse(body.position.x.toStringAsFixed(1));
-    print('tapX : $tapX');
-    print('positionX: $positionX');
     if (positionX > tapX) {
       accelerationX = -1;
     } else if (positionX < tapX) {

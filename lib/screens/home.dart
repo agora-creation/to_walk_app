@@ -12,14 +12,19 @@ import 'package:to_walk_app/widgets/custom_bottom_bar.dart';
 import 'package:to_walk_app/widgets/custom_footer.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final int index;
+
+  const HomeScreen({
+    this.index = 0,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
+  int _selectIndex = 0;
   final List<Widget> _items = [
     const RoomScreen(),
     const HistoryScreen(),
@@ -28,13 +33,19 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _selectIndex = widget.index;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final stepsProvider = Provider.of<StepsProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
     UserAlkModel? alk = userProvider.alk;
 
     return Scaffold(
-      body: _items[_selectedIndex],
+      body: _items[_selectIndex],
       bottomNavigationBar: CustomBottomBar(
         tabs: [
           GButton(
@@ -54,9 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
             text: '設定',
           ),
         ],
-        selectedIndex: _selectedIndex,
+        selectedIndex: _selectIndex,
         onTabChange: (index) {
-          setState(() => _selectedIndex = index);
+          setState(() => _selectIndex = index);
         },
       ),
       bottomSheet: CustomFooter(
