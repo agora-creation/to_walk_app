@@ -57,6 +57,8 @@ class PlayerObject extends BodyComponent<CatchGame> with ContactCallbacks {
     super.beginContact(other, contact);
     if (other is FallItemObject) {
       other.collision();
+      findGame()?.overlays.add('GameEnd');
+      findGame()?.paused = true;
     }
   }
 }

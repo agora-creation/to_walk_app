@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:to_walk_app/games/catch/objects/fall_item.dart';
 import 'package:to_walk_app/games/catch/objects/ground.dart';
 import 'package:to_walk_app/games/catch/objects/player.dart';
+import 'package:to_walk_app/games/catch/ui/game_end.dart';
 import 'package:to_walk_app/games/catch/ui/game_start.dart';
 import 'package:to_walk_app/games/catch/ui/game_ui.dart';
 import 'package:to_walk_app/games/common.dart';
@@ -23,6 +24,9 @@ class CatchGameWidget extends StatelessWidget {
       overlayBuilderMap: {
         'GameStart': (context, CatchGame game) {
           return GameStart(game: game);
+        },
+        'GameEnd': (context, CatchGame game) {
+          return GameEnd(game: game);
         },
       },
     );
