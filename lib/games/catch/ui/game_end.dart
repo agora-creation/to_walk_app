@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:to_walk_app/games/catch/game.dart';
+import 'package:to_walk_app/games/scores.dart';
 import 'package:to_walk_app/helpers/functions.dart';
+import 'package:to_walk_app/helpers/style.dart';
 import 'package:to_walk_app/screens/home.dart';
 import 'package:to_walk_app/widgets/custom_text_button.dart';
 
-class GameEnd extends StatelessWidget {
+class CatchGameEnd extends StatefulWidget {
   final CatchGame game;
 
-  const GameEnd({
+  const CatchGameEnd({
     required this.game,
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<CatchGameEnd> createState() => _CatchGameEndState();
+}
+
+class _CatchGameEndState extends State<CatchGameEnd> {
+  @override
+  void initState() {
+    super.initState();
+    Scores.catchSave(widget.game.score);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +43,7 @@ class GameEnd extends StatelessWidget {
                   children: [
                     const Center(
                       child: Text(
-                        'ゲーム終了',
+                        'ゲーム結果',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -38,18 +51,23 @@ class GameEnd extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Text(
-                      '''
-                        このゲームでは、画面をタップして、アルクを左右に移動させてください。
-                        画面の上部から、スコアアイテムや障害物が降ってきますので、避けたり、キャッチしてください。
-                       ''',
-                      style: TextStyle(
-                        fontSize: 16,
+                    Container(
+                      decoration: kTopBottomBorder,
+                      child: ListTile(
+                        title: const Text('今回のスコア'),
+                        trailing: Text('${widget.game.score}'),
+                      ),
+                    ),
+                    Container(
+                      decoration: kBottomBorder,
+                      child: ListTile(
+                        title: const Text('ベストスコア'),
+                        trailing: Text('${Scores.data['catchScore']}'),
                       ),
                     ),
                     const SizedBox(height: 24),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CustomTextButton(
                           labelText: '戻る',
@@ -57,6 +75,14 @@ class GameEnd extends StatelessWidget {
                           onPressed: () => pushReplacementScreen(
                             context,
                             const HomeScreen(index: 2),
+                          ),
+                        ),
+                        CustomTextButton(
+                          labelText: 'もう一度！',
+                          backgroundColor: Colors.blue,
+                          onPressed: () => pushReplacementScreen(
+                            context,
+                            const CatchGameWidget(tutorialSkip: true),
                           ),
                         ),
                       ],

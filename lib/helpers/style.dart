@@ -37,6 +37,19 @@ const kSubTitleStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+const kTopBottomBorder = BoxDecoration(
+  border: Border(
+    top: BorderSide(color: Colors.black54),
+    bottom: BorderSide(color: Colors.black54),
+  ),
+);
+
+const kBottomBorder = BoxDecoration(
+  border: Border(
+    bottom: BorderSide(color: Colors.black54),
+  ),
+);
+
 const nextExpList = {
   '0': 100,
   '1': 200,

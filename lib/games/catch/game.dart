@@ -15,18 +15,23 @@ import 'package:to_walk_app/games/common.dart';
 import 'package:to_walk_app/games/resources.dart';
 
 class CatchGameWidget extends StatelessWidget {
-  const CatchGameWidget({Key? key}) : super(key: key);
+  final bool tutorialSkip;
+
+  const CatchGameWidget({
+    this.tutorialSkip = false,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GameWidget(
-      game: CatchGame(),
+      game: CatchGame(tutorialSkip: tutorialSkip),
       overlayBuilderMap: {
         'GameStart': (context, CatchGame game) {
-          return GameStart(game: game);
+          return CatchGameStart(game: game);
         },
         'GameEnd': (context, CatchGame game) {
-          return GameEnd(game: game);
+          return CatchGameEnd(game: game);
         },
       },
     );
@@ -34,7 +39,11 @@ class CatchGameWidget extends StatelessWidget {
 }
 
 class CatchGame extends Forge2DGame with TapDetector {
-  CatchGame() : super(zoom: 100, gravity: Vector2(0, 9.8));
+  final bool tutorialSkip;
+
+  CatchGame({
+    required this.tutorialSkip,
+  }) : super(zoom: 100, gravity: Vector2(0, 9.8));
 
   late final PlayerObject player;
   int score = 0;
@@ -50,12 +59,13 @@ class CatchGame extends Forge2DGame with TapDetector {
       size: screenSize,
     )..positionType = PositionType.viewport;
     add(bg);
-
-    add(GameUI());
     add(GroundObject());
 
-    player = PlayerObject();
-    await add(player);
+    if (tutorialSkip) {
+      add(CatchGameUI());
+      player = PlayerObject();
+      await add(player);
+    }
 
     await add(FallItemObject(
       x: worldSize.x * Random().nextDouble(),
@@ -66,10 +76,12 @@ class CatchGame extends Forge2DGame with TapDetector {
   @override
   void update(double dt) {
     super.update(dt);
-    if (isStart) {
-      findGame()?.overlays.add('GameStart');
-      findGame()?.paused = true;
-      isStart = false;
+    if (!tutorialSkip) {
+      if (isStart) {
+        findGame()?.overlays.add('GameStart');
+        findGame()?.paused = true;
+        isStart = false;
+      }
     }
   }
 
@@ -78,5 +90,9 @@ class CatchGame extends Forge2DGame with TapDetector {
     super.onTapUp(info);
     double tapX = info.eventPosition.game.x;
     player.move(tapX);
+  }
+
+  void addScore(int value) {
+    score += value;
   }
 }

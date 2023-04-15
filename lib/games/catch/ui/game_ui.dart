@@ -12,7 +12,7 @@ final _textPaint = TextPaint(
   ),
 );
 
-class GameUI extends PositionComponent with HasGameRef<CatchGame> {
+class CatchGameUI extends PositionComponent with HasGameRef<CatchGame> {
   final totalScore = TextComponent(textRenderer: _textPaint);
 
   @override
@@ -28,7 +28,7 @@ class GameUI extends PositionComponent with HasGameRef<CatchGame> {
   @override
   void update(double dt) {
     super.update(dt);
-    totalScore.text = 'スコア: 100';
+    totalScore.text = 'スコア : ${game.score}';
     totalScore.position
       ..x = screenSize.x / 2 - totalScore.x / 2
       ..y = 10;

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:to_walk_app/games/catch/game.dart';
+import 'package:to_walk_app/games/catch/objects/player.dart';
+import 'package:to_walk_app/games/catch/ui/game_ui.dart';
 import 'package:to_walk_app/helpers/functions.dart';
 import 'package:to_walk_app/screens/home.dart';
 import 'package:to_walk_app/widgets/custom_text_button.dart';
 
-class GameStart extends StatelessWidget {
+class CatchGameStart extends StatelessWidget {
   final CatchGame game;
 
-  const GameStart({
+  const CatchGameStart({
     required this.game,
     Key? key,
   }) : super(key: key);
@@ -39,10 +41,13 @@ class GameStart extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      '''
-                        このゲームでは、画面をタップして、アルクを左右に移動させてください。
-                        画面の上部から、スコアアイテムや障害物が降ってきますので、避けたり、キャッチしてください。
-                       ''',
+                      '① 画面をタップして、アルクを左右に移動させてください。',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    const Text(
+                      '② 上からアイテムが降ってくるので、避け続けてください。',
                       style: TextStyle(
                         fontSize: 16,
                       ),
@@ -60,11 +65,15 @@ class GameStart extends StatelessWidget {
                           ),
                         ),
                         CustomTextButton(
-                          labelText: 'スタート！',
+                          labelText: '始める！',
                           backgroundColor: Colors.blue,
-                          onPressed: () {
+                          onPressed: () async {
                             game.overlays.remove('GameStart');
                             game.paused = false;
+
+                            game.add(CatchGameUI());
+                            game.player = PlayerObject();
+                            await game.add(game.player);
                           },
                         ),
                       ],
