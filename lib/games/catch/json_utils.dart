@@ -4,7 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
 
 class JsonUtils {
-  static dynamic init() async {
+  static dynamic read() async {
     Map<String, dynamic> resolution = {};
     String res = await rootBundle.loadString('assets/json/catch_game.json');
     final data = await json.decode(res);

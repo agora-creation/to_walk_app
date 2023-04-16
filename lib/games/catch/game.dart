@@ -5,9 +5,9 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/games/catch/game_controller.dart';
 import 'package:to_walk_app/games/catch/objects/fall_item.dart';
 import 'package:to_walk_app/games/catch/objects/ground.dart';
-import 'package:to_walk_app/games/catch/objects/player.dart';
 import 'package:to_walk_app/games/catch/ui/game_end.dart';
 import 'package:to_walk_app/games/catch/ui/game_start.dart';
 import 'package:to_walk_app/games/catch/ui/game_ui.dart';
@@ -45,51 +45,45 @@ class CatchGame extends Forge2DGame with TapDetector {
     required this.tutorialSkip,
   }) : super(zoom: 100, gravity: Vector2(0, 9.8));
 
-  late final PlayerObject player;
+  late GameController controller;
   late TimerComponent timer;
-  int score = 0;
-  bool isStart = true;
+  bool tutorialView = true;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
     camera.viewport = FixedResolutionViewport(screenSize);
-
     final bg = SpriteComponent(
       sprite: Resources.bg,
       size: screenSize,
     )..positionType = PositionType.viewport;
     add(bg);
     add(GroundObject());
-
-    if (tutorialSkip) {
-      add(CatchGameUI());
-      player = PlayerObject();
-      await add(player);
-    }
-
+    controller = GameController();
+    add(controller);
     timer = TimerComponent(
       period: 1,
       repeat: true,
       onTick: () {},
     );
+    await controller.init();
+    add(timer);
 
+    add(CatchGameUI());
     await add(FallItemObject(
       x: worldSize.x * Random().nextDouble(),
       y: -1,
     ));
-
-    add(timer);
   }
 
   @override
   void update(double dt) {
     super.update(dt);
     if (!tutorialSkip) {
-      if (isStart) {
+      if (tutorialView) {
         findGame()?.overlays.add('GameStart');
         findGame()?.paused = true;
-        isStart = false;
+        tutorialView = false;
       }
     }
   }
@@ -98,10 +92,10 @@ class CatchGame extends Forge2DGame with TapDetector {
   void onTapUp(TapUpInfo info) {
     super.onTapUp(info);
     double tapX = info.eventPosition.game.x;
-    player.move(tapX);
+    controller.player.move(tapX);
   }
 
   void addScore(int value) {
-    score += value;
+    controller.score += value;
   }
 }

@@ -72,8 +72,8 @@ class CatchGameStart extends StatelessWidget {
                             game.paused = false;
 
                             game.add(CatchGameUI());
-                            game.player = PlayerObject();
-                            await game.add(game.player);
+                            game.controller.player = PlayerObject();
+                            await game.add(game.controller.player);
                           },
                         ),
                       ],

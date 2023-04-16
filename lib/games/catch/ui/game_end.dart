@@ -22,7 +22,7 @@ class _CatchGameEndState extends State<CatchGameEnd> {
   @override
   void initState() {
     super.initState();
-    Scores.catchSave(widget.game.score);
+    Scores.catchSave(widget.game.controller.score);
   }
 
   @override
@@ -55,7 +55,7 @@ class _CatchGameEndState extends State<CatchGameEnd> {
                       decoration: kTopBottomBorder,
                       child: ListTile(
                         title: const Text('今回のスコア'),
-                        trailing: Text('${widget.game.score}'),
+                        trailing: Text('${widget.game.controller.score}'),
                       ),
                     ),
                     Container(

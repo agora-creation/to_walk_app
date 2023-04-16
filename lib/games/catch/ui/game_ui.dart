@@ -28,7 +28,7 @@ class CatchGameUI extends PositionComponent with HasGameRef<CatchGame> {
   @override
   void update(double dt) {
     super.update(dt);
-    totalScore.text = 'スコア : ${game.score}';
+    totalScore.text = 'スコア : ${game.controller.score}';
     totalScore.position
       ..x = screenSize.x / 2 - totalScore.x / 2
       ..y = 10;
