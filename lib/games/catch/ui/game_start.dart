@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:to_walk_app/games/catch/game.dart';
-import 'package:to_walk_app/games/catch/objects/player.dart';
-import 'package:to_walk_app/games/catch/ui/game_ui.dart';
 import 'package:to_walk_app/helpers/functions.dart';
 import 'package:to_walk_app/screens/home.dart';
 import 'package:to_walk_app/widgets/custom_text_button.dart';
@@ -71,9 +69,7 @@ class CatchGameStart extends StatelessWidget {
                             game.overlays.remove('GameStart');
                             game.paused = false;
 
-                            game.add(CatchGameUI());
-                            game.controller.player = PlayerObject();
-                            await game.add(game.controller.player);
+                            await game.controller.setPlayer();
                           },
                         ),
                       ],

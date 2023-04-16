@@ -10,7 +10,6 @@ import 'package:to_walk_app/games/catch/objects/fall_item.dart';
 import 'package:to_walk_app/games/catch/objects/ground.dart';
 import 'package:to_walk_app/games/catch/ui/game_end.dart';
 import 'package:to_walk_app/games/catch/ui/game_start.dart';
-import 'package:to_walk_app/games/catch/ui/game_ui.dart';
 import 'package:to_walk_app/games/common.dart';
 import 'package:to_walk_app/games/resources.dart';
 
@@ -64,12 +63,11 @@ class CatchGame extends Forge2DGame with TapDetector {
     timer = TimerComponent(
       period: 1,
       repeat: true,
-      onTick: () {},
+      onTick: () => controller.onTick(),
     );
     await controller.init();
     add(timer);
 
-    add(CatchGameUI());
     await add(FallItemObject(
       x: worldSize.x * Random().nextDouble(),
       y: -1,
