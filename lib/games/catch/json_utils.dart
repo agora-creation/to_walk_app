@@ -8,7 +8,6 @@ class JsonUtils {
     Map<String, dynamic> resolution = {};
     String res = await rootBundle.loadString('assets/json/catch_game.json');
     final data = await json.decode(res);
-    resolution['game_data']['resolution'];
     return data;
   }
 

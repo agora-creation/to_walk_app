@@ -45,7 +45,13 @@ class CatchGameStart extends StatelessWidget {
                       ),
                     ),
                     const Text(
-                      '② 上からアイテムが降ってくるので、避け続けてください。',
+                      '② 上から爆弾が降ってくるので、避け続けてください。',
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    const Text(
+                      '② 上からニンジンが降ってくるので、キャッチしてください。',
                       style: TextStyle(
                         fontSize: 16,
                       ),
@@ -68,7 +74,6 @@ class CatchGameStart extends StatelessWidget {
                           onPressed: () async {
                             game.overlays.remove('GameStart');
                             game.paused = false;
-
                             await game.controller.setPlayer();
                           },
                         ),

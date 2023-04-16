@@ -10,6 +10,7 @@ import 'package:to_walk_app/games/catch/objects/fall_item.dart';
 import 'package:to_walk_app/games/catch/objects/ground.dart';
 import 'package:to_walk_app/games/catch/ui/game_end.dart';
 import 'package:to_walk_app/games/catch/ui/game_start.dart';
+import 'package:to_walk_app/games/catch/ui/game_ui.dart';
 import 'package:to_walk_app/games/common.dart';
 import 'package:to_walk_app/games/resources.dart';
 
@@ -58,6 +59,7 @@ class CatchGame extends Forge2DGame with TapDetector {
     )..positionType = PositionType.viewport;
     add(bg);
     add(GroundObject());
+    add(CatchGameUI());
     controller = GameController();
     add(controller);
     timer = TimerComponent(
@@ -91,9 +93,5 @@ class CatchGame extends Forge2DGame with TapDetector {
     super.onTapUp(info);
     double tapX = info.eventPosition.game.x;
     controller.player.move(tapX);
-  }
-
-  void addScore(int value) {
-    controller.score += value;
   }
 }

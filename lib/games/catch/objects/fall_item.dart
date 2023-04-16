@@ -40,12 +40,12 @@ class FallItemObject extends BodyComponent<CatchGame> with ContactCallbacks {
     super.beginContact(other, contact);
     isCollision = true;
     if (other is GroundObject) {
-      gameRef.addScore(10);
+      gameRef.controller.addScore(10);
       findGame()?.overlays.add('GameEnd');
       findGame()?.paused = true;
     }
     if (other is PlayerObject) {
-      gameRef.addScore(20);
+      gameRef.controller.addScore(20);
       findGame()?.overlays.add('GameEnd');
       findGame()?.paused = true;
     }

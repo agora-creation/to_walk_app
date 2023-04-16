@@ -46,6 +46,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/json/
     - assets/images/
     - assets/images/games/
     - assets/game_config.json

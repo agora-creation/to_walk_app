@@ -31,7 +31,7 @@ class _GameScreenState extends State<GameScreen> {
           const SizedBox(height: 8),
           GameListTile(
             labelText: 'てくてくキャッチ',
-            scoreText: '${Scores.data['catchScore']}',
+            scoreText: '${Scores.data['catchScore']}本',
             onTap: () => pushReplacementScreen(
               context,
               const CatchGameWidget(),

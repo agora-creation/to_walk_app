@@ -1,7 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:to_walk_app/games/catch/game.dart';
-import 'package:to_walk_app/games/common.dart';
 
 final _textPaint = TextPaint(
   style: const TextStyle(
@@ -28,9 +27,9 @@ class CatchGameUI extends PositionComponent with HasGameRef<CatchGame> {
   @override
   void update(double dt) {
     super.update(dt);
-    totalScore.text = 'スコア : ${game.controller.score}';
+    totalScore.text = 'スコア : ${game.controller.score}本';
     totalScore.position
-      ..x = screenSize.x / 2 - totalScore.x / 2
-      ..y = 10;
+      ..x = 20
+      ..y = 0;
   }
 }
