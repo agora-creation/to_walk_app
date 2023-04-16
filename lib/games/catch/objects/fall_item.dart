@@ -37,9 +37,8 @@ class FallItemObject extends BodyComponent<CatchGame> with ContactCallbacks {
 
   @override
   void beginContact(Object other, Contact contact) {
-    super.beginContact(other, contact);
-    isCollision = true;
     gameRef.camera.shake(duration: 0.5, intensity: 5);
+    isCollision = true;
     if (other is GroundObject) {
       gameRef.controller.addScore(30);
       findGame()?.overlays.add('GameEnd');
@@ -50,5 +49,6 @@ class FallItemObject extends BodyComponent<CatchGame> with ContactCallbacks {
       findGame()?.overlays.add('GameEnd');
       findGame()?.paused = true;
     }
+    super.beginContact(other, contact);
   }
 }
