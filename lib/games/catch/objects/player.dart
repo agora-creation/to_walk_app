@@ -1,9 +1,8 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:to_walk_app/games/catch/game.dart';
-import 'package:to_walk_app/games/catch/objects/fall_item.dart';
 import 'package:to_walk_app/games/common.dart';
 
-class PlayerObject extends BodyComponent<CatchGame> with ContactCallbacks {
+class PlayerObject extends BodyComponent<CatchGame> {
   double tapX = 0;
   double accelerationX = 0;
 
@@ -50,16 +49,5 @@ class PlayerObject extends BodyComponent<CatchGame> with ContactCallbacks {
   void move(double value) async {
     await Future.delayed(const Duration(seconds: 1));
     tapX = double.parse(value.toStringAsFixed(1));
-  }
-
-  @override
-  void beginContact(Object other, Contact contact) {
-    super.beginContact(other, contact);
-    if (other is FallItemObject) {
-      other.collision();
-      gameRef.addScore(10);
-      findGame()?.overlays.add('GameEnd');
-      findGame()?.paused = true;
-    }
   }
 }

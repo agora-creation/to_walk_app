@@ -7,7 +7,6 @@ import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:flutter/material.dart';
 import 'package:to_walk_app/games/common.dart';
 import 'package:to_walk_app/games/jumping/assets.dart';
-import 'package:to_walk_app/games/jumping/high_scores.dart';
 import 'package:to_walk_app/games/jumping/objects/bullet.dart';
 import 'package:to_walk_app/games/jumping/objects/cloud_enemy.dart';
 import 'package:to_walk_app/games/jumping/objects/coin.dart';
@@ -47,7 +46,7 @@ class JumpingGame extends Forge2DGame
   int coins = 0;
   int bullets = 0;
   double generatedWorldHeight = 6.7;
-  var state = GameState.running;
+  // var state = GameState.running;
 
   //screenSizeを100倍に拡大し、重力を9.8とする
   JumpingGame() : super(zoom: 100, gravity: Vector2(0, 9.8));
@@ -81,25 +80,25 @@ class JumpingGame extends Forge2DGame
   @override
   void update(double dt) {
     super.update(dt);
-    if (state == GameState.running) {
-      if (generatedWorldHeight > hero.body.position.y - worldSize.y / 2) {
-        //World生成
-        generateNextSectionOfWorld();
-      }
-
-      final heroY = (hero.body.position.y - worldSize.y) * -1;
-      if (score < heroY) {
-        score = heroY.toInt();
-      }
-      if (score - 7 > heroY) {
-        hero.hit();
-      }
-      if (hero.state == HeroState.dead && (score - worldSize.y) > heroY) {
-        state = GameState.gameOver;
-        HighScores.save(score);
-        overlays.add('GameOverMenu');
-      }
-    }
+    // if (state == GameState.running) {
+    //   if (generatedWorldHeight > hero.body.position.y - worldSize.y / 2) {
+    //     //World生成
+    //     generateNextSectionOfWorld();
+    //   }
+    //
+    //   final heroY = (hero.body.position.y - worldSize.y) * -1;
+    //   if (score < heroY) {
+    //     score = heroY.toInt();
+    //   }
+    //   if (score - 7 > heroY) {
+    //     hero.hit();
+    //   }
+    //   if (hero.state == HeroState.dead && (score - worldSize.y) > heroY) {
+    //     state = GameState.gameOver;
+    //     HighScores.save(score);
+    //     overlays.add('GameOverMenu');
+    //   }
+    // }
   }
 
   @override

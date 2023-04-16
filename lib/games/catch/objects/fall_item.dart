@@ -1,7 +1,9 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:to_walk_app/games/catch/game.dart';
+import 'package:to_walk_app/games/catch/objects/ground.dart';
+import 'package:to_walk_app/games/catch/objects/player.dart';
 
-class FallItemObject extends BodyComponent<CatchGame> {
+class FallItemObject extends BodyComponent<CatchGame> with ContactCallbacks {
   final Vector2 _position;
   bool isCollision = false;
 
@@ -15,13 +17,13 @@ class FallItemObject extends BodyComponent<CatchGame> {
     final bodyDef = BodyDef(
       userData: this,
       position: _position,
-      type: BodyType.kinematic,
+      type: BodyType.dynamic,
     );
     final shape = CircleShape()..radius = .3;
     final fixtureDef = FixtureDef(shape)..isSensor = true;
     return world.createBody(bodyDef)
       ..createFixture(fixtureDef)
-      ..linearVelocity = Vector2(0, 1);
+      ..gravityScale = Vector2(0, .1);
   }
 
   @override
@@ -33,5 +35,19 @@ class FallItemObject extends BodyComponent<CatchGame> {
     }
   }
 
-  void collision() => isCollision = true;
+  @override
+  void beginContact(Object other, Contact contact) {
+    super.beginContact(other, contact);
+    isCollision = true;
+    if (other is GroundObject) {
+      gameRef.addScore(10);
+      findGame()?.overlays.add('GameEnd');
+      findGame()?.paused = true;
+    }
+    if (other is PlayerObject) {
+      gameRef.addScore(20);
+      findGame()?.overlays.add('GameEnd');
+      findGame()?.paused = true;
+    }
+  }
 }

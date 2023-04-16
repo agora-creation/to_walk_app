@@ -33,7 +33,6 @@ dependencies:
   package_info_plus: ^3.0.3
   introduction_screen: ^3.1.7
   flame: ^1.6.0
-  flame_audio: ^1.4.0
   flame_forge2d: ^0.13.0
 
 dev_dependencies:

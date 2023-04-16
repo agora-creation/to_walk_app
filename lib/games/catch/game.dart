@@ -46,6 +46,7 @@ class CatchGame extends Forge2DGame with TapDetector {
   }) : super(zoom: 100, gravity: Vector2(0, 9.8));
 
   late final PlayerObject player;
+  late TimerComponent timer;
   int score = 0;
   bool isStart = true;
 
@@ -67,10 +68,18 @@ class CatchGame extends Forge2DGame with TapDetector {
       await add(player);
     }
 
+    timer = TimerComponent(
+      period: 1,
+      repeat: true,
+      onTick: () {},
+    );
+
     await add(FallItemObject(
       x: worldSize.x * Random().nextDouble(),
       y: -1,
     ));
+
+    add(timer);
   }
 
   @override
