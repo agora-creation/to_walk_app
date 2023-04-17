@@ -28,7 +28,7 @@ class PlayerObject extends BodyComponent<CatchGame> {
       position: Vector2(worldSize.x / 2, worldSize.y - 2),
       type: BodyType.dynamic,
     );
-    final shape = PolygonShape()..setAsBoxXY(.5, .5);
+    final shape = PolygonShape()..setAsBoxXY(.4, .44);
     final fixtureDef = FixtureDef(shape)
       ..density = 10
       ..friction = 0

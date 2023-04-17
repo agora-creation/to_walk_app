@@ -33,7 +33,7 @@ class BombObject extends BodyComponent<CatchGame> with ContactCallbacks {
       position: _position,
       type: BodyType.dynamic,
     );
-    final shape = CircleShape()..radius = .3;
+    final shape = PolygonShape()..setAsBoxXY(.4, .3);
     final fixtureDef = FixtureDef(shape)..isSensor = true;
     return world.createBody(bodyDef)
       ..createFixture(fixtureDef)
