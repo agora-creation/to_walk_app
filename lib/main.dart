@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:to_walk_app/games/resources.dart';
+import 'package:to_walk_app/games/scores.dart';
 import 'package:to_walk_app/helpers/style.dart';
 import 'package:to_walk_app/providers/steps.dart';
 import 'package:to_walk_app/providers/user.dart';
@@ -17,6 +18,7 @@ Future main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+  await Scores.load();
   await Resources.load();
   runApp(const MyApp());
 }

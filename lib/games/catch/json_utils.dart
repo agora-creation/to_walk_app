@@ -18,6 +18,7 @@ class JsonUtils {
         x: e['x'].toDouble(),
         y: e['y'].toDouble(),
         gravity: e['gravity'].toDouble(),
+        time: e['time'].toInt(),
       );
       result.add(bomb);
     }

@@ -8,12 +8,14 @@ class BombObject extends BodyComponent<CatchGame> with ContactCallbacks {
   static final size = Vector2(.8, .72);
   final Vector2 _position;
   final double gravity;
+  final int time;
   bool isCollision = false;
 
   BombObject({
     required double x,
     required double y,
     required this.gravity,
+    required this.time,
   }) : _position = Vector2(x, y);
 
   @override

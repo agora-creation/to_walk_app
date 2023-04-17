@@ -3,6 +3,7 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:to_walk_app/games/catch/game_controller.dart';
 import 'package:to_walk_app/games/catch/objects/ground.dart';
 import 'package:to_walk_app/games/catch/ui/game_end.dart';
@@ -10,6 +11,7 @@ import 'package:to_walk_app/games/catch/ui/game_start.dart';
 import 'package:to_walk_app/games/catch/ui/game_ui.dart';
 import 'package:to_walk_app/games/common.dart';
 import 'package:to_walk_app/games/resources.dart';
+import 'package:to_walk_app/providers/user.dart';
 
 class CatchGameWidget extends StatelessWidget {
   final bool tutorialSkip;
@@ -21,8 +23,14 @@ class CatchGameWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+    double speed = userProvider.alk?.speed ?? 0.0;
+
     return GameWidget(
-      game: CatchGame(tutorialSkip: tutorialSkip),
+      game: CatchGame(
+        speed: speed,
+        tutorialSkip: tutorialSkip,
+      ),
       overlayBuilderMap: {
         'GameStart': (context, CatchGame game) {
           return CatchGameStart(game: game);
@@ -36,9 +44,11 @@ class CatchGameWidget extends StatelessWidget {
 }
 
 class CatchGame extends Forge2DGame with TapDetector {
+  final double speed;
   final bool tutorialSkip;
 
   CatchGame({
+    required this.speed,
     required this.tutorialSkip,
   }) : super(zoom: 100, gravity: Vector2(0, 9.8));
 
@@ -64,7 +74,7 @@ class CatchGame extends Forge2DGame with TapDetector {
       repeat: true,
       onTick: () => controller.onTick(),
     );
-    await controller.init();
+    await controller.init(speed: speed);
     add(timer);
   }
 
