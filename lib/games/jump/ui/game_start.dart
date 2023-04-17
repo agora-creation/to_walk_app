@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:to_walk_app/games/catch/game.dart';
+import 'package:to_walk_app/games/jump/game.dart';
 import 'package:to_walk_app/helpers/functions.dart';
 import 'package:to_walk_app/screens/home.dart';
 import 'package:to_walk_app/widgets/custom_text_button.dart';
 
-class CatchGameStart extends StatelessWidget {
-  final CatchGame game;
+class JumpGameStart extends StatelessWidget {
+  final JumpGame game;
 
-  const CatchGameStart({
+  const JumpGameStart({
     required this.game,
     Key? key,
   }) : super(key: key);
@@ -30,7 +30,7 @@ class CatchGameStart extends StatelessWidget {
                   children: [
                     const Center(
                       child: Text(
-                        'てくてくキャッチ！',
+                        'ぱたぱたジャンプ！',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -39,19 +39,13 @@ class CatchGameStart extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      '① 画面をタップして、アルクを左右に移動させてください。',
+                      '① 画面をタップすると、アルクが一度だけジャンプします。',
                       style: TextStyle(
                         fontSize: 16,
                       ),
                     ),
                     const Text(
-                      '② 上から爆弾が降ってくるので、避け続けてください。',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    const Text(
-                      '③ 上からニンジンが降ってくるので、キャッチしてください。',
+                      '② 何もしないと、アルクが下に落ちてしまうので、タップし続けましょう。',
                       style: TextStyle(
                         fontSize: 16,
                       ),
@@ -74,7 +68,6 @@ class CatchGameStart extends StatelessWidget {
                           onPressed: () async {
                             game.overlays.remove('GameStart');
                             game.paused = false;
-                            await game.controller.setPlayer();
                           },
                         ),
                       ],

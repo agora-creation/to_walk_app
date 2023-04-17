@@ -6,7 +6,7 @@ import 'package:to_walk_app/games/catch/objects/carrot.dart';
 import 'package:to_walk_app/games/catch/objects/player.dart';
 import 'package:to_walk_app/games/scores.dart';
 
-class GameController extends Component with HasGameRef<CatchGame> {
+class CatchGameController extends Component with HasGameRef<CatchGame> {
   int score = 0;
   int currentTime = 0;
   late dynamic jsonData;

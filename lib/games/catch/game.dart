@@ -52,7 +52,7 @@ class CatchGame extends Forge2DGame with TapDetector {
     required this.tutorialSkip,
   }) : super(zoom: 100, gravity: Vector2(0, 9.8));
 
-  late GameController controller;
+  late CatchGameController controller;
   late TimerComponent timer;
   bool tutorialView = true;
 
@@ -67,7 +67,7 @@ class CatchGame extends Forge2DGame with TapDetector {
     add(bg);
     add(GroundObject());
     add(CatchGameUI());
-    controller = GameController();
+    controller = CatchGameController();
     add(controller);
     timer = TimerComponent(
       period: 1,

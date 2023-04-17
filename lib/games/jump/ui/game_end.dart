@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:to_walk_app/games/catch/game.dart';
+import 'package:to_walk_app/games/jump/game.dart';
+import 'package:to_walk_app/games/scores.dart';
 import 'package:to_walk_app/helpers/functions.dart';
+import 'package:to_walk_app/helpers/style.dart';
 import 'package:to_walk_app/screens/home.dart';
 import 'package:to_walk_app/widgets/custom_text_button.dart';
 
-class CatchGameStart extends StatelessWidget {
-  final CatchGame game;
+class JumpGameEnd extends StatelessWidget {
+  final JumpGame game;
 
-  const CatchGameStart({
+  const JumpGameEnd({
     required this.game,
     Key? key,
   }) : super(key: key);
@@ -30,7 +32,7 @@ class CatchGameStart extends StatelessWidget {
                   children: [
                     const Center(
                       child: Text(
-                        'てくてくキャッチ！',
+                        'ゲーム結果',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -38,22 +40,18 @@ class CatchGameStart extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Text(
-                      '① 画面をタップして、アルクを左右に移動させてください。',
-                      style: TextStyle(
-                        fontSize: 16,
+                    Container(
+                      decoration: kTopBottomBorder,
+                      child: ListTile(
+                        title: const Text('今回のスコア'),
+                        trailing: Text('${game.controller.score}'),
                       ),
                     ),
-                    const Text(
-                      '② 上から爆弾が降ってくるので、避け続けてください。',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    const Text(
-                      '③ 上からニンジンが降ってくるので、キャッチしてください。',
-                      style: TextStyle(
-                        fontSize: 16,
+                    Container(
+                      decoration: kBottomBorder,
+                      child: ListTile(
+                        title: const Text('ベストスコア'),
+                        trailing: Text('${Scores.data['jumpScore']}'),
                       ),
                     ),
                     const SizedBox(height: 24),
@@ -69,13 +67,12 @@ class CatchGameStart extends StatelessWidget {
                           ),
                         ),
                         CustomTextButton(
-                          labelText: '始める！',
+                          labelText: 'もう一度！',
                           backgroundColor: Colors.blue,
-                          onPressed: () async {
-                            game.overlays.remove('GameStart');
-                            game.paused = false;
-                            await game.controller.setPlayer();
-                          },
+                          onPressed: () => pushReplacementScreen(
+                            context,
+                            const JumpGameWidget(tutorialSkip: true),
+                          ),
                         ),
                       ],
                     ),
