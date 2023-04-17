@@ -49,7 +49,6 @@ flutter:
     - assets/json/
     - assets/images/
     - assets/images/games/
-    - assets/game_config.json
 
   fonts:
     - family: TsunagiGothic

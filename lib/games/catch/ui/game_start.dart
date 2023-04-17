@@ -51,7 +51,8 @@ class CatchGameStart extends StatelessWidget {
                       ),
                     ),
                     const Text(
-                      '② 上からニンジンが降ってくるので、キャッチしてください。',
+                      '③'
+                      ' 上からニンジンが降ってくるので、キャッチしてください。',
                       style: TextStyle(
                         fontSize: 16,
                       ),
