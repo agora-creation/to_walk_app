@@ -1,8 +1,11 @@
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:to_walk_app/games/catch/game.dart';
 import 'package:to_walk_app/games/catch/objects/player.dart';
+import 'package:to_walk_app/games/resources.dart';
 
 class CarrotObject extends BodyComponent<CatchGame> with ContactCallbacks {
+  static final size = Vector2(.5, 1.25);
   final Vector2 _position;
   final double gravity;
   final int time;
@@ -14,6 +17,16 @@ class CarrotObject extends BodyComponent<CatchGame> with ContactCallbacks {
     required this.gravity,
     required this.time,
   }) : _position = Vector2(x, y);
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    add(SpriteComponent(
+      sprite: Resources.carrot,
+      size: size,
+      anchor: Anchor.center,
+    ));
+  }
 
   @override
   Body createBody() {

@@ -1,14 +1,22 @@
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:to_walk_app/games/catch/game.dart';
 import 'package:to_walk_app/games/common.dart';
+import 'package:to_walk_app/games/resources.dart';
 
 class PlayerObject extends BodyComponent<CatchGame> {
+  static final size = Vector2(.8, .88);
   double tapX = 0;
   double accelerationX = 0;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    add(SpriteComponent(
+      sprite: Resources.player,
+      size: size,
+      anchor: Anchor.center,
+    ));
     double center = worldSize.x / 2;
     tapX = double.parse(center.toStringAsFixed(1));
   }

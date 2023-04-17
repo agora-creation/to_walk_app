@@ -1,8 +1,11 @@
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:to_walk_app/games/catch/game.dart';
 import 'package:to_walk_app/games/catch/objects/player.dart';
+import 'package:to_walk_app/games/resources.dart';
 
 class BombObject extends BodyComponent<CatchGame> with ContactCallbacks {
+  static final size = Vector2(.8, .72);
   final Vector2 _position;
   final double gravity;
   bool isCollision = false;
@@ -12,6 +15,16 @@ class BombObject extends BodyComponent<CatchGame> with ContactCallbacks {
     required double y,
     required this.gravity,
   }) : _position = Vector2(x, y);
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    add(SpriteComponent(
+      sprite: Resources.bomb,
+      size: size,
+      anchor: Anchor.center,
+    ));
+  }
 
   @override
   Body createBody() {
