@@ -1,15 +1,16 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:to_walk_app/games/catch/game.dart';
-import 'package:to_walk_app/games/catch/objects/ground.dart';
 import 'package:to_walk_app/games/catch/objects/player.dart';
 
-class FallItemObject extends BodyComponent<CatchGame> with ContactCallbacks {
+class BombObject extends BodyComponent<CatchGame> with ContactCallbacks {
   final Vector2 _position;
+  final double gravity;
   bool isCollision = false;
 
-  FallItemObject({
+  BombObject({
     required double x,
     required double y,
+    required this.gravity,
   }) : _position = Vector2(x, y);
 
   @override
@@ -23,7 +24,7 @@ class FallItemObject extends BodyComponent<CatchGame> with ContactCallbacks {
     final fixtureDef = FixtureDef(shape)..isSensor = true;
     return world.createBody(bodyDef)
       ..createFixture(fixtureDef)
-      ..gravityScale = Vector2(0, .1);
+      ..gravityScale = Vector2(0, gravity);
   }
 
   @override
@@ -37,13 +38,11 @@ class FallItemObject extends BodyComponent<CatchGame> with ContactCallbacks {
 
   @override
   void beginContact(Object other, Contact contact) {
-    isCollision = true;
-    if (other is GroundObject) {
-      gameRef.controller.addScore(50);
-      findGame()?.overlays.add('GameEnd');
-      findGame()?.paused = true;
-    }
-    if (other is PlayerObject) {}
     super.beginContact(other, contact);
+    isCollision = true;
+    if (other is PlayerObject) {
+      other.hit();
+      gameRef.controller.gameFinish();
+    }
   }
 }

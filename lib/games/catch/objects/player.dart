@@ -50,4 +50,8 @@ class PlayerObject extends BodyComponent<CatchGame> {
     await Future.delayed(const Duration(seconds: 1));
     tapX = double.parse(value.toStringAsFixed(1));
   }
+
+  void hit() {
+    accelerationX = 0;
+  }
 }

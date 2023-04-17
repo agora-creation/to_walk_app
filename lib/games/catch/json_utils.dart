@@ -1,24 +1,40 @@
 import 'dart:convert';
 
-import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
+import 'package:to_walk_app/games/catch/objects/bomb.dart';
+import 'package:to_walk_app/games/catch/objects/carrot.dart';
 
 class JsonUtils {
   static dynamic read() async {
-    Map<String, dynamic> resolution = {};
     String res = await rootBundle.loadString('assets/json/catch_game.json');
     final data = await json.decode(res);
     return data;
   }
 
-  static Vector2 extractResolution(dynamic data) {
-    Vector2 result = Vector2.zero();
-    Map<String, dynamic> resolution = {};
-    resolution = data['game_data']['resolution'];
-    result = Vector2(
-      resolution['x'].toDouble(),
-      resolution['y'].toDouble(),
-    );
+  static List<BombObject> extractBomb(dynamic data) {
+    List<BombObject> result = [];
+    for (final e in data['bomb']) {
+      BombObject bomb = BombObject(
+        x: e['x'].toDouble(),
+        y: e['y'].toDouble(),
+        gravity: e['gravity'].toDouble(),
+      );
+      result.add(bomb);
+    }
+    return result;
+  }
+
+  static List<CarrotObject> extractCarrot(dynamic data) {
+    List<CarrotObject> result = [];
+    for (final e in data['carrot']) {
+      CarrotObject carrot = CarrotObject(
+        x: e['x'].toDouble(),
+        y: e['y'].toDouble(),
+        gravity: e['gravity'].toDouble(),
+        time: e['time'].toInt(),
+      );
+      result.add(carrot);
+    }
     return result;
   }
 }

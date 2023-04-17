@@ -6,24 +6,13 @@ import 'package:to_walk_app/helpers/style.dart';
 import 'package:to_walk_app/screens/home.dart';
 import 'package:to_walk_app/widgets/custom_text_button.dart';
 
-class CatchGameEnd extends StatefulWidget {
+class CatchGameEnd extends StatelessWidget {
   final CatchGame game;
 
   const CatchGameEnd({
     required this.game,
     Key? key,
   }) : super(key: key);
-
-  @override
-  State<CatchGameEnd> createState() => _CatchGameEndState();
-}
-
-class _CatchGameEndState extends State<CatchGameEnd> {
-  @override
-  void initState() {
-    super.initState();
-    Scores.catchSave(widget.game.controller.score);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +44,7 @@ class _CatchGameEndState extends State<CatchGameEnd> {
                       decoration: kTopBottomBorder,
                       child: ListTile(
                         title: const Text('今回のスコア'),
-                        trailing: Text('${widget.game.controller.score}'),
+                        trailing: Text('${game.controller.score}'),
                       ),
                     ),
                     Container(

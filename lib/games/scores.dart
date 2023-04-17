@@ -17,17 +17,23 @@ class Scores {
   }
 
   static Future<void> catchSave(int score) async {
-    await setPrefsInt('catchScore', score);
-    data['catchScore'] = score;
+    if (data['catchScore'] < score) {
+      await setPrefsInt('catchScore', score);
+      data['catchScore'] = score;
+    }
   }
 
   static Future<void> dashSave(int score) async {
-    await setPrefsInt('dashScore', score);
-    data['dashScore'] = score;
+    if (data['dashScore'] < score) {
+      await setPrefsInt('dashScore', score);
+      data['dashScore'] = score;
+    }
   }
 
   static Future<void> jumpSave(int score) async {
-    await setPrefsInt('jumpScore', score);
-    data['jumpScore'] = score;
+    if (data['jumpScore'] < score) {
+      await setPrefsInt('jumpScore', score);
+      data['jumpScore'] = score;
+    }
   }
 }

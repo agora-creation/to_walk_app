@@ -1,12 +1,9 @@
-import 'dart:math';
-
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
 import 'package:to_walk_app/games/catch/game_controller.dart';
-import 'package:to_walk_app/games/catch/objects/fall_item.dart';
 import 'package:to_walk_app/games/catch/objects/ground.dart';
 import 'package:to_walk_app/games/catch/ui/game_end.dart';
 import 'package:to_walk_app/games/catch/ui/game_start.dart';
@@ -69,11 +66,6 @@ class CatchGame extends Forge2DGame with TapDetector {
     );
     await controller.init();
     add(timer);
-
-    await add(FallItemObject(
-      x: worldSize.x * Random().nextDouble(),
-      y: -1,
-    ));
   }
 
   @override
@@ -85,6 +77,9 @@ class CatchGame extends Forge2DGame with TapDetector {
         findGame()?.paused = true;
         tutorialView = false;
       }
+    }
+    if (controller.currentCarrots.isEmpty) {
+      controller.gameFinish();
     }
   }
 
