@@ -45,7 +45,7 @@ class CatchGameStart extends StatelessWidget {
                       ),
                     ),
                     const Text(
-                      '② 上から爆弾が降ってくるので、避け続けてください。',
+                      '② 上から雷が降ってくるので、避け続けてください。',
                       style: TextStyle(
                         fontSize: 16,
                       ),

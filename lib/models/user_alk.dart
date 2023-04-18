@@ -6,8 +6,6 @@ class UserAlkModel {
   String _userId = '';
   int _exp = 0;
   int _level = 0;
-  double _speed = 0.0;
-  double _jump = 0.0;
   DateTime _updatedAt = DateTime.now();
   DateTime _createdAt = DateTime.now();
 
@@ -15,8 +13,6 @@ class UserAlkModel {
   String get userId => _userId;
   int get exp => _exp;
   int get level => _level;
-  double get speed => _speed;
-  double get jump => _jump;
   DateTime get updatedAt => _updatedAt;
   DateTime get createdAt => _createdAt;
 
@@ -25,17 +21,23 @@ class UserAlkModel {
     _userId = snapshot.data()!['userId'] ?? '';
     _exp = snapshot.data()!['exp'] ?? 0;
     _level = snapshot.data()!['level'] ?? 0;
-    _speed = double.parse('${snapshot.data()!['speed']}');
-    _jump = double.parse('${snapshot.data()!['jump']}');
     _updatedAt = snapshot.data()!['updatedAt'].toDate() ?? DateTime.now();
     _createdAt = snapshot.data()!['createdAt'].toDate() ?? DateTime.now();
   }
 
   String getRoomName() {
-    if (level >= 10) {
+    if (level >= 1) {
       return 'アルクの部屋';
     } else {
       return '？？？';
+    }
+  }
+
+  String getHomeMessage() {
+    if (level >= 1) {
+      return 'アルク (Lv.$level)';
+    } else {
+      return 'タマゴ';
     }
   }
 

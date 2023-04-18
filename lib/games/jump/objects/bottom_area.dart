@@ -3,7 +3,7 @@ import 'package:to_walk_app/games/common.dart';
 import 'package:to_walk_app/games/jump/game.dart';
 import 'package:to_walk_app/games/jump/objects/player.dart';
 
-class Floor extends BodyComponent<JumpGame> with ContactCallbacks {
+class BottomArea extends BodyComponent<JumpGame> with ContactCallbacks {
   @override
   Body createBody() {
     final bodyDef = BodyDef(

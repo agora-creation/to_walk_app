@@ -58,8 +58,6 @@ class UserProvider with ChangeNotifier {
           'userId': value.user?.uid,
           'exp': 0,
           'level': 0,
-          'speed': 0,
-          'jump': 0,
           'updatedAt': DateTime.now(),
           'createdAt': DateTime.now(),
         });
@@ -105,8 +103,6 @@ class UserProvider with ChangeNotifier {
           'userId': value.user?.uid,
           'exp': befAlk.exp,
           'level': befAlk.level,
-          'speed': befAlk.speed,
-          'jump': befAlk.jump,
           'updatedAt': DateTime.now(),
           'createdAt': DateTime.now(),
         });

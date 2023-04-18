@@ -24,11 +24,11 @@ class CatchGameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
-    double speed = userProvider.alk?.speed ?? 0.0;
+    int level = userProvider.alk?.level ?? 0;
 
     return GameWidget(
       game: CatchGame(
-        speed: speed,
+        level: level,
         tutorialSkip: tutorialSkip,
       ),
       overlayBuilderMap: {
@@ -44,11 +44,11 @@ class CatchGameWidget extends StatelessWidget {
 }
 
 class CatchGame extends Forge2DGame with TapDetector {
-  final double speed;
+  final int level;
   final bool tutorialSkip;
 
   CatchGame({
-    required this.speed,
+    required this.level,
     required this.tutorialSkip,
   }) : super(zoom: 100, gravity: Vector2(0, 9.8));
 
@@ -65,6 +65,13 @@ class CatchGame extends Forge2DGame with TapDetector {
       size: screenSize,
     )..positionType = PositionType.viewport;
     add(bg);
+    add(SpriteComponent(
+      sprite: Resources.catchGround,
+      size: Vector2(worldSize.x, 1),
+      position: Vector2(worldSize.x / 2, 0.5),
+      anchor: Anchor.center,
+      priority: 2,
+    ));
     add(GroundObject());
     add(CatchGameUI());
     controller = CatchGameController();
@@ -74,7 +81,7 @@ class CatchGame extends Forge2DGame with TapDetector {
       repeat: true,
       onTick: () => controller.onTick(),
     );
-    await controller.init(speed: speed);
+    await controller.init(level: level);
     add(timer);
   }
 

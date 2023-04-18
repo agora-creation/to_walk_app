@@ -8,7 +8,6 @@ import 'package:to_walk_app/helpers/functions.dart';
 import 'package:to_walk_app/helpers/style.dart';
 import 'package:to_walk_app/models/user.dart';
 import 'package:to_walk_app/providers/user.dart';
-import 'package:to_walk_app/screens/how_to.dart';
 import 'package:to_walk_app/screens/migration.dart';
 import 'package:to_walk_app/screens/privacy_policy.dart';
 import 'package:to_walk_app/screens/terms.dart';
@@ -196,10 +195,10 @@ class _SettingScreenState extends State<SettingScreen> {
           SettingCard(
             labelText: 'このアプリについて',
             children: [
-              SettingListTile(
-                labelText: '使い方・遊び方',
-                onTap: () => pushScreen(context, const HowToScreen()),
-              ),
+              // SettingListTile(
+              //   labelText: '使い方・遊び方',
+              //   onTap: () => pushScreen(context, const HowToScreen()),
+              // ),
               SettingListTile(
                 labelText: '利用規約',
                 onTap: () => pushScreen(context, const TermsScreen()),

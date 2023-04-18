@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_walk_app/helpers/style.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class TermsScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _TermsScreenState extends State<TermsScreen> {
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0xFFB2EBF2))
-      ..loadRequest(Uri.parse('https://www.agora-c.com/alk/terms/'));
+      ..loadRequest(Uri.parse(termsUseUrl));
   }
 
   @override

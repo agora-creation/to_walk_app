@@ -39,7 +39,7 @@ class RoomScreen extends StatelessWidget {
             ),
             Container(),
             Text(
-              'タマゴ：${alk?.level}：${alk?.exp}',
+              alk?.getHomeMessage() ?? '',
               style: const TextStyle(
                 color: Colors.black38,
                 fontSize: 20,

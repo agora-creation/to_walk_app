@@ -14,12 +14,12 @@ class CatchGameController extends Component with HasGameRef<CatchGame> {
   late List<CarrotObject> carrots;
   List<CarrotObject> currentCarrots = [];
   late PlayerObject player;
-  double playerSpeed = 0.0;
+  int alkLevel = 0;
 
   PlayerObject getPlayer() => player;
 
-  Future<void> init({required double speed}) async {
-    playerSpeed = speed;
+  Future<void> init({required int level}) async {
+    alkLevel = level;
     jsonData = await JsonUtils.readCatch();
     bombs = JsonUtils.extractBomb(jsonData);
     carrots = JsonUtils.extractCarrot(jsonData);
@@ -30,7 +30,7 @@ class CatchGameController extends Component with HasGameRef<CatchGame> {
   }
 
   Future<void> setPlayer() async {
-    player = PlayerObject(speed: playerSpeed);
+    player = PlayerObject(level: alkLevel);
     await add(player);
   }
 

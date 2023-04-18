@@ -8,9 +8,9 @@ class PlayerObject extends BodyComponent<CatchGame> {
   static final size = Vector2(.8, .88);
   double tapX = 0;
   double accelerationX = 0;
-  final double speed;
+  final int level;
 
-  PlayerObject({required this.speed});
+  PlayerObject({required this.level});
 
   @override
   Future<void> onLoad() async {
@@ -53,6 +53,7 @@ class PlayerObject extends BodyComponent<CatchGame> {
     } else {
       accelerationX = 0;
     }
+    double speed = level * 0.1;
     velocity.x = accelerationX * speed;
     body.linearVelocity = velocity;
   }
