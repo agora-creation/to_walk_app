@@ -13,10 +13,9 @@ class CarrotObject extends BodyComponent<CatchGame> with ContactCallbacks {
 
   CarrotObject({
     required double x,
-    required double y,
     required this.gravity,
     required this.time,
-  }) : _position = Vector2(x, y);
+  }) : _position = Vector2(x, -1);
 
   @override
   Future<void> onLoad() async {

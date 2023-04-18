@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:to_walk_app/games/common.dart';
 import 'package:to_walk_app/games/jump/game_controller.dart';
 import 'package:to_walk_app/games/jump/objects/background.dart';
-import 'package:to_walk_app/games/jump/objects/cloud.dart';
 import 'package:to_walk_app/games/jump/objects/floor.dart';
 import 'package:to_walk_app/games/jump/ui/game_end.dart';
 import 'package:to_walk_app/games/jump/ui/game_start.dart';
@@ -73,8 +72,6 @@ class JumpGame extends Forge2DGame with TapDetector {
     );
     await controller.init();
     add(timer);
-
-    add(CloudObject());
   }
 
   @override

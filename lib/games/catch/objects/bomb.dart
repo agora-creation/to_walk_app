@@ -13,10 +13,9 @@ class BombObject extends BodyComponent<CatchGame> with ContactCallbacks {
 
   BombObject({
     required double x,
-    required double y,
     required this.gravity,
     required this.time,
-  }) : _position = Vector2(x, y);
+  }) : _position = Vector2(x, -1);
 
   @override
   Future<void> onLoad() async {

@@ -1,9 +1,9 @@
 import 'package:flame/components.dart';
 import 'package:to_walk_app/games/catch/game.dart';
-import 'package:to_walk_app/games/catch/json_utils.dart';
 import 'package:to_walk_app/games/catch/objects/bomb.dart';
 import 'package:to_walk_app/games/catch/objects/carrot.dart';
 import 'package:to_walk_app/games/catch/objects/player.dart';
+import 'package:to_walk_app/games/json_utils.dart';
 import 'package:to_walk_app/games/scores.dart';
 
 class CatchGameController extends Component with HasGameRef<CatchGame> {
@@ -20,7 +20,7 @@ class CatchGameController extends Component with HasGameRef<CatchGame> {
 
   Future<void> init({required double speed}) async {
     playerSpeed = speed;
-    jsonData = await JsonUtils.read();
+    jsonData = await JsonUtils.readCatch();
     bombs = JsonUtils.extractBomb(jsonData);
     carrots = JsonUtils.extractCarrot(jsonData);
     currentCarrots = carrots;
@@ -53,7 +53,7 @@ class CatchGameController extends Component with HasGameRef<CatchGame> {
   }
 
   void gameFinish() async {
-    await Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 2));
     findGame()?.overlays.add('GameEnd');
     findGame()?.paused = true;
     Scores.catchSave(score);

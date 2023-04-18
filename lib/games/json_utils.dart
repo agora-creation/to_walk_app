@@ -3,10 +3,17 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:to_walk_app/games/catch/objects/bomb.dart';
 import 'package:to_walk_app/games/catch/objects/carrot.dart';
+import 'package:to_walk_app/games/jump/objects/cloud.dart';
 
 class JsonUtils {
-  static dynamic read() async {
+  static dynamic readCatch() async {
     String res = await rootBundle.loadString('assets/json/catch_game.json');
+    final data = await json.decode(res);
+    return data;
+  }
+
+  static dynamic readJump() async {
+    String res = await rootBundle.loadString('assets/json/jump_game.json');
     final data = await json.decode(res);
     return data;
   }
@@ -16,7 +23,6 @@ class JsonUtils {
     for (final e in data['bomb']) {
       BombObject bomb = BombObject(
         x: e['x'].toDouble(),
-        y: e['y'].toDouble(),
         gravity: e['gravity'].toDouble(),
         time: e['time'].toInt(),
       );
@@ -30,11 +36,22 @@ class JsonUtils {
     for (final e in data['carrot']) {
       CarrotObject carrot = CarrotObject(
         x: e['x'].toDouble(),
-        y: e['y'].toDouble(),
         gravity: e['gravity'].toDouble(),
         time: e['time'].toInt(),
       );
       result.add(carrot);
+    }
+    return result;
+  }
+
+  static List<CloudObject> extractCloud(dynamic data) {
+    List<CloudObject> result = [];
+    for (final e in data['cloud']) {
+      CloudObject cloud = CloudObject(
+        y: e['y'].toDouble(),
+        time: e['time'].toInt(),
+      );
+      result.add(cloud);
     }
     return result;
   }
