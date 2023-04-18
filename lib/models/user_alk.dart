@@ -27,7 +27,7 @@ class UserAlkModel {
 
   String getRoomName() {
     if (level >= 1) {
-      return 'アルクの部屋';
+      return 'アルク';
     } else {
       return '？？？';
     }

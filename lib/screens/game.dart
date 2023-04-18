@@ -41,7 +41,10 @@ class _GameScreenState extends State<GameScreen> {
                 const Center(
                   child: Text(
                     'アルクのLvが上がると、ゲームに変化があるかも？',
-                    style: TextStyle(color: Colors.black54),
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 14,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 8),
