@@ -22,7 +22,7 @@ class CarrotObject extends BodyComponent<CatchGame> with ContactCallbacks {
   Future<void> onLoad() async {
     await super.onLoad();
     add(SpriteComponent(
-      sprite: Resources.carrot,
+      sprite: Resources.catchCarrot,
       size: size,
       anchor: Anchor.center,
     ));

@@ -68,6 +68,7 @@ class JumpGameStart extends StatelessWidget {
                           onPressed: () async {
                             game.overlays.remove('GameStart');
                             game.paused = false;
+                            await game.controller.setPlayer();
                           },
                         ),
                       ],

@@ -2,18 +2,18 @@ import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 
 class Resources {
-  static late final Sprite bg;
-  static late final Sprite ground;
-  static late final Sprite player;
-  static late final Sprite bomb;
-  static late final Sprite carrot;
+  static late final Sprite catchBg;
+  static late final Sprite catchGround;
+  static late final Sprite catchPlayer;
+  static late final Sprite catchBomb;
+  static late final Sprite catchCarrot;
 
   static Future<void> load() async {
-    bg = await _loadSprite('games/bg.png');
-    ground = await _loadSprite('games/ground.jpg');
-    player = await _loadSprite('games/player.png');
-    bomb = await _loadSprite('games/bomb.png');
-    carrot = await _loadSprite('games/carrot.png');
+    catchBg = await _loadSprite('games/catch/bg.png');
+    catchGround = await _loadSprite('games/catch/ground.jpg');
+    catchPlayer = await _loadSprite('games/catch/player.png');
+    catchBomb = await _loadSprite('games/catch/bomb.png');
+    catchCarrot = await _loadSprite('games/catch/carrot.png');
   }
 
   static Future<Sprite> _loadSprite(String fileName) async {

@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_walk_app/games/common.dart';
 import 'package:to_walk_app/games/jump/game_controller.dart';
+import 'package:to_walk_app/games/jump/objects/background.dart';
+import 'package:to_walk_app/games/jump/objects/cloud.dart';
+import 'package:to_walk_app/games/jump/objects/floor.dart';
 import 'package:to_walk_app/games/jump/ui/game_end.dart';
 import 'package:to_walk_app/games/jump/ui/game_start.dart';
 import 'package:to_walk_app/games/jump/ui/game_ui.dart';
@@ -58,17 +61,20 @@ class JumpGame extends Forge2DGame with TapDetector {
   Future<void> onLoad() async {
     await super.onLoad();
     camera.viewport = FixedResolutionViewport(screenSize);
-
+    add(BackgroundObject());
+    add(Floor());
     add(JumpGameUI());
     controller = JumpGameController();
     add(controller);
     timer = TimerComponent(
       period: 1,
       repeat: true,
-      onTick: () {},
+      onTick: () => controller.onTick(),
     );
-
+    await controller.init();
     add(timer);
+
+    add(CloudObject());
   }
 
   @override
@@ -85,7 +91,7 @@ class JumpGame extends Forge2DGame with TapDetector {
 
   @override
   void onTapUp(TapUpInfo info) {
-    // TODO: implement onTapUp
     super.onTapUp(info);
+    controller.player.jump();
   }
 }

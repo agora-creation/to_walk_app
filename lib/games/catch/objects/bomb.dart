@@ -22,7 +22,7 @@ class BombObject extends BodyComponent<CatchGame> with ContactCallbacks {
   Future<void> onLoad() async {
     await super.onLoad();
     add(SpriteComponent(
-      sprite: Resources.bomb,
+      sprite: Resources.catchBomb,
       size: size,
       anchor: Anchor.center,
     ));

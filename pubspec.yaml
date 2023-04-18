@@ -49,6 +49,9 @@ flutter:
     - assets/json/
     - assets/images/
     - assets/images/games/
+    - assets/images/games/catch/
+    - assets/images/games/jump/
+    - assets/images/games/jump/parallax/
 
   fonts:
     - family: TsunagiGothic

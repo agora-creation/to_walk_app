@@ -11,7 +11,7 @@ class GroundObject extends BodyComponent<CatchGame> {
   Future<void> onLoad() async {
     await super.onLoad();
     add(SpriteComponent(
-      sprite: Resources.ground,
+      sprite: Resources.catchGround,
       size: size,
       anchor: Anchor.center,
     ));

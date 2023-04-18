@@ -61,7 +61,7 @@ class CatchGame extends Forge2DGame with TapDetector {
     await super.onLoad();
     camera.viewport = FixedResolutionViewport(screenSize);
     final bg = SpriteComponent(
-      sprite: Resources.bg,
+      sprite: Resources.catchBg,
       size: screenSize,
     )..positionType = PositionType.viewport;
     add(bg);

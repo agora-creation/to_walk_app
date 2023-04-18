@@ -41,7 +41,7 @@ class _GameScreenState extends State<GameScreen> {
           const SizedBox(height: 8),
           GameListTile(
             labelText: 'ぱたぱたジャンプ！',
-            scoreText: '0m',
+            scoreText: '${Scores.data['jumpScore']}m',
             onTap: () => pushReplacementScreen(
               context,
               const JumpGameWidget(),

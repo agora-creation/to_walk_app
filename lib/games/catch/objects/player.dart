@@ -16,7 +16,7 @@ class PlayerObject extends BodyComponent<CatchGame> {
   Future<void> onLoad() async {
     await super.onLoad();
     add(SpriteComponent(
-      sprite: Resources.player,
+      sprite: Resources.catchPlayer,
       size: size,
       anchor: Anchor.center,
     ));
@@ -31,7 +31,7 @@ class PlayerObject extends BodyComponent<CatchGame> {
       position: Vector2(worldSize.x / 2, worldSize.y - 2),
       type: BodyType.dynamic,
     );
-    final shape = PolygonShape()..setAsBoxXY(.4, .44);
+    final shape = CircleShape()..radius = .4;
     final fixtureDef = FixtureDef(shape)
       ..density = 10
       ..friction = 0
@@ -64,5 +64,7 @@ class PlayerObject extends BodyComponent<CatchGame> {
 
   void hit() {
     accelerationX = 0;
+    final velocity = body.linearVelocity;
+    body.linearVelocity = Vector2(velocity.x, -3);
   }
 }

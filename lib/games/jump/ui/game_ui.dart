@@ -4,7 +4,7 @@ import 'package:to_walk_app/games/jump/game.dart';
 
 final _textPaint = TextPaint(
   style: const TextStyle(
-    color: Color(0xFF333333),
+    color: Colors.white,
     fontSize: 40,
     fontWeight: FontWeight.bold,
     fontFamily: 'TsunagiGothic',
