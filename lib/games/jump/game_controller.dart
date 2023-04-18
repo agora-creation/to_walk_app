@@ -40,7 +40,7 @@ class JumpGameController extends Component with HasGameRef<JumpGame> {
   void gameFinish() async {
     player.dead();
     gameRef.timer.removeOnFinish;
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     findGame()?.overlays.add('GameEnd');
     findGame()?.paused = true;
     Scores.jumpSave(score);

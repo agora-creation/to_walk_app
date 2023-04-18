@@ -1,6 +1,7 @@
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:to_walk_app/games/common.dart';
 import 'package:to_walk_app/games/jump/game.dart';
+import 'package:to_walk_app/games/jump/objects/player.dart';
 
 class Floor extends BodyComponent<JumpGame> with ContactCallbacks {
   @override
@@ -18,6 +19,8 @@ class Floor extends BodyComponent<JumpGame> with ContactCallbacks {
   @override
   void beginContact(Object other, Contact contact) {
     super.beginContact(other, contact);
-    gameRef.controller.gameFinish();
+    if (other is PlayerObject) {
+      gameRef.controller.gameFinish();
+    }
   }
 }

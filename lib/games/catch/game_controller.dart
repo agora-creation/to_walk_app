@@ -53,7 +53,7 @@ class CatchGameController extends Component with HasGameRef<CatchGame> {
   }
 
   void gameFinish() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     findGame()?.overlays.add('GameEnd');
     findGame()?.paused = true;
     Scores.catchSave(score);
