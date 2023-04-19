@@ -1,8 +1,8 @@
 import 'package:flame/components.dart';
 import 'package:to_walk_app/games/catch/game.dart';
-import 'package:to_walk_app/games/catch/objects/bomb.dart';
 import 'package:to_walk_app/games/catch/objects/carrot.dart';
 import 'package:to_walk_app/games/catch/objects/player.dart';
+import 'package:to_walk_app/games/catch/objects/thunder.dart';
 import 'package:to_walk_app/games/json_utils.dart';
 import 'package:to_walk_app/games/scores.dart';
 
@@ -10,7 +10,7 @@ class CatchGameController extends Component with HasGameRef<CatchGame> {
   int score = 0;
   int currentTime = 0;
   late dynamic jsonData;
-  late List<BombObject> bombs;
+  late List<ThunderObject> bombs;
   late List<CarrotObject> carrots;
   List<CarrotObject> currentCarrots = [];
   late PlayerObject player;

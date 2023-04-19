@@ -66,9 +66,9 @@ class CatchGame extends Forge2DGame with TapDetector {
     )..positionType = PositionType.viewport;
     add(bg);
     add(SpriteComponent(
-      sprite: Resources.catchGround,
-      size: Vector2(worldSize.x, 1),
-      position: Vector2(worldSize.x / 2, 0.5),
+      sprite: Resources.catchCloud,
+      size: Vector2(worldSize.x, 2.8),
+      position: Vector2(worldSize.x / 2, 1),
       anchor: Anchor.center,
       priority: 2,
     ));

@@ -53,7 +53,7 @@ class PlayerObject extends BodyComponent<CatchGame> {
     } else {
       accelerationX = 0;
     }
-    double speed = level * 0.1;
+    double speed = level * 0.5;
     velocity.x = accelerationX * speed;
     body.linearVelocity = velocity;
   }

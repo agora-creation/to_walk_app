@@ -1,5 +1,7 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:health/health.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:to_walk_app/helpers/functions.dart';
@@ -80,23 +82,7 @@ class _CustomFooterState extends State<CustomFooter>
         if (!mounted) return;
         showDialog(
           context: context,
-          builder: (_) => AlertDialog(
-            title: const Center(child: Text('お疲れ様！')),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '$stepsSum 歩の運動を計測しました。',
-                  style: const TextStyle(
-                    color: Color(0xFF333333),
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 16),
-              ],
-            ),
-          ),
+          builder: (_) => StepsDialog(stepsSum: stepsSum),
         ).then((value) async {
           await widget.stepsProvider.create(stepsList: stepsList);
         });
@@ -153,5 +139,64 @@ class _CustomFooterState extends State<CustomFooter>
   @override
   Widget build(BuildContext context) {
     return Container(height: 0);
+  }
+}
+
+class StepsDialog extends StatefulWidget {
+  final int stepsSum;
+
+  const StepsDialog({
+    required this.stepsSum,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<StepsDialog> createState() => _StepsDialogState();
+}
+
+class _StepsDialogState extends State<StepsDialog> {
+  final BannerAd bannerAd = generateBannerAd();
+
+  Future _init() async {
+    final status = await AppTrackingTransparency.trackingAuthorizationStatus;
+    if (status == TrackingStatus.notDetermined) {
+      await Future.delayed(const Duration(milliseconds: 200));
+      await AppTrackingTransparency.requestTrackingAuthorization();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _init());
+    bannerAd.load();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Center(child: Text('お疲れ様！')),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '${widget.stepsSum} 歩の運動を計測しました。',
+            style: const TextStyle(
+              color: Color(0xFF333333),
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(height: 24),
+          Container(
+            alignment: Alignment.center,
+            width: bannerAd.size.width.toDouble(),
+            height: bannerAd.size.height.toDouble(),
+            child: AdWidget(ad: bannerAd),
+          ),
+          const SizedBox(height: 8),
+        ],
+      ),
+    );
   }
 }

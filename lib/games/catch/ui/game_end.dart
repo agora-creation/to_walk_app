@@ -1,4 +1,6 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:to_walk_app/games/catch/game.dart';
 import 'package:to_walk_app/games/scores.dart';
 import 'package:to_walk_app/helpers/functions.dart';
@@ -6,13 +8,35 @@ import 'package:to_walk_app/helpers/style.dart';
 import 'package:to_walk_app/screens/home.dart';
 import 'package:to_walk_app/widgets/custom_text_button.dart';
 
-class CatchGameEnd extends StatelessWidget {
+class CatchGameEnd extends StatefulWidget {
   final CatchGame game;
 
   const CatchGameEnd({
     required this.game,
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<CatchGameEnd> createState() => _CatchGameEndState();
+}
+
+class _CatchGameEndState extends State<CatchGameEnd> {
+  final BannerAd bannerAd = generateBannerAd();
+
+  Future _init() async {
+    final status = await AppTrackingTransparency.trackingAuthorizationStatus;
+    if (status == TrackingStatus.notDetermined) {
+      await Future.delayed(const Duration(milliseconds: 200));
+      await AppTrackingTransparency.requestTrackingAuthorization();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _init());
+    bannerAd.load();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +68,7 @@ class CatchGameEnd extends StatelessWidget {
                       decoration: kTopBottomBorder,
                       child: ListTile(
                         title: const Text('今回のスコア'),
-                        trailing: Text('${game.controller.score}'),
+                        trailing: Text('${widget.game.controller.score}'),
                       ),
                     ),
                     Container(
@@ -75,6 +99,13 @@ class CatchGameEnd extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 24),
+                    Container(
+                      alignment: Alignment.center,
+                      width: bannerAd.size.width.toDouble(),
+                      height: bannerAd.size.height.toDouble(),
+                      child: AdWidget(ad: bannerAd),
                     ),
                   ],
                 ),

@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:to_walk_app/games/catch/game.dart';
+import 'package:to_walk_app/games/catch/objects/ground.dart';
 import 'package:to_walk_app/games/catch/objects/player.dart';
 import 'package:to_walk_app/games/resources.dart';
 
@@ -53,10 +54,14 @@ class CarrotObject extends BodyComponent<CatchGame> with ContactCallbacks {
   @override
   void beginContact(Object other, Contact contact) {
     super.beginContact(other, contact);
-    isCollision = true;
     if (other is PlayerObject) {
+      isCollision = true;
       gameRef.controller.addScore(1);
+      gameRef.controller.currentCarrots.remove(this);
     }
-    gameRef.controller.currentCarrots.remove(this);
+    if (other is GroundObject) {
+      isCollision = true;
+      gameRef.controller.currentCarrots.remove(this);
+    }
   }
 }

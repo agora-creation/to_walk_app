@@ -1,19 +1,21 @@
 {
-    "bomb": [
-        {"x": 6,  "gravity": 0.05, "time": 2},
-        {"x": 2.2,  "gravity": 0.07, "time": 5},
-        {"x": 3.1,  "gravity": 0.02, "time": 8},
-        {"x": 4.3,  "gravity": 0.03, "time": 14},
-        {"x": 2.5,  "gravity": 0.02, "time": 15},
-        {"x": 1.2,  "gravity": 0.04, "time": 18},
-        {"x": 3.2,  "gravity": 0.05, "time": 20}
+    "comment": "timeは0〜？、xは0〜7.54、gravityは0〜0.1",
+    "thunder": [
+        {"time": 1, "x": 1.2, "gravity": 0.02},
+
+
     ],
     "carrot": [
-        {"x": 6,  "gravity": 0.05, "time": 6},
-        {"x": 2,  "gravity": 0.08, "time": 14},
-        {"x": 3,  "gravity": 0.02, "time": 20},
-        {"x": 4,  "gravity": 0.03, "time": 26},
-        {"x": 2.5, "gravity": 0.02, "time": 30}
+        {"time": 1, "x": 1.8, "gravity": 0.05},
+        {"time": 2, "x": 5.2, "gravity": 0.04},
+        {"time": 3, "x": 6.1, "gravity": 0.03},
+        {"time": 4, "x": 2.2, "gravity": 0.05},
+        {"time": 5, "x": 0.9, "gravity": 0.03},
+        {"time": 6, "x": 3.8, "gravity": 0.04},
+        {"time": 7, "x": 6.5, "gravity": 0.06},
+        {"time": 8, "x": 7.1, "gravity": 0.02},
+        {"time": 9, "x": 5.0, "gravity": 0.04}
+
     ]
 }
 

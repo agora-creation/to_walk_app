@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import 'package:to_walk_app/games/catch/objects/bomb.dart';
 import 'package:to_walk_app/games/catch/objects/carrot.dart';
+import 'package:to_walk_app/games/catch/objects/thunder.dart';
 import 'package:to_walk_app/games/jump/objects/cloud.dart';
 
 class JsonUtils {
@@ -18,10 +18,10 @@ class JsonUtils {
     return data;
   }
 
-  static List<BombObject> extractBomb(dynamic data) {
-    List<BombObject> result = [];
-    for (final e in data['bomb']) {
-      BombObject bomb = BombObject(
+  static List<ThunderObject> extractBomb(dynamic data) {
+    List<ThunderObject> result = [];
+    for (final e in data['thunder']) {
+      ThunderObject bomb = ThunderObject(
         x: e['x'].toDouble(),
         gravity: e['gravity'].toDouble(),
         time: e['time'].toInt(),
@@ -50,6 +50,7 @@ class JsonUtils {
       CloudObject cloud = CloudObject(
         y: e['y'].toDouble(),
         time: e['time'].toInt(),
+        speed: e['speed'].toDouble(),
       );
       result.add(cloud);
     }

@@ -6,10 +6,12 @@ import 'package:to_walk_app/games/jump/objects/player.dart';
 class CloudObject extends BodyComponent<JumpGame> with ContactCallbacks {
   final Vector2 _position;
   final int time;
+  final double speed;
 
   CloudObject({
     required double y,
     required this.time,
+    required this.speed,
   }) : _position = Vector2(worldSize.x + 1, y);
 
   @override
@@ -32,7 +34,7 @@ class CloudObject extends BodyComponent<JumpGame> with ContactCallbacks {
     final fixtureDef = FixtureDef(shape)..isSensor = true;
     return world.createBody(bodyDef)
       ..createFixture(fixtureDef)
-      ..linearVelocity = Vector2(-1, 0);
+      ..linearVelocity = Vector2(-1 * speed, 0);
   }
 
   @override

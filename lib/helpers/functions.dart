@@ -1,9 +1,12 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:to_walk_app/helpers/style.dart';
 
 void pushScreen(BuildContext context, Widget widget) {
   Navigator.push(
@@ -84,6 +87,23 @@ Timestamp convertTimestamp(DateTime date, bool end) {
   }
   return Timestamp.fromMillisecondsSinceEpoch(
     DateTime.parse(dateTime).millisecondsSinceEpoch,
+  );
+}
+
+BannerAd generateBannerAd() {
+  return BannerAd(
+    size: AdSize.fullBanner,
+    adUnitId: Platform.isAndroid ? androidAdUnitId : iosAdUnitId,
+    listener: BannerAdListener(
+      onAdLoaded: (Ad ad) {},
+      onAdFailedToLoad: (Ad ad, LoadAdError error) {
+        ad.dispose();
+      },
+      onAdOpened: (Ad ad) {},
+      onAdClosed: (Ad ad) {},
+      onAdImpression: (Ad ad) {},
+    ),
+    request: const AdRequest(),
   );
 }
 

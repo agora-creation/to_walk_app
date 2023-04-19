@@ -1,17 +1,18 @@
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:to_walk_app/games/catch/game.dart';
+import 'package:to_walk_app/games/catch/objects/ground.dart';
 import 'package:to_walk_app/games/catch/objects/player.dart';
 import 'package:to_walk_app/games/resources.dart';
 
-class BombObject extends BodyComponent<CatchGame> with ContactCallbacks {
+class ThunderObject extends BodyComponent<CatchGame> with ContactCallbacks {
   static final size = Vector2(.8, .72);
   final Vector2 _position;
   final double gravity;
   final int time;
   bool isCollision = false;
 
-  BombObject({
+  ThunderObject({
     required double x,
     required this.gravity,
     required this.time,
@@ -21,7 +22,7 @@ class BombObject extends BodyComponent<CatchGame> with ContactCallbacks {
   Future<void> onLoad() async {
     await super.onLoad();
     add(SpriteComponent(
-      sprite: Resources.catchBomb,
+      sprite: Resources.catchThunder,
       size: size,
       anchor: Anchor.center,
     ));
@@ -53,10 +54,13 @@ class BombObject extends BodyComponent<CatchGame> with ContactCallbacks {
   @override
   void beginContact(Object other, Contact contact) {
     super.beginContact(other, contact);
-    isCollision = true;
     if (other is PlayerObject) {
+      isCollision = true;
       other.hit();
       gameRef.controller.gameFinish();
+    }
+    if (other is GroundObject) {
+      isCollision = true;
     }
   }
 }
