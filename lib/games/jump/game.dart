@@ -86,6 +86,9 @@ class JumpGame extends Forge2DGame with TapDetector {
         tutorialView = false;
       }
     }
+    if (controller.currentTime > 60) {
+      controller.gameFinish();
+    }
   }
 
   @override
