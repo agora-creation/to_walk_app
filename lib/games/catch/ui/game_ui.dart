@@ -30,6 +30,6 @@ class CatchGameUI extends PositionComponent with HasGameRef<CatchGame> {
     totalScore.text = 'スコア : ${game.controller.score}本';
     totalScore.position
       ..x = 20
-      ..y = 10;
+      ..y = 15;
   }
 }

@@ -30,6 +30,6 @@ class JumpGameUI extends PositionComponent with HasGameRef<JumpGame> {
     totalScore.text = 'スコア : ${game.controller.score}m';
     totalScore.position
       ..x = 20
-      ..y = 10;
+      ..y = 15;
   }
 }

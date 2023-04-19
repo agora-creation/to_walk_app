@@ -1,13 +1,12 @@
 {
     "comment": "timeは0〜？、xは0〜7.54、gravityは0〜0.1",
     "thunder": [
-        {"time": 2, "x": 3.3, "gravity": 0.02},
-        {"time": 2, "x": 3.1, "gravity": 0.01},
+        {"time": 1, "x": 3.3, "gravity": 0.02},
+        {"time": 1, "x": 3.1, "gravity": 0.01},
         {"time": 4, "x": 3.9, "gravity": 0.03},
         {"time": 4, "x": 2.1, "gravity": 0.04},
         {"time": 6, "x": 4.5, "gravity": 0.02},
         {"time": 6, "x": 6.7, "gravity": 0.03},
-        {"time": 7, "x": 5.1, "gravity": 0.03},
         {"time": 8, "x": 4.0, "gravity": 0.02},
         {"time": 8, "x": 1.1, "gravity": 0.03},
         {"time": 10, "x": 2.9, "gravity": 0.05},
@@ -64,27 +63,17 @@
         {"time": 60, "x": 6.1, "gravity": 0.03}
     ],
     "carrot": [
-        {"time": 1, "x": 1.8, "gravity": 0.05},
         {"time": 5, "x": 6.1, "gravity": 0.03},
-        {"time": 7, "x": 2.2, "gravity": 0.05},
-        {"time": 9, "x": 0.9, "gravity": 0.03},
         {"time": 12, "x": 3.8, "gravity": 0.04},
-        {"time": 15, "x": 6.5, "gravity": 0.06},
         {"time": 18, "x": 7.1, "gravity": 0.02},
-        {"time": 20, "x": 5.0, "gravity": 0.04},
         {"time": 23, "x": 2.0, "gravity": 0.03},
-        {"time": 25, "x": 4.9, "gravity": 0.05},
         {"time": 27, "x": 2.3, "gravity": 0.06},
-        {"time": 30, "x": 6.3, "gravity": 0.04},
         {"time": 35, "x": 3.5, "gravity": 0.07},
-        {"time": 37, "x": 6.6, "gravity": 0.04},
         {"time": 38, "x": 1.6, "gravity": 0.02},
         {"time": 44, "x": 1.2, "gravity": 0.04},
-        {"time": 47, "x": 7.0, "gravity": 0.05},
         {"time": 50, "x": 6.1, "gravity": 0.04},
-        {"time": 53, "x": 2.2, "gravity": 0.05},
         {"time": 57, "x": 2.9, "gravity": 0.06},
-        {"time": 60, "x": 7.3, "gravity": 0.08}
+        {"time": 65, "x": 7.3, "gravity": 0.08}
     ]
 }
 
