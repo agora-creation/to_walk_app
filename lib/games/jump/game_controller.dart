@@ -10,20 +10,24 @@ class JumpGameController extends Component with HasGameRef<JumpGame> {
   int currentTime = 0;
   late dynamic jsonData;
   late List<CloudObject> clouds;
+  List<CloudObject> currentClouds = [];
   late PlayerObject player;
+  int alkLevel = 0;
 
   PlayerObject getPlayer() => player;
 
-  Future<void> init() async {
+  Future<void> init({required int level}) async {
+    alkLevel = level;
     jsonData = await JsonUtils.readJump();
     clouds = JsonUtils.extractCloud(jsonData);
+    currentClouds = clouds;
     if (gameRef.tutorialSkip) {
       await setPlayer();
     }
   }
 
   Future<void> setPlayer() async {
-    player = PlayerObject();
+    player = PlayerObject(level: alkLevel);
     await add(player);
   }
 

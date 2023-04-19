@@ -43,25 +43,18 @@ class UserAlkModel {
 
   Widget getImage() {
     String imagePath = '';
-    switch (_level) {
-      case 0:
-        imagePath = 'assets/images/alk_0.png';
-        break;
-      case 1:
-        imagePath = 'assets/images/alk_0.png';
-        break;
-      case 2:
-        imagePath = 'assets/images/alk_0.png';
-        break;
-      case 3:
-        imagePath = 'assets/images/alk_0.png';
-        break;
-      case 4:
-        imagePath = 'assets/images/alk_0.png';
-        break;
-      case 5:
-        imagePath = 'assets/images/alk_0.png';
-        break;
+    if (_level == 0) {
+      imagePath = 'assets/images/alk_0.png';
+    } else if (1 <= _level && _level <= 10) {
+      imagePath = 'assets/images/alk_1.png';
+    } else if (11 <= _level && _level <= 20) {
+      imagePath = 'assets/images/alk_2.png';
+    } else if (21 <= _level && _level <= 30) {
+      imagePath = 'assets/images/alk_3.png';
+    } else if (31 <= _level && _level <= 40) {
+      imagePath = 'assets/images/alk_4.png';
+    } else if (41 <= _level) {
+      imagePath = 'assets/images/alk_5.png';
     }
     return Center(
       child: Image.asset(

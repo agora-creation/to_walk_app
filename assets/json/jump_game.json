@@ -1,8 +1,12 @@
 {
     "comment": "timeは0〜？、yは0〜13.34、speedは0〜0.1",
     "cloud": [
-        {"time": 1, "y": 1, "speed": 0.1}
-
+        {"time": 1, "y": 2, "speed": 0.3},
+        {"time": 1, "y": 4, "speed": 0.3},
+        {"time": 1, "y": 6, "speed": 0.3},
+        {"time": 3, "y": 8, "speed": 0.3},
+        {"time": 3, "y": 10, "speed": 0.3},
+        {"time": 3, "y": 12, "speed": 0.3}
     ]
 }
 

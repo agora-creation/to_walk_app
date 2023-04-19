@@ -3,7 +3,10 @@ import 'package:to_walk_app/games/common.dart';
 import 'package:to_walk_app/games/jump/game.dart';
 
 class PlayerObject extends BodyComponent<JumpGame> {
+  final int level;
   bool isDead = false;
+
+  PlayerObject({required this.level});
 
   @override
   Body createBody() {
@@ -24,8 +27,9 @@ class PlayerObject extends BodyComponent<JumpGame> {
 
   void jump() {
     if (!isDead) {
+      double jump = (level * -1) * 0.5;
       final velocity = body.linearVelocity;
-      body.linearVelocity = Vector2(velocity.x, -5);
+      body.linearVelocity = Vector2(velocity.x, jump);
     }
   }
 

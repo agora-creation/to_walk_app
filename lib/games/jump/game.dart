@@ -72,7 +72,7 @@ class JumpGame extends Forge2DGame with TapDetector {
       repeat: true,
       onTick: () => controller.onTick(),
     );
-    await controller.init();
+    await controller.init(level: level);
     add(timer);
   }
 
