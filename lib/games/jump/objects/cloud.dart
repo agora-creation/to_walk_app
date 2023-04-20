@@ -1,9 +1,12 @@
+import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:to_walk_app/games/common.dart';
 import 'package:to_walk_app/games/jump/game.dart';
 import 'package:to_walk_app/games/jump/objects/player.dart';
+import 'package:to_walk_app/games/resources.dart';
 
 class CloudObject extends BodyComponent<JumpGame> with ContactCallbacks {
+  static final size = Vector2(1.5, .8);
   final Vector2 _position;
   final int time;
   final double speed;
@@ -15,12 +18,13 @@ class CloudObject extends BodyComponent<JumpGame> with ContactCallbacks {
   }) : _position = Vector2(worldSize.x + 1, y);
 
   @override
-  void update(double dt) {
-    super.update(dt);
-    if (body.position.x < -1) {
-      world.destroyBody(body);
-      gameRef.remove(this);
-    }
+  Future<void> onLoad() async {
+    await super.onLoad();
+    add(SpriteComponent(
+      sprite: Resources.jumpCloud,
+      size: size,
+      anchor: Anchor.center,
+    ));
   }
 
   @override
@@ -35,6 +39,15 @@ class CloudObject extends BodyComponent<JumpGame> with ContactCallbacks {
     return world.createBody(bodyDef)
       ..createFixture(fixtureDef)
       ..linearVelocity = Vector2(-1 * speed, 0);
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if (body.position.x < -1) {
+      world.destroyBody(body);
+      gameRef.remove(this);
+    }
   }
 
   @override
