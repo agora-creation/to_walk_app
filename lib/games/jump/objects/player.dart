@@ -11,7 +11,7 @@ enum PlayerState {
 }
 
 class PlayerObject extends BodyComponent<JumpGame> {
-  static final size = Vector2(.8, .88);
+  static final size = Vector2(.8, .8);
   PlayerState state = PlayerState.down;
   late final SpriteComponent downComponent;
   late final SpriteAnimationComponent upComponent;
@@ -30,16 +30,19 @@ class PlayerObject extends BodyComponent<JumpGame> {
       size: size,
       anchor: Anchor.center,
     );
+    downComponent.flipHorizontally();
     upComponent = SpriteAnimationComponent(
       animation: Resources.jumpPlayerUp,
       size: size,
       anchor: Anchor.center,
     );
+    upComponent.flipHorizontally();
     deadComponent = SpriteComponent(
       sprite: Resources.jumpPlayerDead,
       size: size,
       anchor: Anchor.center,
     );
+    deadComponent.flipHorizontally();
     currentComponent = downComponent;
     add(currentComponent);
   }
@@ -71,7 +74,7 @@ class PlayerObject extends BodyComponent<JumpGame> {
     if (state == PlayerState.down) {
       _setComponent(downComponent);
     } else if (state == PlayerState.up) {
-      _setComponent(upComponent);
+      _setComponent2(upComponent);
     } else if (state == PlayerState.dead) {
       _setComponent(deadComponent);
     }
@@ -91,7 +94,14 @@ class PlayerObject extends BodyComponent<JumpGame> {
     isDead = true;
   }
 
-  void _setComponent(PositionComponent component) {
+  void _setComponent(SpriteComponent component) {
+    if (component == currentComponent) return;
+    remove(component);
+    currentComponent = component;
+    add(component);
+  }
+
+  void _setComponent2(SpriteAnimationComponent component) {
     if (component == currentComponent) return;
     remove(component);
     currentComponent = component;

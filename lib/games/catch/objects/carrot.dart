@@ -6,7 +6,7 @@ import 'package:to_walk_app/games/catch/objects/player.dart';
 import 'package:to_walk_app/games/resources.dart';
 
 class CarrotObject extends BodyComponent<CatchGame> with ContactCallbacks {
-  static final size = Vector2(.5, 1.25);
+  static final size = Vector2(.6, .87);
   final Vector2 _position;
   final double gravity;
   final int time;
@@ -21,6 +21,7 @@ class CarrotObject extends BodyComponent<CatchGame> with ContactCallbacks {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    renderBody = false;
     add(SpriteComponent(
       sprite: Resources.catchCarrot,
       size: size,
@@ -35,7 +36,7 @@ class CarrotObject extends BodyComponent<CatchGame> with ContactCallbacks {
       position: _position,
       type: BodyType.dynamic,
     );
-    final shape = PolygonShape()..setAsBoxXY(.2, .6);
+    final shape = PolygonShape()..setAsBoxXY(.25, .5);
     final fixtureDef = FixtureDef(shape)..isSensor = true;
     return world.createBody(bodyDef)
       ..createFixture(fixtureDef)

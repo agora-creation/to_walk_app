@@ -24,7 +24,7 @@ class GroundObject extends BodyComponent<CatchGame> {
       position: Vector2(worldSize.x / 2, worldSize.y - 0.5),
       type: BodyType.static,
     );
-    final shape = PolygonShape()..setAsBoxXY(size.x / 2, size.y / 2);
+    final shape = PolygonShape()..setAsBoxXY(size.x / 2, (size.y / 2) - 0.1);
     final fixtureDef = FixtureDef(shape);
     return world.createBody(bodyDef)..createFixture(fixtureDef);
   }

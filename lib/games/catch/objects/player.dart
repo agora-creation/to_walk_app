@@ -11,7 +11,7 @@ enum PlayerState {
 }
 
 class PlayerObject extends BodyComponent<CatchGame> {
-  static final size = Vector2(.8, .88);
+  static final size = Vector2(.8, .8);
   double tapX = 0;
   double accelerationX = 0;
   PlayerState state = PlayerState.idle;
@@ -26,6 +26,7 @@ class PlayerObject extends BodyComponent<CatchGame> {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    renderBody = false;
     idleComponent = SpriteComponent(
       sprite: Resources.catchPlayerIdle,
       size: size,
@@ -43,7 +44,6 @@ class PlayerObject extends BodyComponent<CatchGame> {
     );
     currentComponent = idleComponent;
     add(currentComponent);
-
     double center = worldSize.x / 2;
     tapX = double.parse(center.toStringAsFixed(1));
   }
@@ -55,7 +55,7 @@ class PlayerObject extends BodyComponent<CatchGame> {
       position: Vector2(worldSize.x / 2, worldSize.y - 2),
       type: BodyType.dynamic,
     );
-    final shape = CircleShape()..radius = .4;
+    final shape = CircleShape()..radius = .35;
     final fixtureDef = FixtureDef(shape)
       ..density = 10
       ..friction = 0
@@ -87,7 +87,7 @@ class PlayerObject extends BodyComponent<CatchGame> {
     if (state == PlayerState.idle) {
       _setComponent(idleComponent);
     } else if (state == PlayerState.walk) {
-      _setComponent(walkComponent);
+      _setComponent2(walkComponent);
     } else if (state == PlayerState.dead) {
       _setComponent(deadComponent);
     }
@@ -105,7 +105,23 @@ class PlayerObject extends BodyComponent<CatchGame> {
     body.linearVelocity = Vector2(velocity.x, -3);
   }
 
-  void _setComponent(PositionComponent component) {
+  void _setComponent(SpriteComponent component) {
+    if (accelerationX > 0) {
+      if (!component.isFlippedHorizontally) {
+        component.flipHorizontally();
+      }
+    } else {
+      if (component.isFlippedHorizontally) {
+        component.flipHorizontally();
+      }
+    }
+    if (component == currentComponent) return;
+    remove(component);
+    currentComponent = component;
+    add(component);
+  }
+
+  void _setComponent2(SpriteAnimationComponent component) {
     if (accelerationX > 0) {
       if (!component.isFlippedHorizontally) {
         component.flipHorizontally();
