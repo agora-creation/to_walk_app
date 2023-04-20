@@ -57,6 +57,11 @@ Future removePrefs(String key) async {
   prefs.remove(key);
 }
 
+Future allRemovePrefs() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.clear();
+}
+
 String dateText(String format, DateTime? date) {
   String ret = '';
   if (date != null) {

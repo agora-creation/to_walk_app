@@ -33,12 +33,20 @@ class UserAlkModel {
     }
   }
 
-  String getHomeMessage() {
+  String getRoomMessage() {
+    String ret = 'タマゴ';
     if (level >= 1) {
-      return 'アルク (Lv.$level)';
-    } else {
-      return 'タマゴ';
+      ret = 'アルク (Lv.$level)';
     }
+    return ret;
+  }
+
+  String getRoomMessage2() {
+    String ret = '歩くと生まれるかも...？';
+    if (level >= 1) {
+      ret = '歩くとLvが上がるかも...？';
+    }
+    return ret;
   }
 
   Widget getImage() {
@@ -46,15 +54,15 @@ class UserAlkModel {
     if (_level == 0) {
       imagePath = 'assets/images/alk_0.png';
     } else if (1 <= _level && _level <= 10) {
-      imagePath = 'assets/images/alk_1.png';
+      imagePath = 'assets/images/alk_0.png';
     } else if (11 <= _level && _level <= 20) {
-      imagePath = 'assets/images/alk_2.png';
+      imagePath = 'assets/images/alk_0.png';
     } else if (21 <= _level && _level <= 30) {
-      imagePath = 'assets/images/alk_3.png';
+      imagePath = 'assets/images/alk_0.png';
     } else if (31 <= _level && _level <= 40) {
-      imagePath = 'assets/images/alk_4.png';
+      imagePath = 'assets/images/alk_0.png';
     } else if (41 <= _level) {
-      imagePath = 'assets/images/alk_5.png';
+      imagePath = 'assets/images/alk_0.png';
     }
     return Center(
       child: Image.asset(

@@ -38,12 +38,24 @@ class RoomScreen extends StatelessWidget {
               },
             ),
             Container(),
-            Text(
-              alk?.getHomeMessage() ?? '',
-              style: const TextStyle(
-                color: Colors.black38,
-                fontSize: 20,
-              ),
+            Column(
+              children: [
+                Text(
+                  alk?.getRoomMessage() ?? '',
+                  style: const TextStyle(
+                    color: Colors.black45,
+                    fontSize: 20,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  alk?.getRoomMessage2() ?? '',
+                  style: const TextStyle(
+                    color: Colors.black38,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

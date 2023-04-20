@@ -8,11 +8,13 @@ import 'package:to_walk_app/helpers/functions.dart';
 import 'package:to_walk_app/helpers/style.dart';
 import 'package:to_walk_app/models/user.dart';
 import 'package:to_walk_app/providers/user.dart';
+import 'package:to_walk_app/screens/intro.dart';
 import 'package:to_walk_app/screens/migration.dart';
 import 'package:to_walk_app/screens/privacy_policy.dart';
 import 'package:to_walk_app/screens/terms.dart';
 import 'package:to_walk_app/widgets/custom_text_button.dart';
 import 'package:to_walk_app/widgets/custom_text_form_field.dart';
+import 'package:to_walk_app/widgets/link_text.dart';
 import 'package:to_walk_app/widgets/setting_card.dart';
 import 'package:to_walk_app/widgets/setting_list_tile.dart';
 
@@ -223,6 +225,54 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
             ],
           ),
+          const SizedBox(height: 24),
+          Center(
+            child: LinkText(
+              labelText: '全てのデータをリセット',
+              labelColor: Colors.red,
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          '全てのデータをリセットし、アプリを初期化します。よろしいですか？',
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomTextButton(
+                              labelText: 'キャンセル',
+                              backgroundColor: Colors.grey,
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                            CustomTextButton(
+                              labelText: 'はい',
+                              backgroundColor: Colors.red,
+                              onPressed: () async {
+                                await userProvider.signOut();
+                                await allRemovePrefs();
+                                if (!mounted) return;
+                                pushReplacementScreen(
+                                  context,
+                                  const IntroScreen(),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 24),
         ],
       ),
     );
