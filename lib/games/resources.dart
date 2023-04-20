@@ -19,7 +19,7 @@ class Resources {
   static Future<void> load() async {
     catchBg = await _loadSprite('games/catch/bg.png');
     catchCloud = await _loadSprite('games/catch/cloud.png');
-    catchGround = await _loadSprite('games/catch/ground.jpg');
+    catchGround = await _loadSprite('games/catch/ground.png');
     catchPlayerIdle = await _loadSprite('games/catch/player_idle.png');
     final playerWalk1 = await _loadSprite('games/catch/player_walk1.png');
     final playerWalk2 = await _loadSprite('games/catch/player_walk2.png');

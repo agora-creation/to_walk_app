@@ -10,11 +10,9 @@ class BackgroundObject extends ParallaxComponent<JumpGame> {
     await super.onLoad();
     parallax = await gameRef.loadParallax(
       [
-        ParallaxImageData('games/jump/parallax/bg.png'),
-        ParallaxImageData('games/jump/parallax/mountain-far.png'),
-        ParallaxImageData('games/jump/parallax/mountains.png'),
-        ParallaxImageData('games/jump/parallax/trees.png'),
-        ParallaxImageData('games/jump/parallax/foreground-trees.png'),
+        ParallaxImageData('games/jump/parallax/bg_0.png'),
+        ParallaxImageData('games/jump/parallax/bg_1.png'),
+        ParallaxImageData('games/jump/parallax/bg_2.png'),
       ],
       baseVelocity: Vector2(10, 0),
       velocityMultiplierDelta: Vector2(1.8, 1.0),
