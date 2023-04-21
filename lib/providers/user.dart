@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:to_walk_app/helpers/style.dart';
 import 'package:to_walk_app/models/steps.dart';
 import 'package:to_walk_app/models/user.dart';
@@ -255,6 +256,18 @@ class UserProvider with ChangeNotifier {
         _alk = await userAlkService.select(id: uid, userId: uid);
       }
     }
+    await _sendReview();
     notifyListeners();
+  }
+
+  Future _sendReview() async {
+    final InAppReview inAppReview = InAppReview.instance;
+    DateTime now = DateTime.now();
+    DateTime createdAt = _user?.createdAt ?? DateTime.now();
+    if (now.difference(createdAt).inDays == 3) {
+      if (await inAppReview.isAvailable()) {
+        inAppReview.openStoreListing(appStoreId: '6447615624');
+      }
+    }
   }
 }

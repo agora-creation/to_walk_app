@@ -36,6 +36,7 @@ dependencies:
   flame_forge2d: ^0.13.0
   google_mobile_ads: ^2.4.0
   app_tracking_transparency: ^2.0.3
+  in_app_review: ^2.0.6
 
 dev_dependencies:
   flutter_test:
