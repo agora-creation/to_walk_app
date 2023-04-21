@@ -53,10 +53,10 @@ const kBottomBorder = BoxDecoration(
 const privacyPolicyUrl = 'https://www.agora-c.com/alk/privacy-policy.html';
 const termsUseUrl = 'https://www.agora-c.com/alk/terms_use.html';
 
-//const String androidAdUnitId = 'ca-app-pub-9791675225952080/4790340753'; //本番
-const String androidAdUnitId = 'ca-app-pub-3940256099942544/6300978111'; //テスト
-//const String iosAdUnitId = 'ca-app-pub-9791675225952080/3780511413'; //本番
-const String iosAdUnitId = 'ca-app-pub-3940256099942544/2934735716'; //テスト
+const String androidAdUnitId = 'ca-app-pub-9791675225952080/4790340753'; //本番
+//const String androidAdUnitId = 'ca-app-pub-3940256099942544/6300978111'; //テスト
+const String iosAdUnitId = 'ca-app-pub-9791675225952080/3780511413'; //本番
+//const String iosAdUnitId = 'ca-app-pub-3940256099942544/2934735716'; //テスト
 
 const ANDROID_APP_ID = 'com.agoracreation.to_walk_app';
 const IOS_BUNDLE_ID = 'com.agoracreation.toWalkApp';
