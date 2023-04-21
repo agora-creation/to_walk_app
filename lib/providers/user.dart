@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:to_walk_app/helpers/functions.dart';
 import 'package:to_walk_app/helpers/style.dart';
 import 'package:to_walk_app/models/steps.dart';
 import 'package:to_walk_app/models/user.dart';
@@ -264,9 +265,11 @@ class UserProvider with ChangeNotifier {
     final InAppReview inAppReview = InAppReview.instance;
     DateTime now = DateTime.now();
     DateTime createdAt = _user?.createdAt ?? DateTime.now();
-    if (now.difference(createdAt).inDays == 3) {
+    bool isReview = await getPrefsBool('isReview') ?? false;
+    if (!isReview && now.difference(createdAt).inDays > 3) {
       if (await inAppReview.isAvailable()) {
         inAppReview.openStoreListing(appStoreId: '6447615624');
+        await setPrefsBool('isReview', true);
       }
     }
   }
