@@ -36,7 +36,7 @@ class CarrotObject extends BodyComponent<CatchGame> with ContactCallbacks {
       position: _position,
       type: BodyType.dynamic,
     );
-    final shape = PolygonShape()..setAsBoxXY(.25, .5);
+    final shape = PolygonShape()..setAsBoxXY(.25, .41);
     final fixtureDef = FixtureDef(shape)..isSensor = true;
     return world.createBody(bodyDef)
       ..createFixture(fixtureDef)

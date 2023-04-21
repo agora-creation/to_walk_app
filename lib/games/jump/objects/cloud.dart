@@ -20,6 +20,7 @@ class CloudObject extends BodyComponent<JumpGame> with ContactCallbacks {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    renderBody = false;
     add(SpriteComponent(
       sprite: Resources.jumpCloud,
       size: size,
@@ -34,7 +35,7 @@ class CloudObject extends BodyComponent<JumpGame> with ContactCallbacks {
       position: _position,
       type: BodyType.kinematic,
     );
-    final shape = PolygonShape()..setAsBoxXY(.5, .3);
+    final shape = PolygonShape()..setAsBoxXY(.6, .3);
     final fixtureDef = FixtureDef(shape)..isSensor = true;
     return world.createBody(bodyDef)
       ..createFixture(fixtureDef)

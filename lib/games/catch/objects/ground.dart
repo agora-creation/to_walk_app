@@ -10,6 +10,7 @@ class GroundObject extends BodyComponent<CatchGame> {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    renderBody = false;
     add(SpriteComponent(
       sprite: Resources.catchGround,
       size: size,

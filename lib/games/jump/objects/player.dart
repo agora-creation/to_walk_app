@@ -25,6 +25,7 @@ class PlayerObject extends BodyComponent<JumpGame> {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    renderBody = false;
     downComponent = SpriteComponent(
       sprite: Resources.jumpPlayerDown,
       size: size,
@@ -54,7 +55,7 @@ class PlayerObject extends BodyComponent<JumpGame> {
       position: Vector2(worldSize.x / 4, worldSize.y / 2),
       type: BodyType.dynamic,
     );
-    final shape = CircleShape()..radius = .5;
+    final shape = CircleShape()..radius = .35;
     final fixtureDef = FixtureDef(shape)
       ..density = 10
       ..friction = 0
@@ -74,7 +75,7 @@ class PlayerObject extends BodyComponent<JumpGame> {
     if (state == PlayerState.down) {
       _setComponent(downComponent);
     } else if (state == PlayerState.up) {
-      _setComponent2(upComponent);
+      _setComponent(upComponent);
     } else if (state == PlayerState.dead) {
       _setComponent(deadComponent);
     }
@@ -94,16 +95,9 @@ class PlayerObject extends BodyComponent<JumpGame> {
     isDead = true;
   }
 
-  void _setComponent(SpriteComponent component) {
+  void _setComponent(PositionComponent component) {
     if (component == currentComponent) return;
-    remove(component);
-    currentComponent = component;
-    add(component);
-  }
-
-  void _setComponent2(SpriteAnimationComponent component) {
-    if (component == currentComponent) return;
-    remove(component);
+    remove(currentComponent);
     currentComponent = component;
     add(component);
   }

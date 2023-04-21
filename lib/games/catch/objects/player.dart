@@ -83,11 +83,11 @@ class PlayerObject extends BodyComponent<CatchGame> {
     double speed = level * 0.5;
     velocity.x = accelerationX * speed;
     body.linearVelocity = velocity;
-
+    print(state);
     if (state == PlayerState.idle) {
       _setComponent(idleComponent);
     } else if (state == PlayerState.walk) {
-      _setComponent2(walkComponent);
+      _setComponent(walkComponent);
     } else if (state == PlayerState.dead) {
       _setComponent(deadComponent);
     }
@@ -99,13 +99,13 @@ class PlayerObject extends BodyComponent<CatchGame> {
   }
 
   void hit() {
-    state == PlayerState.dead;
+    state = PlayerState.dead;
     accelerationX = 0;
     final velocity = body.linearVelocity;
     body.linearVelocity = Vector2(velocity.x, -3);
   }
 
-  void _setComponent(SpriteComponent component) {
+  void _setComponent(PositionComponent component) {
     if (accelerationX > 0) {
       if (!component.isFlippedHorizontally) {
         component.flipHorizontally();
@@ -116,23 +116,7 @@ class PlayerObject extends BodyComponent<CatchGame> {
       }
     }
     if (component == currentComponent) return;
-    remove(component);
-    currentComponent = component;
-    add(component);
-  }
-
-  void _setComponent2(SpriteAnimationComponent component) {
-    if (accelerationX > 0) {
-      if (!component.isFlippedHorizontally) {
-        component.flipHorizontally();
-      }
-    } else {
-      if (component.isFlippedHorizontally) {
-        component.flipHorizontally();
-      }
-    }
-    if (component == currentComponent) return;
-    remove(component);
+    remove(currentComponent);
     currentComponent = component;
     add(component);
   }
