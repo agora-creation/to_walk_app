@@ -83,7 +83,6 @@ class PlayerObject extends BodyComponent<CatchGame> {
     double speed = level * 0.5;
     velocity.x = accelerationX * speed;
     body.linearVelocity = velocity;
-    print(state);
     if (state == PlayerState.idle) {
       _setComponent(idleComponent);
     } else if (state == PlayerState.walk) {
