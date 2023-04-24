@@ -1,4 +1,3 @@
-import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:to_walk_app/games/jump/game.dart';
@@ -23,18 +22,10 @@ class JumpGameEnd extends StatefulWidget {
 class _JumpGameEndState extends State<JumpGameEnd> {
   final BannerAd bannerAd = generateBannerAd();
 
-  Future _init() async {
-    final status = await AppTrackingTransparency.trackingAuthorizationStatus;
-    if (status == TrackingStatus.notDetermined) {
-      await Future.delayed(const Duration(milliseconds: 200));
-      await AppTrackingTransparency.requestTrackingAuthorization();
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _init());
+    WidgetsBinding.instance.addPostFrameCallback((_) => initPlugin());
     bannerAd.load();
   }
 

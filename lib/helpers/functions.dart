@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -93,6 +94,17 @@ Timestamp convertTimestamp(DateTime date, bool end) {
   return Timestamp.fromMillisecondsSinceEpoch(
     DateTime.parse(dateTime).millisecondsSinceEpoch,
   );
+}
+
+Future initPlugin() async {
+  final status = await AppTrackingTransparency.trackingAuthorizationStatus;
+  if (status == TrackingStatus.notDetermined) {
+    //
+    await Future.delayed(const Duration(milliseconds: 200));
+    await AppTrackingTransparency.requestTrackingAuthorization();
+  }
+  final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
+  print('initPlugin: $uuid');
 }
 
 BannerAd generateBannerAd() {
