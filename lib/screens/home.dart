@@ -33,11 +33,16 @@ class _HomeScreenState extends State<HomeScreen> {
     const SettingScreen(),
   ];
 
+  void _init() async {
+    await sendReview();
+  }
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => initPlugin());
     _selectIndex = widget.index;
+    WidgetsBinding.instance.addPostFrameCallback((_) => initPlugin());
+    _init();
   }
 
   @override

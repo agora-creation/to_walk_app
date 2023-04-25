@@ -39,34 +39,6 @@ class _IntroScreenState extends State<IntroScreen> {
           pages: [
             PageViewModel(
               image: Image.asset('assets/images/loading.png'),
-              titleWidget: Column(
-                children: const [
-                  Text('アルク', style: kTitleStyle),
-                  SizedBox(height: 8),
-                  Text('- ウォーキング連動育成ゲーム -', style: kSubTitleStyle),
-                ],
-              ),
-              bodyWidget: Column(
-                children: [
-                  const SizedBox(height: 40),
-                  CustomTextButton(
-                    labelText: '既に遊んだことがある場合',
-                    backgroundColor: Colors.cyan.shade600,
-                    onPressed: () {
-                      showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (_) => MigrationDialog(
-                          userProvider: userProvider,
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-            PageViewModel(
-              image: Image.asset('assets/images/loading.png'),
               title: 'アプリを開かなくても\n持ち歩くだけで歩数が計測できる！',
               body: '毎日の計測した歩数はカレンダー形式で見ることができます。',
             ),

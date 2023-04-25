@@ -5,6 +5,7 @@ import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_walk_app/helpers/style.dart';
@@ -122,6 +123,23 @@ BannerAd generateBannerAd() {
     ),
     request: const AdRequest(),
   );
+}
+
+Future sendReview() async {
+  final InAppReview inAppReview = InAppReview.instance;
+  DateTime now = DateTime.now();
+  int? timestamp = await getPrefsInt('createdAt');
+  DateTime createdAt = DateTime.now();
+  if (timestamp != null) {
+    createdAt = DateTime.fromMillisecondsSinceEpoch(timestamp);
+  }
+  bool isReview = await getPrefsBool('isReview') ?? false;
+  if (!isReview && now.difference(createdAt).inDays > 3) {
+    if (await inAppReview.isAvailable()) {
+      inAppReview.openStoreListing(appStoreId: '6447615624');
+      await setPrefsBool('isReview', true);
+    }
+  }
 }
 
 String calculationBMI(double height, double weight) {
