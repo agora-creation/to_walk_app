@@ -176,7 +176,7 @@ class UserProvider with ChangeNotifier {
     return errorText;
   }
 
-  Future<String?> updateBodyHeight(int bodyHeight) async {
+  Future<String?> updateBodyHeight(double bodyHeight) async {
     String? errorText;
     try {
       userService.update({
@@ -189,7 +189,7 @@ class UserProvider with ChangeNotifier {
     return errorText;
   }
 
-  Future<String?> updateBodyWeight(int bodyWeight) async {
+  Future<String?> updateBodyWeight(double bodyWeight) async {
     String? errorText;
     try {
       userService.update({

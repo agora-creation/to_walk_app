@@ -80,7 +80,7 @@ class PlayerObject extends BodyComponent<CatchGame> {
       accelerationX = 0;
       state = PlayerState.idle;
     }
-    double speed = level * 0.5;
+    double speed = level * 0.2;
     velocity.x = accelerationX * speed;
     body.linearVelocity = velocity;
     if (state == PlayerState.idle) {
@@ -93,7 +93,19 @@ class PlayerObject extends BodyComponent<CatchGame> {
   }
 
   void move(double value) async {
-    await Future.delayed(const Duration(seconds: 1));
+    int milliseconds = 500;
+    if (0 < level && level <= 10) {
+      milliseconds = 500;
+    } else if (10 < level && level <= 20) {
+      milliseconds = 400;
+    } else if (20 < level && level <= 30) {
+      milliseconds = 300;
+    } else if (30 < level && level <= 40) {
+      milliseconds = 200;
+    } else if (40 < level && level <= 50) {
+      milliseconds = 100;
+    }
+    await Future.delayed(Duration(milliseconds: milliseconds));
     tapX = double.parse(value.toStringAsFixed(1));
   }
 

@@ -84,10 +84,8 @@ class PlayerObject extends BodyComponent<JumpGame> {
   void jump() {
     if (!isDead) {
       state = PlayerState.up;
-      double jump = (level * -1) * 0.5;
-      //double jump = (level * -1) * 5;
       final velocity = body.linearVelocity;
-      body.linearVelocity = Vector2(velocity.x, jump);
+      body.linearVelocity = Vector2(velocity.x, -3);
     }
   }
 

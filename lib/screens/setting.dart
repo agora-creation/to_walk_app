@@ -380,7 +380,7 @@ class _BodyHeightDialogState extends State<BodyHeightDialog> {
                 backgroundColor: Colors.blue,
                 onPressed: () async {
                   String? error = await widget.userProvider.updateBodyHeight(
-                    int.parse(bodyHeight.text),
+                    double.parse(bodyHeight.text),
                   );
                   if (error != null) return;
                   await widget.userProvider.reload();
@@ -439,7 +439,7 @@ class _BodyWeightDialogState extends State<BodyWeightDialog> {
                 backgroundColor: Colors.blue,
                 onPressed: () async {
                   String? error = await widget.userProvider.updateBodyWeight(
-                    int.parse(bodyWeight.text),
+                    double.parse(bodyWeight.text),
                   );
                   if (error != null) return;
                   await widget.userProvider.reload();
