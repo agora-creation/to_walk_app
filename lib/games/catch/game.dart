@@ -1,4 +1,6 @@
+import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/forge2d_game.dart';
@@ -59,11 +61,12 @@ class CatchGame extends Forge2DGame with TapDetector {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    camera.viewport = FixedResolutionViewport(screenSize);
+    camera.viewport = FixedResolutionViewport(resolution: screenSize);
     final bg = SpriteComponent(
       sprite: Resources.catchBg,
       size: screenSize,
-    )..positionType = PositionType.viewport;
+    );
+    // )..positionType = PositionType.viewport;
     add(bg);
     add(SpriteComponent(
       sprite: Resources.catchCloud,
@@ -103,7 +106,7 @@ class CatchGame extends Forge2DGame with TapDetector {
   @override
   void onTapUp(TapUpInfo info) {
     super.onTapUp(info);
-    double tapX = info.eventPosition.game.x;
+    double tapX = info.eventPosition.global.x;
     controller.player.move(tapX);
   }
 }

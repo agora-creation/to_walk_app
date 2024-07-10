@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.5+1
+version: 1.0.6+1
 
 environment:
   sdk: '>=2.19.2 <3.0.0'
@@ -14,29 +14,29 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  cupertino_icons: ^1.0.2
-  flutter_launcher_icons: ^0.12.0
-  intl: ^0.17.0
-  shared_preferences: ^2.0.18
+  cupertino_icons: ^1.0.8
+  flutter_launcher_icons: ^0.13.1
+  intl: ^0.19.0
+  shared_preferences: ^2.2.3
   google_nav_bar: ^5.0.6
-  health: ^4.4.0
-  permission_handler: ^10.2.0
-  table_calendar: ^3.0.8
-  provider: ^6.0.5
-  firebase_core: ^2.7.0
-  firebase_auth: ^4.2.9
-  cloud_firestore: ^4.4.3
+  health: ^10.2.0
+  permission_handler: ^11.3.1
+  table_calendar: ^3.1.2
+  provider: ^6.1.2
+  firebase_core: ^3.2.0
+  firebase_auth: ^5.1.2
+  cloud_firestore: ^5.1.0
   flutter_datetime_picker: ^1.5.1
   age_calculator: ^1.0.0
-  bottom_picker: ^2.0.1
-  webview_flutter: ^4.0.6
-  package_info_plus: ^3.0.3
-  introduction_screen: ^3.1.7
-  flame: ^1.6.0
-  flame_forge2d: ^0.13.0
-  google_mobile_ads: ^2.4.0
-  app_tracking_transparency: ^2.0.3
-  in_app_review: ^2.0.6
+  bottom_picker: ^2.8.0
+  webview_flutter: ^4.8.0
+  package_info_plus: ^8.0.0
+  introduction_screen: ^3.1.14
+  flame: ^1.18.0
+  flame_forge2d: ^0.18.1
+  google_mobile_ads: ^5.1.0
+  app_tracking_transparency: ^2.0.5
+  in_app_review: ^2.0.9
 
 dev_dependencies:
   flutter_test:

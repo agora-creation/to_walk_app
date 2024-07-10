@@ -1,11 +1,9 @@
 import 'package:age_calculator/age_calculator.dart';
-import 'package:bottom_picker/bottom_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:to_walk_app/helpers/functions.dart';
-import 'package:to_walk_app/helpers/style.dart';
 import 'package:to_walk_app/models/user.dart';
 import 'package:to_walk_app/providers/user.dart';
 import 'package:to_walk_app/screens/intro.dart';
@@ -100,11 +98,11 @@ class _SettingScreenState extends State<SettingScreen> {
                       if (error != null) return;
                       await userProvider.reload();
                     },
-                    theme: const DatePickerTheme(
-                      cancelStyle: TextStyle(fontFamily: 'TsunagiGothic'),
-                      doneStyle: TextStyle(fontFamily: 'TsunagiGothic'),
-                      itemStyle: TextStyle(fontFamily: 'TsunagiGothic'),
-                    ),
+                    // theme: const DatePickerTheme(
+                    //   cancelStyle: TextStyle(fontFamily: 'TsunagiGothic'),
+                    //   doneStyle: TextStyle(fontFamily: 'TsunagiGothic'),
+                    //   itemStyle: TextStyle(fontFamily: 'TsunagiGothic'),
+                    // ),
                   );
                 },
               ),
@@ -112,54 +110,54 @@ class _SettingScreenState extends State<SettingScreen> {
                 labelText: '性別',
                 value: user?.gender ?? '',
                 onTap: () {
-                  BottomPicker(
-                    items: genderList,
-                    title: '性別',
-                    onSubmit: (index) async {
-                      String gender = genderList[index].data ?? '';
-                      String? error = await userProvider.updateGender(gender);
-                      if (error != null) return;
-                      await userProvider.reload();
-                    },
-                    buttonText: '登録する',
-                    buttonTextStyle: const TextStyle(color: Colors.white),
-                    buttonSingleColor: Colors.blue,
-                    displayButtonIcon: false,
-                    dismissable: true,
-                    pickerTextStyle: const TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 16,
-                      fontFamily: 'TsunagiGothic',
-                    ),
-                  ).show(context);
+                  // BottomPicker(
+                  //   items: genderList,
+                  //   title: '性別',
+                  //   onSubmit: (index) async {
+                  //     String gender = genderList[index].data ?? '';
+                  //     String? error = await userProvider.updateGender(gender);
+                  //     if (error != null) return;
+                  //     await userProvider.reload();
+                  //   },
+                  //   buttonText: '登録する',
+                  //   buttonTextStyle: const TextStyle(color: Colors.white),
+                  //   buttonSingleColor: Colors.blue,
+                  //   displayButtonIcon: false,
+                  //   dismissable: true,
+                  //   pickerTextStyle: const TextStyle(
+                  //     color: Color(0xFF333333),
+                  //     fontSize: 16,
+                  //     fontFamily: 'TsunagiGothic',
+                  //   ),
+                  // ).show(context);
                 },
               ),
               SettingListTile(
                 labelText: '居住都道府県',
                 value: user?.prefecture ?? '',
                 onTap: () {
-                  BottomPicker(
-                    items: prefectureList,
-                    title: '居住都道府県',
-                    onSubmit: (index) async {
-                      String prefecture = prefectureList[index].data ?? '';
-                      String? error = await userProvider.updatePrefecture(
-                        prefecture,
-                      );
-                      if (error != null) return;
-                      await userProvider.reload();
-                    },
-                    buttonText: '登録する',
-                    buttonTextStyle: const TextStyle(color: Colors.white),
-                    buttonSingleColor: Colors.blue,
-                    displayButtonIcon: false,
-                    dismissable: true,
-                    pickerTextStyle: const TextStyle(
-                      color: Color(0xFF333333),
-                      fontSize: 16,
-                      fontFamily: 'TsunagiGothic',
-                    ),
-                  ).show(context);
+                  // BottomPicker(
+                  //   items: prefectureList,
+                  //   title: '居住都道府県',
+                  //   onSubmit: (index) async {
+                  //     String prefecture = prefectureList[index].data ?? '';
+                  //     String? error = await userProvider.updatePrefecture(
+                  //       prefecture,
+                  //     );
+                  //     if (error != null) return;
+                  //     await userProvider.reload();
+                  //   },
+                  //   buttonText: '登録する',
+                  //   buttonTextStyle: const TextStyle(color: Colors.white),
+                  //   buttonSingleColor: Colors.blue,
+                  //   displayButtonIcon: false,
+                  //   dismissable: true,
+                  //   pickerTextStyle: const TextStyle(
+                  //     color: Color(0xFF333333),
+                  //     fontSize: 16,
+                  //     fontFamily: 'TsunagiGothic',
+                  //   ),
+                  // ).show(context);
                 },
               ),
               SettingListTile(

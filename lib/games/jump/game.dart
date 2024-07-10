@@ -1,3 +1,4 @@
+import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -60,7 +61,7 @@ class JumpGame extends Forge2DGame with TapDetector {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    camera.viewport = FixedResolutionViewport(screenSize);
+    camera.viewport = FixedResolutionViewport(resolution: screenSize);
     add(BackgroundObject());
     add(TopArea());
     add(BottomArea());

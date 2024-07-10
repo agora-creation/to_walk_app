@@ -8,7 +8,7 @@ class BackgroundObject extends ParallaxComponent<JumpGame> {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    parallax = await gameRef.loadParallax(
+    parallax = await game.loadParallax(
       [
         ParallaxImageData('games/jump/parallax/bg_0.png'),
         ParallaxImageData('games/jump/parallax/bg_1.png'),

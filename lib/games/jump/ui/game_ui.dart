@@ -17,7 +17,7 @@ class JumpGameUI extends PositionComponent with HasGameRef<JumpGame> {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    positionType = PositionType.viewport;
+    // positionType = PositionType.viewport;
     position.y = 25;
     priority = 3;
 

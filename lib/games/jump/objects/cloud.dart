@@ -47,7 +47,7 @@ class CloudObject extends BodyComponent<JumpGame> with ContactCallbacks {
     super.update(dt);
     if (body.position.x < -1) {
       world.destroyBody(body);
-      gameRef.remove(this);
+      game.remove(this);
     }
   }
 
@@ -55,7 +55,7 @@ class CloudObject extends BodyComponent<JumpGame> with ContactCallbacks {
   void beginContact(Object other, Contact contact) {
     super.beginContact(other, contact);
     if (other is PlayerObject) {
-      gameRef.controller.gameFinish();
+      game.controller.gameFinish();
     }
   }
 }

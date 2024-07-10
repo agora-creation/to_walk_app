@@ -20,7 +20,7 @@ class BottomArea extends BodyComponent<JumpGame> with ContactCallbacks {
   void beginContact(Object other, Contact contact) {
     super.beginContact(other, contact);
     if (other is PlayerObject) {
-      gameRef.controller.gameFinish();
+      game.controller.gameFinish();
     }
   }
 }

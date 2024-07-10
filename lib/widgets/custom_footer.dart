@@ -42,7 +42,7 @@ class _CustomFooterState extends State<CustomFooter>
     await removePrefs('lastTime');
     if (startTime == endTime) return;
     await Permission.activityRecognition.request().isGranted;
-    HealthFactory health = HealthFactory();
+    Health health = Health();
     List<HealthDataType> types = [
       HealthDataType.STEPS,
     ];
@@ -51,9 +51,9 @@ class _CustomFooterState extends State<CustomFooter>
     if (accessWasGranted) {
       try {
         List<HealthDataPoint> healthData = await health.getHealthDataFromTypes(
-          startTime,
-          endTime,
-          types,
+          types: types,
+          startTime: startTime,
+          endTime: endTime,
         );
         healthDataList.addAll(healthData);
       } catch (e) {
@@ -61,7 +61,7 @@ class _CustomFooterState extends State<CustomFooter>
           print('Caught exception in getHealthDataFromTypes: $e');
         }
       }
-      healthDataList = HealthFactory.removeDuplicates(healthDataList);
+      healthDataList = Health().removeDuplicates(healthDataList);
       int stepsSum = 0;
       List<StepsModel> stepsList = [];
       for (var e in healthDataList) {
@@ -107,6 +107,9 @@ class _CustomFooterState extends State<CustomFooter>
         await _open();
         break;
       case AppLifecycleState.detached:
+        await _close();
+        break;
+      case AppLifecycleState.hidden:
         await _close();
         break;
     }
