@@ -17,10 +17,11 @@ class CatchGameUI extends PositionComponent with HasGameRef<CatchGame> {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    positionType = PositionType.viewport;
-    position.y = 25;
+
+    position = Vector2(0, 25);
     priority = 3;
 
+    gameRef.camera.viewport.add(this);
     add(totalScore);
   }
 

@@ -6,7 +6,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.6+1
 
 environment:
-  sdk: '>=2.19.2 <3.0.0'
+  sdk: ^3.6.2
 
 dependencies:
   flutter:
@@ -15,28 +15,28 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.3
   intl: ^0.19.0
-  shared_preferences: ^2.2.3
-  google_nav_bar: ^5.0.6
-  health: ^10.2.0
-  permission_handler: ^11.3.1
+  shared_preferences: ^2.5.3
+  google_nav_bar: ^5.0.7
+  health: ^13.0.1
+  permission_handler: ^12.0.0+1
   table_calendar: ^3.1.2
-  provider: ^6.1.2
-  firebase_core: ^3.2.0
-  firebase_auth: ^5.1.2
-  cloud_firestore: ^5.1.0
+  provider: ^6.1.5
+  firebase_core: ^3.13.1
+  firebase_auth: ^5.5.4
+  cloud_firestore: ^5.6.8
   flutter_datetime_picker: ^1.5.1
   age_calculator: ^1.0.0
-  bottom_picker: ^2.8.0
-  webview_flutter: ^4.8.0
-  package_info_plus: ^8.0.0
-  introduction_screen: ^3.1.14
-  flame: ^1.18.0
-  flame_forge2d: ^0.18.1
-  google_mobile_ads: ^5.1.0
-  app_tracking_transparency: ^2.0.5
-  in_app_review: ^2.0.9
+  bottom_picker: ^3.2.1
+  webview_flutter: ^4.13.0
+  package_info_plus: ^8.3.0
+  introduction_screen: ^3.1.17
+  flame: ^1.29.0
+  flame_forge2d: ^0.19.0+2
+  google_mobile_ads: ^6.0.0
+  app_tracking_transparency: ^2.0.6+1
+  in_app_review: ^2.0.10
 
 dev_dependencies:
   flutter_test:

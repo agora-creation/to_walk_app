@@ -48,7 +48,7 @@ class CarrotObject extends BodyComponent<CatchGame> with ContactCallbacks {
     super.update(dt);
     if (isCollision) {
       world.destroyBody(body);
-      gameRef.remove(this);
+      game.remove(this);
     }
   }
 
@@ -57,12 +57,12 @@ class CarrotObject extends BodyComponent<CatchGame> with ContactCallbacks {
     super.beginContact(other, contact);
     if (other is PlayerObject) {
       isCollision = true;
-      gameRef.controller.addScore(1);
-      gameRef.controller.currentCarrots.remove(this);
+      game.controller.addScore(1);
+      game.controller.currentCarrots.remove(this);
     }
     if (other is GroundObject) {
       isCollision = true;
-      gameRef.controller.currentCarrots.remove(this);
+      game.controller.currentCarrots.remove(this);
     }
   }
 }

@@ -48,7 +48,7 @@ class ThunderObject extends BodyComponent<CatchGame> with ContactCallbacks {
     super.update(dt);
     if (isCollision) {
       world.destroyBody(body);
-      gameRef.remove(this);
+      game.remove(this);
     }
   }
 
@@ -58,7 +58,7 @@ class ThunderObject extends BodyComponent<CatchGame> with ContactCallbacks {
     if (other is PlayerObject) {
       isCollision = true;
       other.hit();
-      gameRef.controller.gameFinish();
+      game.controller.gameFinish();
     }
     if (other is GroundObject) {
       isCollision = true;
